@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-company-task-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.company_task
+            (
+                company_id bigserial NOT NULL,
+                task_id bigserial NOT NULL,
+                CONSTRAINT company_task_pkey PRIMARY KEY (company_id, task_id),
+                CONSTRAINT company_tasks_asdfasdfkeyssytsnjmsdfgsdfg FOREIGN KEY (company_id)
+                REFERENCES public.companies (company_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION,
+                CONSTRAINT sdfgasdgfsdfgsdfkasdfasdf_tasks FOREIGN KEY (task_id)
+                REFERENCES public.tasks (task_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

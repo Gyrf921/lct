@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'postgres_lct'
+    ports:
+      - 5432:5432
+    environment:
+      - 'POSTGRES_USER=lct'
+      - 'POSTGRES_PASSWORD=1234'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_DB=java'

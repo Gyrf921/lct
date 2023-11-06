@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="create-achievements-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-companies-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-departments-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-posts-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-employees-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-knowledge-bases-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-knowledge-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-products-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-questions-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-roles-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-tasks-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="fkey/create-knowledge-base-knowledges-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/create-post-department-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="fkey/company/create-company-achievement-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-department-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-post-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-employee-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-knowledge-base-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-product-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-question-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-task-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="fkey/employee/create-employee-achievement-table.xml" relativeToChangelogFile="true"/>
+    <!--<include file="fkey/employee/create-employee-department-table.xml" relativeToChangelogFile="true"/>-->
+    <include file="fkey/employee/create-employee-post-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/employee/create-employee-knowledge-favourites-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/employee/create-employee-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/employee/create-employee-task-table.xml" relativeToChangelogFile="true"/>
+
+
+</databaseChangeLog>

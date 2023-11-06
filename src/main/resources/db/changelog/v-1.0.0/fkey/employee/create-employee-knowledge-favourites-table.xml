@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-employee-knowledge-favourites-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.employee_knowledge_favourites
+            (
+                employee_id bigserial NOT NULL,
+                knowledge_id bigserial NOT NULL,
+                CONSTRAINT employee_knowledge_favourites_pkey PRIMARY KEY (employee_id, knowledge_id),
+                CONSTRAINT jjksdfdgsbtrywegsdfsnsbfjdswqiqserver FOREIGN KEY (employee_id)
+                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION,
+                CONSTRAINT mnvzxsahubagpsdgprtqlfvabauptqserver FOREIGN KEY (knowledge_id)
+                REFERENCES public.knowledge (knowledge_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

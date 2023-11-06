@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-post-department-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.post_department
+            (
+                post_id bigserial NOT NULL,
+                department_id bigserial NOT NULL,
+                CONSTRAINT post_department_pkey PRIMARY KEY (post_id, department_id),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkpostadsfsdf FOREIGN KEY (post_id)
+                REFERENCES public.posts (post_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION,
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabaupdepartment FOREIGN KEY (department_id)
+                REFERENCES public.departments (department_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

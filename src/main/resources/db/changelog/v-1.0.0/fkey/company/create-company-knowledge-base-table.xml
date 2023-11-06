@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-company-knowledge-base-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.company_knowledge_base
+            (
+                company_id bigserial NOT NULL,
+                knowledge_base_id bigserial NOT NULL,
+                CONSTRAINT company_knowledge_base_pkey PRIMARY KEY (company_id, knowledge_base_id),
+                CONSTRAINT company_knowledge_baseskeyssytsnjmsdfgsdfg FOREIGN KEY (company_id)
+                REFERENCES public.companies (company_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION,
+                CONSTRAINT sdfgasdgfsdfgsdfknowledge_bases FOREIGN KEY (knowledge_base_id)
+                REFERENCES public.knowledge_bases (knowledge_base_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

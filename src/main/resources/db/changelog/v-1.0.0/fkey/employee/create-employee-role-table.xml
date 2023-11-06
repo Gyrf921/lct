@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-employee-role-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.employee_role
+            (
+                employee_id bigserial NOT NULL,
+                role_id bigserial NOT NULL,
+                CONSTRAINT employee_role_pkey PRIMARY KEY (employee_id, role_id),
+                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY (employee_id)
+                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION,
+                CONSTRAINT ssdfgsqweadfgsdfggjkhgjkjklkjuio FOREIGN KEY (role_id)
+                REFERENCES public.roles (role_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

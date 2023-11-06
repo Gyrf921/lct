@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-employees-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.employees
+            (
+                employee_id bigserial NOT NULL ,
+                image_path varchar(255),
+                company_id bigserial NOT NULL,
+                email varchar(255) NOT NULL,
+                password varchar(255),
+                name varchar(255),
+                level_difficulty int,
+                birth_date Date,
+                phone varchar(255),
+                social_network varchar(255),
+                city varchar(255),
+                curator_id bigint,
+                account bigint,
+                CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
+                CONSTRAINT email_unique_server UNIQUE (email)
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>
