@@ -1,6 +1,5 @@
 FROM openjdk:17-slim
 LABEL authors="ShchinVV"
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
