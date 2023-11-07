@@ -14,9 +14,9 @@ spring:
       max-age: 3600
   datasource:
     #url: postgres://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
-    url: postgres://lct:NELSY3SUc6JfxIraxaLslHBK3rAIpEyR@dpg-cl57v7472pts739u0a1g-a.frankfurt-postgres.render.com/lct
-    password: ${PGPASSWORD:NELSY3SUc6JfxIraxaLslHBK3rAIpEyR}
-    username: ${PGUSER:lct}
+    url: postgres://postgres:BeAdeCe64gcFafa1FaDdFCca112Aab6d@postgres.railway.internal:5432/railway
+    password: ${PGPASSWORD:BeAdeCe64gcFafa1FaDdFCca112Aab6d}
+    username: ${PGUSER:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
