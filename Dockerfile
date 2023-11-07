@@ -1,5 +1,10 @@
-FROM openjdk:17-slim
-LABEL authors="ShchinVV"
-COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+FROM maven:3.8.1-openjdk-17 AS MAVEN_BUILD
+
+WORKDIR /app
+COPY pom.xml ./
+COPY src ./src
+RUN mvn clean package
+FROM openjdk:17-jdk-alpine3.14
+COPY --from=MAVEN_BUILD /app/target/*.jar app.jar
+
+ENTRYPOINT [ "java", "-jar", "app.jar" ]
