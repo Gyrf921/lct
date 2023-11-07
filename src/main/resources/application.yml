@@ -14,10 +14,10 @@ spring:
       max-age: 3600
   datasource:
     #url: jdbc:postgres://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
-    url: jdbc:postgres://postgres:BeAdeCe64gcFafa1FaDdFCca112Aab6d@postgres.railway.internal:5432/railway
+    url: jdbc:postgresql://postgres:BeAdeCe64gcFafa1FaDdFCca112Aab6d@postgres.railway.internal:5432/railway
     password: ${PGPASSWORD:BeAdeCe64gcFafa1FaDdFCca112Aab6d}
     username: ${PGUSER:postgres}
-
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
