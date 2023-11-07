@@ -1,7 +1,7 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
-import com.example.lct.model.status.Department;
+import com.example.lct.model.Department;
 import com.example.lct.repository.DepartmentRepository;
 import com.example.lct.web.dto.request.admin.DepartmentsDTO;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class DepartmentServiceImpl {
         return departmentRepository.saveAll(departments);
     }
 
-    public Department getDepartmentByNameAndCompanyId(String name, Long companyId) {
+    public Department getDepartmentByNameAndCompanyId(Long companyId, String name) {
 
         log.info("[getDepartmentByNameAndCompanyId] >> name: {}, companyId: {}", name, companyId);
 

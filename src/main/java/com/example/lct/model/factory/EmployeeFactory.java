@@ -1,22 +1,17 @@
 package com.example.lct.model.factory;
 
-import com.example.lct.mapper.EmployeeMapper;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Post;
-import com.example.lct.model.Task;
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Role;
-import com.example.lct.repository.EmployeeRepository;
+import com.example.lct.model.Stage;
+import com.example.lct.model.Role;
+import com.example.lct.service.EmployeeService;
 import com.example.lct.service.RoleService;
-import com.example.lct.service.impl.DepartmentServiceImpl;
+import com.example.lct.service.StageService;
 import com.example.lct.service.impl.PostServiceImpl;
 import com.example.lct.service.impl.RoleServiceImpl;
-import com.example.lct.service.impl.TaskServiceImpl;
-import com.example.lct.web.dto.request.admin.obj.EmployeeDTO;
-import com.example.lct.web.dto.request.hr.obj.TaskDTO;
-import lombok.RequiredArgsConstructor;
+import com.example.lct.web.dto.request.EmployeePersonalityDTO;
+import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,74 +20,70 @@ import java.util.List;
 @Component
 public class EmployeeFactory {
     private EmployeeFactory(){}
-    private static RoleService roleService;
-    private static DepartmentServiceImpl departmentService;
-    private static PostServiceImpl postService;
-    private static TaskServiceImpl taskService;
-
-
 
     @Autowired
-    public void setRoleService(RoleServiceImpl roleService) {
+    public void setService(RoleServiceImpl roleService, StageService stageService, EmployeeService employeeService, PostServiceImpl postService) {
         EmployeeFactory.roleService = roleService;
+        EmployeeFactory.stageService = stageService;
+        EmployeeFactory.employeeService = employeeService;
+        EmployeeFactory.postService = postService;
     }
-    @Autowired
-    public void setDepartmentService(DepartmentServiceImpl departmentService) {EmployeeFactory.departmentService = departmentService;}
-    @Autowired
-    public void setTaskService(TaskServiceImpl taskService) {
-        EmployeeFactory.taskService = taskService;
-    }
+
+    private static RoleService roleService;
+    private static StageService stageService;
+    private static EmployeeService employeeService;
+    private static PostServiceImpl postService;
 
     private static final int START_DIFFICULT_LEVEL = 1;
+    private static final String ROLE_INTERN_NAME = "ROLE_INTERN";
 
-    public static Employee createIntern(Long companyId, Long hrId, EmployeeDTO employeeDTO) {
-        Post post = getPostForEmployee(companyId, employeeDTO.getPostName());
 
-        List<Role> roles = new ArrayList<>();
-        roles.add(getRoleForEmployee(companyId, employeeDTO.getRoleName()));
+    /**
+     * Create employee or intern
+     * @param companyId - companyId where with employee working
+     * @param employeeForCreateDTO - DTO with employee data
+     * @return return employee or intern, intern has levelDifficulty = 1, account = 100, base stage and curator, for employee this field is null
+     */
+    public static Employee createEmployee(Long companyId, EmployeeForCreateDTO employeeForCreateDTO) {
+        Post post = postService.getPostByNameAndCompanyId(companyId, employeeForCreateDTO.getPostName());
 
-        List<Task> tasks
-                = new ArrayList<>(getTasksForEmployee(companyId, post, START_DIFFICULT_LEVEL));
+        List<Role> roles = new ArrayList<>(List.of(roleService.getRoleByNameAndCompany(companyId, employeeForCreateDTO.getRoleName())));
 
-        return Employee.builder()
+        Employee employee = Employee.builder()
                 .companyId(companyId)
-                .email(employeeDTO.getEmail())
+                .name(employeeForCreateDTO.getName())
+                .email(employeeForCreateDTO.getEmail())
                 .post(post)
-                .roles(roles)
+                .roles(roles).build();
+
+        if (isIntern(employeeForCreateDTO)) {
+            return createIntern(employeeForCreateDTO, employee);
+        }
+        return employee;
+    }
+
+    public static Employee updateEmployeeInfo(Employee employeeByUserPrincipal, EmployeePersonalityDTO employeePersonalityDTO) {
+        return employeeByUserPrincipal.toBuilder()
+                .imagePath(employeePersonalityDTO.getImagePath())
+                .name(employeePersonalityDTO.getName())
+                .phone(employeePersonalityDTO.getPhone())
+                .socialNetwork(employeePersonalityDTO.getSocialNetwork())
+                .city(employeePersonalityDTO.getCity()).build();
+    }
+
+    private static Employee createIntern(EmployeeForCreateDTO employeeForCreateDTO, Employee employee){
+        Long curatorId = employeeService.getEmployeeByEmail(employeeForCreateDTO.getCuratorEmail()).getCuratorId();
+        List<Stage> stages = new ArrayList<>(List.of(stageService.createBaseStageForIntern(employee.getCompanyId())));
+
+        return employee.toBuilder()
                 .levelDifficulty(START_DIFFICULT_LEVEL)
-                .tasks(tasks)
-                .curatorId(hrId)
+                .curatorId(curatorId)
+                .stages(stages)
                 .account(100L).build();
     }
 
-    public static Employee createEmployee(Long companyId, EmployeeDTO employeeDTO) {
-        Post post = getPostForEmployee(companyId, employeeDTO.getPostName());
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(getRoleForEmployee(companyId, employeeDTO.getRoleName()));
-
-        List<Task> tasks
-                = new ArrayList<>(getTasksForEmployee(companyId, post, START_DIFFICULT_LEVEL));
-
-        return Employee.builder()
-                .companyId(companyId)
-                .email(employeeDTO.getEmail())
-                .post(post)
-                .roles(roles)
-                .tasks(tasks).build();
-    }
-
-    private static Department getDepartmentForEmployee(Long companyId, String departmentName) {
-        return departmentService.getDepartmentByNameAndCompanyId(departmentName, companyId);
-    }
-    private static Post getPostForEmployee(Long companyId, String departmentName) {
-        return postService.getPostByNameAndCompanyId(companyId, departmentName);
-    }
-    private static Role getRoleForEmployee(Long companyId, String departmentName) {
-        return roleService.getRoleByNameAndCompany(departmentName, companyId);
-    }
-    private static List<Task> getTasksForEmployee(Long companyId, Post post, Integer levelDifficult) {
-        return taskService.getTasks(companyId, post, levelDifficult);
+    private static boolean isIntern(EmployeeForCreateDTO employeeForCreateDTO){
+        return employeeForCreateDTO.getRoleName().equals(ROLE_INTERN_NAME);
     }
 
 }

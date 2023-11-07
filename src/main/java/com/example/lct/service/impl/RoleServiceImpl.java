@@ -1,7 +1,7 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
-import com.example.lct.model.status.Role;
+import com.example.lct.model.Role;
 import com.example.lct.repository.RoleRepository;
 import com.example.lct.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRoleByNameAndCompany(String roleName, Long companyId) {
+    public Role getRoleByNameAndCompany(Long companyId, String roleName) {
         log.info("[getRoleByName] >> roleName: {}", roleName);
 
         List<Role> role = roleRepository.findAllByName(roleName).stream()
@@ -59,6 +59,7 @@ public class RoleServiceImpl implements RoleService {
         List<Role> listRoles = List.of(
                 Role.builder().name("ROLE_ADMIN").companyId(companyId).build(),
                 Role.builder().name("ROLE_HR").companyId(companyId).build(),
+                Role.builder().name("ROLE_CURATOR").companyId(companyId).build(),
                 Role.builder().name("ROLE_EMPLOYEE").companyId(companyId).build(),
                 Role.builder().name("ROLE_INTERN").companyId(companyId).build()
         );

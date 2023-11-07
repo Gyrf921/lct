@@ -4,16 +4,16 @@ import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
 import com.example.lct.model.KnowledgeBase;
 import com.example.lct.model.Post;
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Product;
-import com.example.lct.model.status.Question;
-import com.example.lct.repository.CompanyRepository;
+import com.example.lct.model.Department;
+import com.example.lct.model.Product;
+import com.example.lct.model.Question;
 import com.example.lct.service.AdminService;
 import com.example.lct.service.CompanyService;
 import com.example.lct.service.EmployeeService;
+import com.example.lct.service.HistoryService;
 import com.example.lct.web.dto.request.admin.*;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
-import com.example.lct.web.dto.response.JwtResponseDTO;
+import com.example.lct.web.dto.response.obj.JwtResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,6 @@ public class AdminServiceImpl implements AdminService {
     private final ProductServiceImpl productService;
     private final KnowledgeBaseServiceImpl knowledgeBaseService;
     private final CompanyService companyService;
-    //private final CompanyRepository companyRepository;
 
 
     @Override
@@ -42,12 +41,11 @@ public class AdminServiceImpl implements AdminService {
     public CompanyAndJwtResponseDTO createCompany(RegistrationCompanyDTO registrationCompanyDTO) {
         log.info("[createCompany] >> registrationCompanyDTO: {}", registrationCompanyDTO);
 
-        //TODO разделяем логику и используем метод выше как фасад + переименовать
         Company company = companyService.createCompany(registrationCompanyDTO.getCompanyDTO());
 
         Employee employee = employeeService.createAdmin(company, registrationCompanyDTO.getRegistrationAdminDTO());
 
-        companyService.setAdmin(company, employee);
+        companyService.saveAdmin(company, employee);
 
         String token = employeeService.createTokenForUser(employee.getEmail());
 
@@ -59,14 +57,21 @@ public class AdminServiceImpl implements AdminService {
         return companyAndJwtResponseDTO;
     }
 
-
-
     @Override
     public List<Department> createDepartmentsToCompany(Company company, DepartmentsDTO departmentsDTO) {
 
         List<Department> departments = departmentService.saveAllDepartmentForCompany(company.getCompanyId(), departmentsDTO);
 
-        company.setDepartments(departments);
+        List<Department> totalDepartments;
+        if (company.getDepartments() == null || company.getDepartments().isEmpty()){
+            totalDepartments = new ArrayList<>(departments);
+        }
+        else{
+            totalDepartments = company.getDepartments();
+            totalDepartments.addAll(departments);
+        }
+
+        company.setDepartments(totalDepartments);
 
         Company savedCompany = companyService.saveCompany(company);
 
@@ -79,7 +84,15 @@ public class AdminServiceImpl implements AdminService {
 
         List<Post> posts = postService.saveAllPostForCompany(company.getCompanyId(), postsDTO);
 
-        company.setPosts(posts);
+        List<Post> totalPosts;
+        if (company.getPosts() == null || company.getPosts().isEmpty()){
+            totalPosts = new ArrayList<>(posts);
+        }
+        else{
+            totalPosts = company.getPosts();
+            totalPosts.addAll(posts);
+        }
+        company.setPosts(totalPosts);
 
         Company savedCompany = companyService.saveCompany(company);
 
@@ -88,12 +101,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Employee> createEmployeesToCompany(Company company, EmployeesDTO employeesDTO) {
+    public List<Employee> createEmployeesToCompany(Company company, EmployeeListForCreateDTO employeeListForCreateDTO) {
+        List<Employee> employees = employeeService.createEmployeesByAdmin(company.getCompanyId(), employeeListForCreateDTO);
 
-        List<Employee> employees = employeeService.createEmployeesByAdmin(company.getCompanyId(), employeesDTO);
+        List<Employee> totalEmployees;
+        if (company.getEmployees() == null || company.getEmployees().isEmpty()){
+            totalEmployees = new ArrayList<>(employees);
+        }
+        else{
+            totalEmployees = company.getEmployees();
+            totalEmployees.addAll(employees);
+        }
 
-        log.info("[createEmployeesToCompany] << result employees: {}", employees);
-        company.setEmployees(employees);
+        company.setEmployees(totalEmployees);
 
         Company savedCompany = companyService.saveCompany(company);
         log.info("[createEmployeesToCompany] << result company: {}", savedCompany);
@@ -106,7 +126,17 @@ public class AdminServiceImpl implements AdminService {
 
         List<Question> questions = questionService.saveAllQuestionForCompany(company.getCompanyId(), questionsDTO);
 
-        company.setQuestions(questions);
+        List<Question> totalQuestions;
+
+        if (company.getQuestions() == null || company.getQuestions().isEmpty()){
+            totalQuestions = new ArrayList<>(questions);
+        }
+        else{
+            totalQuestions = company.getQuestions();
+            totalQuestions.addAll(questions);
+        }
+
+        company.setQuestions(totalQuestions);
 
         Company savedCompany = companyService.saveCompany(company);
 
@@ -118,7 +148,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Product> createProductToCompany(Company company, ProductsDTO productsDTO) {
 
-        List<Product> products = productService.saveAllProductsForCompany(company.getCompanyId(), productsDTO);
+        List<Product> productsSaved = productService.saveAllProductsForCompany(company.getCompanyId(), productsDTO);
+
+        List<Product> products;
+
+        if (company.getProducts() == null || company.getProducts().isEmpty()){
+            products = new ArrayList<>(productsSaved);
+        }
+        else{
+            products = company.getProducts();
+            products.addAll(productsSaved);
+        }
 
         company.setProducts(products);
 
@@ -133,13 +173,11 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public List<KnowledgeBase> createKnowledgeBaseToCompany(Company company, KnowledgeBaseDTO knowledgeBaseDTO) {
 
-        KnowledgeBase knowledgeBase = knowledgeBaseService.saveKnowledgeBaseForCompany(company, knowledgeBaseDTO);
+        KnowledgeBase knowledgeBase = knowledgeBaseService.createKnowledgeBaseForCompany(company, knowledgeBaseDTO);
 
         List<KnowledgeBase> knowledgeBases;
-
         if (company.getKnowledgeBases() == null || company.getKnowledgeBases().isEmpty()){
-            knowledgeBases = new ArrayList<>();
-            knowledgeBases.add(knowledgeBase);
+            knowledgeBases = new ArrayList<>(List.of(knowledgeBase));
         }
         else {
             knowledgeBases = company.getKnowledgeBases();

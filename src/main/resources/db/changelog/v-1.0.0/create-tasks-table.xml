@@ -12,9 +12,10 @@
                 company_id bigserial NOT NULL,
                 post_id bigserial NOT NULL,
                 name varchar(255),
-                description varchar(255),
+                description text,
                 level_difficulty integer,
                 rate bigint,
+                created timestamp,
                 CONSTRAINT task_pkey PRIMARY KEY (task_id),
                 CONSTRAINT sdfgmnvzxsahubagppasdfafrtqlfpost FOREIGN KEY (post_id)
                 REFERENCES public.posts (post_id) MATCH SIMPLE

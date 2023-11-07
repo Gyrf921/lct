@@ -1,5 +1,6 @@
 jwt:
   lifetime: 30m
+  secret: vahue
 
 spring:
   mvc:
@@ -12,13 +13,14 @@ spring:
       allow-credentials: true
       max-age: 3600
   datasource:
-    url: postgres://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
-    password: ${PGPASSWORD:*c15Adb4*g*4c5aD21GBC-dad36-35-1}
-    username: ${PGUSER:postgres}
+    #url: postgres://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
+    url: postgres://lct:NELSY3SUc6JfxIraxaLslHBK3rAIpEyR@dpg-cl57v7472pts739u0a1g-a.frankfurt-postgres.render.com/lct
+    password: ${PGPASSWORD:NELSY3SUc6JfxIraxaLslHBK3rAIpEyR}
+    username: ${PGUSER:lct}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -26,3 +28,18 @@ spring:
   liquibase:
     enabled: false
     change-log: classpath:db/changelog/db.changelog-master.xml
+
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+    username: JustForJunior@yandex.ru
+    password: lxuchfpanzsoyius
+    protocol: smtp

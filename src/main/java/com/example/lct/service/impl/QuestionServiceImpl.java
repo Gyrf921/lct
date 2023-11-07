@@ -1,7 +1,8 @@
 package com.example.lct.service.impl;
 
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Question;
+import com.example.lct.exception.ResourceNotFoundException;
+import com.example.lct.model.Employee;
+import com.example.lct.model.Question;
 import com.example.lct.repository.QuestionRepository;
 import com.example.lct.web.dto.request.admin.QuestionsDTO;
 import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
@@ -18,6 +19,21 @@ import java.util.List;
 public class QuestionServiceImpl {
 
     private final QuestionRepository questionRepository;
+
+    public Question getQuestionById(Long id) {
+        log.info("[getQuestionById] >> id: {}", id);
+
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Question not found by this id :{} ", id);
+                    return new ResourceNotFoundException("Question not found by this id :: " + id);
+                });
+
+        log.info("[getQuestionById] << result: {}", question);
+
+        return question;
+    }
+
 
     public List<Question> saveAllQuestionForCompany(Long companyId, QuestionsDTO questionsDTO) {
         List<Question> questions = new ArrayList<>();
@@ -37,4 +53,5 @@ public class QuestionServiceImpl {
         return savedDep;
 
     }
+
 }

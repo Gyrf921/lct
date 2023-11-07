@@ -25,10 +25,13 @@ public class InternController {
         return ResponseEntity.ok(internService.sendTasksToCheck(tasks));
     }
 
+
+
     /*
-    TODO
-     * + прохождение задач
-     * покупка мерча (уведомлять HR о том, что он что-то купил)
-     * */
+    вывод всех stage текущих задач пользователя из stage в название, статус, дата создания
+    вывод задачи по ID
+
+
+*/
 
 }

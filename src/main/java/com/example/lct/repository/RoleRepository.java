@@ -1,6 +1,6 @@
 package com.example.lct.repository;
 
-import com.example.lct.model.status.Role;
+import com.example.lct.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-articles-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.articles
+            (
+                article_id bigserial NOT NULL,
+                knowledge_base_id bigserial,
+                theme varchar(255),
+                information text,
+                created timestamp,
+                CONSTRAINT article_pkey PRIMARY KEY (article_id)
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -3,9 +3,9 @@ package com.example.lct.web.controller;
 import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
 import com.example.lct.model.KnowledgeBase;
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Product;
-import com.example.lct.model.status.Question;
+import com.example.lct.model.Department;
+import com.example.lct.model.Product;
+import com.example.lct.model.Question;
 import com.example.lct.service.AdminService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.admin.*;
@@ -29,7 +29,7 @@ public class AdminController {
 
     @Operation(summary = "get company for admin")
     @GetMapping
-    public ResponseEntity<Company> createDepartmentsToCompany(Principal principal) {
+    public ResponseEntity<Company> getDepartments(Principal principal) {
         return ResponseEntity.ok().body(userPrincipalUtils.getCompanyByUserPrincipal(principal));
     }
 
@@ -45,7 +45,7 @@ public class AdminController {
 
     @Operation(summary = "add list of Employees To Company")
     @PostMapping("/employees")
-    public ResponseEntity<List<Employee>> createEmployeesToCompany(Principal principal, @RequestBody EmployeesDTO employees) {
+    public ResponseEntity<List<Employee>> createEmployeesToCompany(Principal principal, @RequestBody EmployeeListForCreateDTO employees) {
 
         List<Employee> savedEmployee = adminService.createEmployeesToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), employees);
@@ -65,7 +65,8 @@ public class AdminController {
 
     @Operation(summary = "add one product in shop for Company")
     @PostMapping("/products")
-    public ResponseEntity<List<Product>> createProductsToCompany(Principal principal, @RequestBody ProductsDTO productsDTO) {
+    public ResponseEntity<List<Product>> createProductsToCompany(Principal principal,
+                                                                 @RequestBody ProductsDTO productsDTO) {
 
         List<Product> savedProducts = adminService.createProductToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), productsDTO);
@@ -73,7 +74,7 @@ public class AdminController {
         return ResponseEntity.ok().body(savedProducts);
     }
 
-    @Operation(summary = "add KnowledgeBase with Knowledge to Company")
+    @Operation(summary = "add KnowledgeBase with Article to Company")
     @PostMapping("/knowledge-base")
     public ResponseEntity<List<KnowledgeBase>> createKnowledgeBaseToCompany(Principal principal, @RequestBody KnowledgeBaseDTO knowledgeBaseDTO) {
 
@@ -82,6 +83,7 @@ public class AdminController {
 
         return ResponseEntity.ok().body(namesKnowledgeList);
     }
+
 
 /* TODO
  * регистрация компании (роли подргужаются сами)

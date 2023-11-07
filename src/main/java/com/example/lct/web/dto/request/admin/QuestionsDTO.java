@@ -1,6 +1,5 @@
 package com.example.lct.web.dto.request.admin;
 
-import com.example.lct.web.dto.request.admin.obj.KnowledgeDTO;
 import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

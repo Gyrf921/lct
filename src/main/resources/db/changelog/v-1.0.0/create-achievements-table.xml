@@ -9,8 +9,9 @@
             CREATE TABLE IF NOT EXISTS public.achievements
             (
                 achievement_id bigserial NOT NULL,
+                image_path varchar(255),
                 title varchar(255),
-                description varchar(255),
+                description text,
                 CONSTRAINT achievement_pkey PRIMARY KEY (achievement_id)
                 );
         </sql>

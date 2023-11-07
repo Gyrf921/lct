@@ -7,7 +7,7 @@ import com.example.lct.model.Employee;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.CompanyService;
 import com.example.lct.service.RoleService;
-import com.example.lct.web.dto.CompanyDTO;
+import com.example.lct.web.dto.response.obj.CompanyDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company setAdmin(Company company, Employee employee) {
+    public Company saveAdmin(Company company, Employee employee) {
 
         List<Employee> employees = new ArrayList<>();
         employees.add(employee);

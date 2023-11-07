@@ -47,12 +47,12 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/login/**").permitAll()
+/*                        .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/unsecure/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/hr/**").hasAnyRole("HR", "ADMIN")
                         .requestMatchers("/inter/**").hasRole("INTERN")
-                        .requestMatchers("/general/**").authenticated()
+                        .requestMatchers("/general/**").authenticated()*/
                         .anyRequest().permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable);//withDefaults()

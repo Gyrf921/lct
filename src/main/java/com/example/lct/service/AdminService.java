@@ -4,9 +4,9 @@ import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
 import com.example.lct.model.KnowledgeBase;
 import com.example.lct.model.Post;
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Product;
-import com.example.lct.model.status.Question;
+import com.example.lct.model.Department;
+import com.example.lct.model.Product;
+import com.example.lct.model.Question;
 import com.example.lct.web.dto.request.admin.*;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
 
@@ -19,7 +19,7 @@ public interface AdminService {
 
     List<Post> createPostsToCompany(Company company, PostsDTO postsDTO);
 
-    List<Employee> createEmployeesToCompany(Company companyByUserPrincipal, EmployeesDTO employees);
+    List<Employee> createEmployeesToCompany(Company companyByUserPrincipal, EmployeeListForCreateDTO employees);
 
     List<Question> createQuestionToCompany(Company companyByUserPrincipal, QuestionsDTO questionsDTO);
 

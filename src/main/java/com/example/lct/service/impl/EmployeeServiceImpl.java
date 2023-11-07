@@ -6,15 +6,16 @@ import com.example.lct.mapper.EmployeeMapper;
 import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
 import com.example.lct.model.factory.EmployeeFactory;
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Role;
+import com.example.lct.model.Role;
 import com.example.lct.repository.EmployeeRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.RoleService;
 import com.example.lct.util.JwtTokenUtils;
+import com.example.lct.web.dto.request.EmployeePersonalityDTO;
 import com.example.lct.web.dto.request.RegistrationUserDTO;
-import com.example.lct.web.dto.request.admin.obj.EmployeeDTO;
-import com.example.lct.web.dto.request.admin.EmployeesDTO;
+import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
+import com.example.lct.web.dto.request.admin.EmployeeListForCreateDTO;
+import com.example.lct.web.dto.response.EmployeePersonalityResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -69,10 +70,10 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
-    public Employee createIntern(Long companyId, Long hrId, EmployeeDTO employeeDTO) {
+    public Employee createIntern(Long companyId, EmployeeForCreateDTO employeeForCreateDTO) {
 
         Employee intern = employeeRepository.save(
-                EmployeeFactory.createIntern(companyId, hrId, employeeDTO));
+                EmployeeFactory.createEmployee(companyId, employeeForCreateDTO));
 
         log.info("[createIntern] << result : {}", intern);
 
@@ -89,12 +90,12 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
-    public List<Employee> createEmployeesByAdmin(Long companyId, EmployeesDTO employeesByAdmin) {
+    public List<Employee> createEmployeesByAdmin(Long companyId, EmployeeListForCreateDTO employeesByAdmin) {
 
         List<Employee> employeeSavedList = new ArrayList<>();
 
-        for (EmployeeDTO employeeDTO: employeesByAdmin.getEmployeeDTOList()) {
-            employeeSavedList.add(EmployeeFactory.createEmployee(companyId, employeeDTO));
+        for (EmployeeForCreateDTO employeeForCreateDTO : employeesByAdmin.getEmployeeForCreateDTOList()) {
+            employeeSavedList.add(EmployeeFactory.createEmployee(companyId, employeeForCreateDTO));
         }
 
         List<Employee> savedEmployees = employeeRepository.saveAll(employeeSavedList);
@@ -122,14 +123,12 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
             throw new UserAlreadyExistException("This user already exist: " + registrationAdminDTO.getName());
         }
 
-        Role role = roleService.getRoleByNameAndCompany("ROLE_ADMIN", company.getCompanyId());
-
+        Role role = roleService.getRoleByNameAndCompany(company.getCompanyId(), "ROLE_ADMIN");
         Employee admin = employeeMapper.registrationUserDTOToEmployee(registrationAdminDTO);
 
         admin.setPassword(passwordEncoder.encode(registrationAdminDTO.getPassword()));
         admin.setCompanyId(company.getCompanyId());
-        admin.setRoles(List.of(role));
-        admin.setCuratorId(0L);
+        admin.setRoles(new ArrayList<>(List.of(role)));
 
         employeeRepository.save(admin);
 
@@ -138,7 +137,21 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
         return admin;
     }
 
+    @Override
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
 
+    @Override
+    public EmployeePersonalityResponseDTO getEmployeeInformation(Employee employeeByUserPrincipal) {
+        return employeeMapper.employeeToEmployeePersonalityDTO(employeeByUserPrincipal);
+    }
+
+    @Override
+    public EmployeePersonalityResponseDTO setEmployeeInformation(Employee employeeByUserPrincipal, EmployeePersonalityDTO employeePersonalityDTO) {
+        Employee employee =  saveEmployee(EmployeeFactory.updateEmployeeInfo(employeeByUserPrincipal, employeePersonalityDTO));
+        return employeeMapper.employeeToEmployeePersonalityDTO(employee);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

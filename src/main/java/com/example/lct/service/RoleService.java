@@ -1,6 +1,6 @@
 package com.example.lct.service;
 
-import com.example.lct.model.status.Role;
+import com.example.lct.model.Role;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface RoleService {
      */
     Role getRoleByName(String roleName);
 
-    Role getRoleByNameAndCompany(String roleName, Long companyId);
+    Role getRoleByNameAndCompany(Long companyId, String roleName);
 
     /**
      * Retrieve a list of all roles stored in the database.

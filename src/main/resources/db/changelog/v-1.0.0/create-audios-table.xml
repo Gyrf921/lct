@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-audios-table" author="oladushek">
+        <sql>
+            CREATE TABLE IF NOT EXISTS public.audios
+            (
+                audio_id bigserial NOT NULL,
+                url varchar(255),
+                name varchar(255),
+                description text,
+                created timestamp,
+                CONSTRAINT audio_pkey PRIMARY KEY (audio_id)
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,7 +1,7 @@
 package com.example.lct.service;
 
 import com.example.lct.model.Employee;
-import com.example.lct.model.EmployeeLinkTask;
+import com.example.lct.model.TaskStage;
 import com.example.lct.model.Post;
 import com.example.lct.model.Task;
 import com.example.lct.model.enumformodel.Status;
@@ -19,12 +19,12 @@ public interface TaskService {
 
     List<Task> getTasks(Long companyId, Post post, Integer levelDifficult);
 
-    EmployeeLinkTask getEmployeeLinkTaskById(Long id);
+    TaskStage getEmployeeLinkTaskById(Long id);
 
-    EmployeeLinkTask setStatusTaskForEmployee(Long taskEmployeeId, Status status);
+    TaskStage setStatusTaskForEmployee(Long taskEmployeeId, Status status);
 
 
-    List<EmployeeLinkTask> getEmployeeLinkTaskForEmployee(Employee employee, Status status);
+    List<TaskStage> getEmployeeLinkTaskForEmployee(Employee employee, Status status);
 
-    List<EmployeeLinkTask> getAllTaskForCuratorChecking(Long curatorId);
+    List<TaskStage> getAllTaskForCuratorChecking(Long curatorId);
 }

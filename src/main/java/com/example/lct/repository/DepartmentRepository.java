@@ -1,6 +1,6 @@
 package com.example.lct.repository;
 
-import com.example.lct.model.status.Department;
+import com.example.lct.model.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

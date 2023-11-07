@@ -1,6 +1,5 @@
 package com.example.lct.model;
 
-import com.example.lct.model.status.Department;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +20,10 @@ public class KnowledgeBase {
     @Column(name = "knowledge_base_id")
     private Long knowledgeBaseId;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
+    private Department department;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
@@ -30,10 +33,26 @@ public class KnowledgeBase {
 
     @OneToMany
     @JoinTable(
-            name = "knowledge_base_knowledges",
+            name = "knowledge_base_articles",
             joinColumns = @JoinColumn(name = "knowledge_base_id"),
-            inverseJoinColumns = @JoinColumn(name = "knowledge_id")
+            inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    private List<Knowledge> knowledge;
+    private List<Article> articles;
+
+    @OneToMany
+    @JoinTable(
+            name = "knowledge_base_videos",
+            joinColumns = @JoinColumn(name = "knowledge_base_id"),
+            inverseJoinColumns = @JoinColumn(name = "video_id")
+    )
+    private List<Video> videos;
+
+    @OneToMany
+    @JoinTable(
+            name = "knowledge_base_audios",
+            joinColumns = @JoinColumn(name = "knowledge_base_id"),
+            inverseJoinColumns = @JoinColumn(name = "audio_id")
+    )
+    private List<Audio> audio;
 
 }

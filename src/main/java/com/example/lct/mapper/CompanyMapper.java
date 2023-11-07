@@ -1,7 +1,7 @@
 package com.example.lct.mapper;
 
 import com.example.lct.model.Company;
-import com.example.lct.web.dto.CompanyDTO;
+import com.example.lct.web.dto.response.obj.CompanyDTO;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 

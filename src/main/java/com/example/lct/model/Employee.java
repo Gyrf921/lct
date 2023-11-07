@@ -1,8 +1,5 @@
 package com.example.lct.model;
 
-import com.example.lct.model.status.Achievement;
-import com.example.lct.model.status.Department;
-import com.example.lct.model.status.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,17 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee  extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,9 +48,6 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "birth_date")
-    private Date birthDate;
-
     @Column(name = "phone")
     private String phone;
 
@@ -73,21 +65,21 @@ public class Employee {
     )
     private List<Role> roles;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
-            name = "employee_task",
+            name = "employee_stage",
             joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
+            inverseJoinColumns = @JoinColumn(name = "stage_id")
     )
-    private List<Task> tasks;
+    private List<Stage> stages;
 
     @ManyToMany
     @JoinTable(
-            name = "employee_knowledge_favourites",
+            name = "employee_article_favourites",
             joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "knowledge_id")
+            inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    private List<Knowledge> knowledgeList;
+    private List<Article> favouriteArticles;
 
     @OneToMany
     @JoinTable(

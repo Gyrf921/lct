@@ -24,13 +24,6 @@ public class UserPrincipalUtils {
         //TODO check on null company Id => Exception Unauthorized
         return employee.getCompanyId();
     }
-    public Long getEmployeeIdByUserPrincipal(Principal principal){
-
-        Employee employee = employeeService.getEmployeeByEmail(principal.getName());
-
-        return employee.getEmployeeId();
-    }
-
     public Company getCompanyByUserPrincipal(Principal principal){
 
         Company company = companyService.getCompanyById(getCompanyIdByUserPrincipal(principal));
@@ -39,4 +32,15 @@ public class UserPrincipalUtils {
 
         return company;
     }
+    public Long getEmployeeIdByUserPrincipal(Principal principal){
+
+        Employee employee = employeeService.getEmployeeByEmail(principal.getName());
+
+        return employee.getEmployeeId();
+    }
+    public Employee getEmployeeByUserPrincipal(Principal principal){
+        return employeeService.getEmployeeByEmail(principal.getName());
+    }
+
+
 }

@@ -10,12 +10,18 @@
             (
                 knowledge_base_id bigserial NOT NULL,
                 post_id bigserial NOT NULL,
+                department_id bigserial NOT NULL,
                 company_id bigserial,
                 CONSTRAINT knowledge_base_pkey PRIMARY KEY (knowledge_base_id),
                 CONSTRAINT dfgdfsgsdgfdfsgnasdgfsfdgsdf FOREIGN KEY (post_id)
                 REFERENCES public.posts (post_id) MATCH SIMPLE
                 ON UPDATE NO ACTION
-                ON DELETE NO ACTION);
+                ON DELETE NO ACTION,
+                CONSTRAINT dfgdfsgsdgfdfsgnasdgfsdepartments FOREIGN KEY (department_id)
+                REFERENCES public.departments (department_id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE NO ACTION
+                );
         </sql>
     </changeSet>
 </databaseChangeLog>

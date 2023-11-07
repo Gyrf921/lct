@@ -2,13 +2,14 @@ package com.example.lct.service.impl;
 
 import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
-import com.example.lct.model.EmployeeLinkTask;
+import com.example.lct.model.TaskStage;
 import com.example.lct.model.Task;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
 import com.example.lct.service.TaskService;
-import com.example.lct.web.dto.request.admin.obj.EmployeeDTO;
+import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
+import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +51,9 @@ public class HRServiceImpl implements HRService {
     }
 
     @Override
-    public Employee createInternForCompany(Company companyByUserPrincipal, Long hrId, EmployeeDTO employeeDTO) {
+    public Employee createInternForCompany(Company companyByUserPrincipal, EmployeeForCreateDTO employeeForCreateDTO) {
         //создать пользователя, добавить к нему задания и hr
-        Employee intern = employeeService.createIntern(companyByUserPrincipal.getCompanyId(), hrId, employeeDTO);
+        Employee intern = employeeService.createIntern(companyByUserPrincipal.getCompanyId(), employeeForCreateDTO);
 
         companyByUserPrincipal.getEmployees().add(intern);
 
@@ -64,7 +65,7 @@ public class HRServiceImpl implements HRService {
     }
 
     @Override
-    public List<EmployeeLinkTask> getAllTaskForCuratorChecking(Long curatorId) {
+    public List<TaskStage> getAllTaskForCuratorChecking(Long curatorId) {
 
         return taskService.getAllTaskForCuratorChecking(curatorId);
     }
@@ -80,9 +81,10 @@ public class HRServiceImpl implements HRService {
     }
 
     @Override
-    public List<Task> getAllTasksForCompanyByLevel(Integer level, Company companyByUserPrincipal) {
-        return companyByUserPrincipal.getTasks().stream()
-                .filter(task -> task.getLevelDifficulty().equals(level))
-                .toList();
+    public Employee createStageToIntern(StageDTO stageDTO) {
+
+        //создать Stage, привязать к нему задачи, привязать Stage к сотруднику
+        return null;
     }
+
 }

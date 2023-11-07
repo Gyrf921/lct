@@ -13,7 +13,7 @@
                 company_id bigserial,
                 image_path varchar(255),
                 theme varchar(255),
-                answer varchar(255),
+                answer text,
                 CONSTRAINT question_pkey PRIMARY KEY (question_id)
                 );
         </sql>

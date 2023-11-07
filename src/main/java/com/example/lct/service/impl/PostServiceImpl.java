@@ -1,7 +1,7 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.model.Post;
-import com.example.lct.model.status.Department;
+import com.example.lct.model.Department;
 import com.example.lct.repository.PostRepository;
 import com.example.lct.web.dto.request.admin.PostsDTO;
 import com.example.lct.web.dto.request.admin.obj.PostDTO;
@@ -28,7 +28,7 @@ public class PostServiceImpl {
         Department department;
         //TODO можно убрать запрос и сделать передачу сразу id
         for (PostDTO postDTO : postsDTO.getPostDTOList()){
-            department = departmentService.getDepartmentByNameAndCompanyId(postDTO.getDepartmentName(), companyId);
+            department = departmentService.getDepartmentByNameAndCompanyId(companyId, postDTO.getDepartmentName());
 
             posts.add(Post.builder()
                     .companyId(companyId)

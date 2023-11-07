@@ -2,11 +2,8 @@ package com.example.lct.model.factory;
 
 import com.example.lct.model.Post;
 import com.example.lct.model.Task;
-import com.example.lct.model.status.Department;
-import com.example.lct.service.impl.DepartmentServiceImpl;
 import com.example.lct.service.impl.PostServiceImpl;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -15,12 +15,12 @@
                 password varchar(255),
                 name varchar(255),
                 level_difficulty int,
-                birth_date Date,
                 phone varchar(255),
                 social_network varchar(255),
                 city varchar(255),
                 curator_id bigint,
                 account bigint,
+                created timestamp,
                 CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
                 CONSTRAINT email_unique_server UNIQUE (email)
             );

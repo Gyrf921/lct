@@ -13,7 +13,7 @@
                 company_id bigserial,
                 image_path varchar(255),
                 name varchar(255),
-                description varchar(255),
+                description text,
                 cost bigint,
                 CONSTRAINT product_pkey PRIMARY KEY (product_id)
                 );
