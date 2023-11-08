@@ -14,8 +14,9 @@ spring:
       max-age: 3600
   datasource:
     #url: jdbc:postgres://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
-    url: jdbc:postgresql:/${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
-    password: ${PGPASSWORD:BeAdeCe64gcFafa1FaDdFCca112Aab6d}
+    #url: jdbc:postgresql:/${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
+    url: jdbc:postgresql://roundhouse.proxy.rlwy.net:30787/railway
+    password: ${PGPASSWORD:BFD4F66Fb1G*a4E3-A2e2g65DBed3ceA}
     username: ${PGUSER:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
@@ -26,7 +27,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
   liquibase:
-    enabled: false
+    enabled: true
     change-log: classpath:db/changelog/db.changelog-master.xml
 
   mail:
