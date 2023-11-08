@@ -1,6 +1,6 @@
-package com.example.lct.web.dto.request.hr;
+package com.example.lct.web.dto.request.admin;
 
-import com.example.lct.web.dto.request.hr.obj.TaskDTO;
+import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TasksDTO {
+public class ArticlesDTO {
 
-    List<TaskDTO> taskDTOList;
+    private List<ArticleDTO> articleDTOList;
 }

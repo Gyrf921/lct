@@ -1,6 +1,5 @@
 package com.example.lct.model;
 
-import com.example.lct.model.Company;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

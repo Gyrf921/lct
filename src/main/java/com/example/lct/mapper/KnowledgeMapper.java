@@ -17,6 +17,7 @@ public interface KnowledgeMapper {
     @Mapping(source = "questionId", target = "id")
     @Mapping(source = "theme", target = "name")
     ArticleResponseDTO questionToArticleResponseDTO(Question question);
+
     @Mapping(source = "articleId", target = "id")
     @Mapping(source = "theme", target = "name")
     ArticleResponseDTO articleToArticleResponseDTO(Article article);
@@ -29,5 +30,6 @@ public interface KnowledgeMapper {
 
 
     Video videoDTOToVideo(VideoDTO videoDTO);
+
     Audio audioDTOToAudio(AudioDTO audioDTO);
 }

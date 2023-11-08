@@ -2,12 +2,10 @@ package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.mapper.KnowledgeMapper;
-import com.example.lct.model.Article;
-import com.example.lct.model.KnowledgeBase;
+import com.example.lct.model.Post;
 import com.example.lct.model.Video;
 import com.example.lct.repository.VideoRepository;
-import com.example.lct.web.dto.request.admin.KnowledgeBaseDTO;
-import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
+import com.example.lct.web.dto.request.admin.VideosDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +22,8 @@ public class VideoServiceImpl {
     private final VideoRepository videoRepository;
     private final KnowledgeMapper knowledgeMapper;
 
+    private final PostServiceImpl postService;
+
     public Video getVideoById(Long id) {
         Video video = videoRepository.findById(id)
                 .orElseThrow(() -> {
@@ -36,32 +36,34 @@ public class VideoServiceImpl {
         return video;
     }
 
-    public KnowledgeBase createVideosFromDtoToKnowledgeBase(KnowledgeBase knowledgeBase, KnowledgeBaseDTO knowledgeBaseDTO) {
-
-        List<Video> videos;
-        if (isKnowledgeBaseHasVideos(knowledgeBase)){
-            videos = knowledgeBase.getVideos();
-            videos.addAll(mapAVideosDtoToVideos(knowledgeBaseDTO.getVideosDTO()));
-        }
-        else {
-            videos = new ArrayList<>(mapAVideosDtoToVideos(knowledgeBaseDTO.getVideosDTO()));
-        }
-
-        knowledgeBase.setVideos(videos);
-
-        return knowledgeBase;
+    public List<Video> createVideos(Long companyId, VideosDTO videosDTO) {
+        return videoRepository.saveAll(mapVideosDtoToVideos(companyId, videosDTO.getVideoDTOList()));
     }
-    private List<Video> mapAVideosDtoToVideos(List<VideoDTO> videoDTOS){
 
+    public Video createVideo(Long companyId, VideoDTO videoDTO) {
+        Post post = postService.getPostByNameAndCompanyId(companyId, videoDTO.getPostName());
+        Video video = knowledgeMapper.videoDTOToVideo(videoDTO);
+        video.setCompanyId(companyId);
+        video.setPost(post);
+        video.setDepartment(post.getDepartment());
+        return videoRepository.save(video);
+    }
+
+
+    private List<Video> mapVideosDtoToVideos(Long companyId, List<VideoDTO> videoDTOS) {
         List<Video> videos = new ArrayList<>();
 
-        for (VideoDTO videoDTO : videoDTOS){
-            videos.add(knowledgeMapper.videoDTOToVideo(videoDTO));
+        for (VideoDTO videoDTO : videoDTOS) {
+            Post post = postService.getPostByNameAndCompanyId(companyId, videoDTO.getPostName());
+            Video video = knowledgeMapper.videoDTOToVideo(videoDTO);
+            video.setCompanyId(companyId);
+            video.setPost(post);
+            video.setDepartment(post.getDepartment());
+            videos.add(video);
         }
 
-        return videoRepository.saveAll(videos);
+        return videos;
     }
-    private boolean isKnowledgeBaseHasVideos(KnowledgeBase knowledgeBase){
-        return knowledgeBase.getVideos() != null && !knowledgeBase.getVideos().isEmpty();
-    }
+
+
 }

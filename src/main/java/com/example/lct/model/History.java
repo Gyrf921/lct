@@ -2,7 +2,6 @@ package com.example.lct.model;
 
 import com.example.lct.model.enumformodel.ActionType;
 import com.example.lct.model.enumformodel.HistoryType;
-import com.example.lct.model.enumformodel.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

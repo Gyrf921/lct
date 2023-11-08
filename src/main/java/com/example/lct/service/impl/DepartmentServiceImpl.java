@@ -18,10 +18,10 @@ public class DepartmentServiceImpl {
 
     private final DepartmentRepository departmentRepository;
 
-    public List<Department> saveAllDepartmentForCompany(Long companyId, DepartmentsDTO departmentsDTO){
+    public List<Department> saveAllDepartmentForCompany(Long companyId, DepartmentsDTO departmentsDTO) {
         List<Department> departments = new ArrayList<>();
 
-        for (String departmentName: departmentsDTO.getDepartmentsName()) {
+        for (String departmentName : departmentsDTO.getDepartmentsName()) {
             departments.add(Department.builder().companyId(companyId).name(departmentName).build());
         }
         return departmentRepository.saveAll(departments);

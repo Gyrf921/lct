@@ -1,9 +1,10 @@
 package com.example.lct.model.factory;
 
+import com.example.lct.mapper.EmployeeMapper;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Post;
-import com.example.lct.model.Stage;
 import com.example.lct.model.Role;
+import com.example.lct.model.Stage;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.RoleService;
 import com.example.lct.service.StageService;
@@ -19,20 +20,22 @@ import java.util.List;
 
 @Component
 public class EmployeeFactory {
-    private EmployeeFactory(){}
+    private EmployeeFactory() {
+    }
 
     @Autowired
-    public void setService(RoleServiceImpl roleService, StageService stageService, EmployeeService employeeService, PostServiceImpl postService) {
+    public void setService(RoleServiceImpl roleService, EmployeeService employeeService, PostServiceImpl postService, EmployeeMapper employeeMapper) {
         EmployeeFactory.roleService = roleService;
-        EmployeeFactory.stageService = stageService;
         EmployeeFactory.employeeService = employeeService;
         EmployeeFactory.postService = postService;
+        EmployeeFactory.employeeMapper = employeeMapper;
     }
 
     private static RoleService roleService;
-    private static StageService stageService;
     private static EmployeeService employeeService;
     private static PostServiceImpl postService;
+
+    private static EmployeeMapper employeeMapper;
 
     private static final int START_DIFFICULT_LEVEL = 1;
     private static final String ROLE_INTERN_NAME = "ROLE_INTERN";
@@ -40,7 +43,8 @@ public class EmployeeFactory {
 
     /**
      * Create employee or intern
-     * @param companyId - companyId where with employee working
+     *
+     * @param companyId            - companyId where with employee working
      * @param employeeForCreateDTO - DTO with employee data
      * @return return employee or intern, intern has levelDifficulty = 1, account = 100, base stage and curator, for employee this field is null
      */
@@ -71,19 +75,18 @@ public class EmployeeFactory {
                 .city(employeePersonalityDTO.getCity()).build();
     }
 
-    private static Employee createIntern(EmployeeForCreateDTO employeeForCreateDTO, Employee employee){
+    private static Employee createIntern(EmployeeForCreateDTO employeeForCreateDTO, Employee employee) {
         Long curatorId = employeeService.getEmployeeByEmail(employeeForCreateDTO.getCuratorEmail()).getCuratorId();
-        List<Stage> stages = new ArrayList<>(List.of(stageService.createBaseStageForIntern(employee.getCompanyId())));
 
         return employee.toBuilder()
                 .levelDifficulty(START_DIFFICULT_LEVEL)
                 .curatorId(curatorId)
-                .stages(stages)
                 .account(100L).build();
     }
 
-    private static boolean isIntern(EmployeeForCreateDTO employeeForCreateDTO){
+    private static boolean isIntern(EmployeeForCreateDTO employeeForCreateDTO) {
         return employeeForCreateDTO.getRoleName().equals(ROLE_INTERN_NAME);
     }
+
 
 }

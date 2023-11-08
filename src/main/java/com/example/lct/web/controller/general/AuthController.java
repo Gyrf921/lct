@@ -1,9 +1,8 @@
-package com.example.lct.web.controller;
+package com.example.lct.web.controller.general;
 
 import com.example.lct.model.Employee;
 import com.example.lct.service.AdminService;
 import com.example.lct.service.EmployeeService;
-import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.AuthorizationUserDTO;
 import com.example.lct.web.dto.request.RegistrationUserDTO;
 import com.example.lct.web.dto.request.admin.RegistrationCompanyDTO;
@@ -18,7 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
@@ -42,7 +44,6 @@ public class AuthController {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authorizationUserDTO.getEmail(), authorizationUserDTO.getPassword()));
-
         } catch (BadCredentialsException badCredentialsException) {
             log.error(badCredentialsException.getMessage());
             throw badCredentialsException;

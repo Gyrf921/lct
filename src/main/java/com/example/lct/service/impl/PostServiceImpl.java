@@ -1,7 +1,8 @@
 package com.example.lct.service.impl;
 
-import com.example.lct.model.Post;
+import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.model.Department;
+import com.example.lct.model.Post;
 import com.example.lct.repository.PostRepository;
 import com.example.lct.web.dto.request.admin.PostsDTO;
 import com.example.lct.web.dto.request.admin.obj.PostDTO;
@@ -27,7 +28,7 @@ public class PostServiceImpl {
         List<Post> posts = new ArrayList<>();
         Department department;
         //TODO можно убрать запрос и сделать передачу сразу id
-        for (PostDTO postDTO : postsDTO.getPostDTOList()){
+        for (PostDTO postDTO : postsDTO.getPostDTOList()) {
             department = departmentService.getDepartmentByNameAndCompanyId(companyId, postDTO.getDepartmentName());
 
             posts.add(Post.builder()
@@ -40,6 +41,16 @@ public class PostServiceImpl {
     }
 
     public Post getPostByNameAndCompanyId(Long companyId, String postName) {
-        return null;
+        log.info("[getPostByNameAndCompanyId] >> companyId: {}, postName: {}", companyId, postName);
+
+        Post post = postRepository.findByNameAndCompanyId(postName, companyId)
+                .orElseThrow(() -> {
+                    log.error("Post not found by this name on your company :: :{} ", postName);
+                    return new ResourceNotFoundException("Post not found by this name on your company :: " + postName);
+                });
+
+        log.info("[getPostByNameAndCompanyId] << result: {}", post);
+
+        return post;
     }
 }

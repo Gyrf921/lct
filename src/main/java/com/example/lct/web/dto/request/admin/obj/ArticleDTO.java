@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ArticleDTO {
 
+    private String postName;
+
+    private String imagePath;
+
     private String theme;
 
     private String information;

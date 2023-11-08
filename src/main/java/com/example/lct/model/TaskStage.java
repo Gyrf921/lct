@@ -15,13 +15,12 @@ import java.sql.Timestamp;
 @Builder
 @Entity
 @Table(name = "task_stage")
-public class TaskStage extends BaseEntity{
+public class TaskStage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_stage_id")
     private Long taskStageId;
-
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stage_id", referencedColumnName = "stage_id")

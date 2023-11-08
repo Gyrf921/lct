@@ -33,6 +33,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(InsufficientFundsException.class)
     public ResponseEntity<?> insufficientFundsException(Exception ex, WebRequest request) {
         log.error(ex.getMessage(), ex);

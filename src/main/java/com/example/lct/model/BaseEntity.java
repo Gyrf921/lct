@@ -2,11 +2,10 @@ package com.example.lct.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @MappedSuperclass
@@ -17,4 +16,5 @@ public class BaseEntity {
     @Column(name = "created")
     private Timestamp created;
 
+    //TODO Date
 }

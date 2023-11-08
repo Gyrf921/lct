@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AudioDTO {
 
+    private String postName;
+
     private String url;
 
     private String name;

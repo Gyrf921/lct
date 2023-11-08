@@ -3,19 +3,22 @@ package com.example.lct.service.impl;
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.exception.UserAlreadyExistException;
 import com.example.lct.mapper.EmployeeMapper;
-import com.example.lct.model.Company;
-import com.example.lct.model.Employee;
+import com.example.lct.model.*;
+import com.example.lct.model.enumformodel.HistoryType;
 import com.example.lct.model.factory.EmployeeFactory;
-import com.example.lct.model.Role;
 import com.example.lct.repository.EmployeeRepository;
 import com.example.lct.service.EmployeeService;
+import com.example.lct.service.HistoryService;
 import com.example.lct.service.RoleService;
+import com.example.lct.service.StageService;
 import com.example.lct.util.JwtTokenUtils;
 import com.example.lct.web.dto.request.EmployeePersonalityDTO;
 import com.example.lct.web.dto.request.RegistrationUserDTO;
-import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.admin.EmployeeListForCreateDTO;
+import com.example.lct.web.dto.request.admin.FilterTeamDTO;
+import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.response.EmployeePersonalityResponseDTO;
+import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +30,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -36,12 +38,14 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     private final JwtTokenUtils jwtTokenUtils;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final StageService stageService;
     private final RoleService roleService;
     private final DepartmentServiceImpl departmentService;
+    private final PostServiceImpl postService;
+    private final HistoryService historyService;
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
-
 
     @Override
     public Employee getEmployeeByEmail(String email) {
@@ -54,6 +58,20 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
                 });
 
         log.info("[getUserByEmail] << result: {}", employee.getName());
+
+        return employee;
+    }
+    @Override
+    public Employee getEmployeeById(Long id) {
+        log.info("[getEmployeeById] >> email: {}", id);
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Employee not found by this id :{} ", id);
+                    return new ResourceNotFoundException("Employee not found by this id :: " + id);
+                });
+
+        log.info("[getEmployeeById] << result: {}", employee.getName());
 
         return employee;
     }
@@ -75,6 +93,11 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
         Employee intern = employeeRepository.save(
                 EmployeeFactory.createEmployee(companyId, employeeForCreateDTO));
 
+        List<Stage> stages = new ArrayList<>(List.of(stageService.createBaseStageForIntern(intern)));
+
+        intern.setStages(stages);
+
+        intern = employeeRepository.save(intern);
         log.info("[createIntern] << result : {}", intern);
 
         return intern;
@@ -149,8 +172,30 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
     @Override
     public EmployeePersonalityResponseDTO setEmployeeInformation(Employee employeeByUserPrincipal, EmployeePersonalityDTO employeePersonalityDTO) {
-        Employee employee =  saveEmployee(EmployeeFactory.updateEmployeeInfo(employeeByUserPrincipal, employeePersonalityDTO));
+        Employee employee = saveEmployee(EmployeeFactory.updateEmployeeInfo(employeeByUserPrincipal, employeePersonalityDTO));
         return employeeMapper.employeeToEmployeePersonalityDTO(employee);
+    }
+
+    @Override
+    public List<EmployeeTeamResponseDTO> getTeam(Company companyByUserPrincipal, FilterTeamDTO filterTeamDTO) {
+        List<Employee> employees = companyByUserPrincipal.getEmployees();
+
+        if (filterTeamDTO.getPostName() != null) {
+            Post post = postService.getPostByNameAndCompanyId(companyByUserPrincipal.getCompanyId(), filterTeamDTO.getPostName());
+            employees = employees.stream().filter(employee -> employee.getPost().equals(post)).toList();
+        }
+        if (filterTeamDTO.getDepartmentName() != null) {
+            Department department = departmentService.getDepartmentByNameAndCompanyId(companyByUserPrincipal.getCompanyId(), filterTeamDTO.getDepartmentName());
+            employees = employees.stream().filter(employee -> employee.getPost().getDepartment().equals(department)).toList();
+        }
+        if (filterTeamDTO.getCityName() != null) {
+            employees = employees.stream().filter(employee -> employee.getCity().equals(filterTeamDTO.getCityName())).toList();
+        }
+        if (filterTeamDTO.getEmployeeName() != null) {
+            employees = employees.stream().filter(employee -> employee.getName().equals(filterTeamDTO.getEmployeeName())).toList();
+        }
+
+        return employees.stream().map(employeeMapper::employeeToTeamDTO).toList();
     }
 
     @Override
@@ -162,11 +207,13 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
             throw new UsernameNotFoundException("User with email: " + email + " not found");
         }
 
+        historyService.createHistoryActionOther(employee, HistoryType.OTHER, "Вход в систему");
+
         log.info("[loadUserByUsername] << JwtEmployee with email: {} successfully loaded", email);
 
         return new org.springframework.security.core.userdetails.User(
                 employee.getEmail(),
                 employee.getPassword(),
-                employee.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()));
+                employee.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).toList());
     }
 }

@@ -4,19 +4,19 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="create-company-knowledge-base-table" author="oladushek">
+    <changeSet id="create-company-articles-table" author="oladushek">
         <sql>
-            CREATE TABLE IF NOT EXISTS public.company_knowledge_base
+            CREATE TABLE IF NOT EXISTS public.company_articles
             (
                 company_id bigserial NOT NULL,
-                knowledge_base_id bigserial NOT NULL,
-                CONSTRAINT company_knowledge_base_pkey PRIMARY KEY (company_id, knowledge_base_id),
-                CONSTRAINT company_knowledge_baseskeyssytsnjmsdfgsdfg FOREIGN KEY (company_id)
+                article_id bigserial NOT NULL,
+                CONSTRAINT companies_articles_pkey PRIMARY KEY (company_id, article_id),
+                CONSTRAINT ghjkghjkghjkghjghjkcompany FOREIGN KEY (company_id)
                 REFERENCES public.companies (company_id) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgasdgfsdfgsdfknowledge_bases FOREIGN KEY (knowledge_base_id)
-                REFERENCES public.knowledge_bases (knowledge_base_id) MATCH SIMPLE
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptqsarticle FOREIGN KEY (article_id)
+                REFERENCES public.articles (article_id) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

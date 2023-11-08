@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class HistoryFactory {
 
-    private HistoryFactory(){}
+    private HistoryFactory() {
+    }
 
     public static History createHistory(Long companyId, Employee employee) {
         //HistoryType сам определяется

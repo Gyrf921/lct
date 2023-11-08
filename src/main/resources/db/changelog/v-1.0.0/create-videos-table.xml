@@ -9,6 +9,9 @@
             CREATE TABLE IF NOT EXISTS public.videos
             (
                 video_id bigserial NOT NULL,
+                company_id bigserial NOT NULL,
+                department_id bigserial NOT NULL,
+                post_id bigserial NOT NULL,
                 url varchar(255),
                 name varchar(255),
                 description text,

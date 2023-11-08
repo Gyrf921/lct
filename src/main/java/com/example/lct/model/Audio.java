@@ -12,12 +12,23 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "audios")
-public class Audio  extends BaseEntity{
+public class Audio extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "audio_id")
     private Long audioId;
+
+    @Column(name = "company_id")
+    private Long companyId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
+    private Department department;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
+    private Post post;
 
     @Column(name = "url")
     private String url;

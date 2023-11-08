@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.util.List;
 
 @Data
@@ -15,7 +14,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 @Entity
 @Table(name = "employees")
-public class Employee  extends BaseEntity{
+public class Employee extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

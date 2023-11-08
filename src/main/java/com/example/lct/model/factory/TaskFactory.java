@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskFactory {
 
-    private TaskFactory(){}
+    private TaskFactory() {
+    }
 
     private static PostServiceImpl postService;
 
@@ -28,7 +29,14 @@ public class TaskFactory {
                 .rate(taskDTO.getRate())
                 .build();
     }
-
+    public static Task createBase(Long companyId, TaskDTO taskDTO) {
+        return Task.builder().companyId(companyId)
+                .name(taskDTO.getName())
+                .description(taskDTO.getDescription())
+                .levelDifficulty(0)
+                .rate(taskDTO.getRate())
+                .build();
+    }
     public static Task update(Task task, TaskDTO taskDTO) {
         return Task.builder()
                 .taskId(task.getTaskId())

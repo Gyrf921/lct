@@ -1,13 +1,10 @@
 package com.example.lct.service;
 
-import com.example.lct.model.Company;
-import com.example.lct.model.Employee;
-import com.example.lct.model.KnowledgeBase;
-import com.example.lct.model.Post;
-import com.example.lct.model.Department;
-import com.example.lct.model.Product;
-import com.example.lct.model.Question;
+import com.example.lct.model.*;
 import com.example.lct.web.dto.request.admin.*;
+import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
+import com.example.lct.web.dto.request.admin.obj.AudioDTO;
+import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
 
 import java.util.List;
@@ -25,7 +22,15 @@ public interface AdminService {
 
     List<Product> createProductToCompany(Company companyByUserPrincipal, ProductsDTO productDTO);
 
-    List<KnowledgeBase> createKnowledgeBaseToCompany(Company companyByUserPrincipal, KnowledgeBaseDTO knowledgeBaseDTO);
+    List<Article> createArticleListToCompany(Company companyByUserPrincipal, ArticlesDTO articlesDTO);
 
+    Article createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
 
+    List<Video> createVideoListToCompany(Company companyByUserPrincipal, VideosDTO videosDTO);
+
+    Video createVideoToCompany(Company companyByUserPrincipal, VideoDTO videoDTO);
+
+    List<Audio> createAudioListToCompany(Company companyByUserPrincipal, AudiosDTO audiosDTO);
+
+    Audio createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO);
 }

@@ -4,15 +4,15 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="create-knowledge-base-audios-table" author="oladushek">
+    <changeSet id="create-company-audios-table" author="oladushek">
         <sql>
-            CREATE TABLE IF NOT EXISTS public.knowledge_base_audios
+            CREATE TABLE IF NOT EXISTS public.company_audios
             (
-                knowledge_base_id bigserial NOT NULL,
+                company_id bigserial NOT NULL,
                 audio_id bigserial NOT NULL,
-                CONSTRAINT knowledge_base_audios_pkey PRIMARY KEY (knowledge_base_id, audio_id),
-                CONSTRAINT ghjkghjkghjkghjghjkghjkghjkdfgh FOREIGN KEY (knowledge_base_id)
-                REFERENCES public.knowledge_bases (knowledge_base_id) MATCH SIMPLE
+                CONSTRAINT company_audios_pkey PRIMARY KEY (company_id, audio_id),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkghcompany FOREIGN KEY (company_id)
+                REFERENCES public.companies (company_id) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
                 CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptaudio FOREIGN KEY (audio_id)

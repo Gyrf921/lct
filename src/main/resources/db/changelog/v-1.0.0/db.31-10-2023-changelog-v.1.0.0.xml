@@ -9,7 +9,6 @@
     <include file="create-departments-table.xml" relativeToChangelogFile="true"/>
     <include file="create-posts-table.xml" relativeToChangelogFile="true"/>
     <include file="create-employees-table.xml" relativeToChangelogFile="true"/>
-    <include file="create-knowledge-bases-table.xml" relativeToChangelogFile="true"/>
     <include file="create-articles-table.xml" relativeToChangelogFile="true"/>
     <include file="create-products-table.xml" relativeToChangelogFile="true"/>
     <include file="create-questions-table.xml" relativeToChangelogFile="true"/>
@@ -20,9 +19,6 @@
     <include file="create-stages-table.xml" relativeToChangelogFile="true"/>
     <include file="create-histories-table.xml" relativeToChangelogFile="true"/>
 
-    <include file="fkey/create-knowledge-base-articles-table.xml" relativeToChangelogFile="true"/>
-    <include file="fkey/create-knowledge-base-audios-table.xml" relativeToChangelogFile="true"/>
-    <include file="fkey/create-knowledge-base-videos-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/create-post-department-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/create-task-stage-table.xml" relativeToChangelogFile="true"/>
 
@@ -30,14 +26,15 @@
     <include file="fkey/company/create-company-department-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/company/create-company-post-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/company/create-company-employee-table.xml" relativeToChangelogFile="true"/>
-    <include file="fkey/company/create-company-knowledge-base-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-articles-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-audios-table.xml" relativeToChangelogFile="true"/>
+    <include file="fkey/company/create-company-videos-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/company/create-company-product-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/company/create-company-question-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/company/create-company-role-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/company/create-company-task-table.xml" relativeToChangelogFile="true"/>
 
     <include file="fkey/employee/create-employee-achievement-table.xml" relativeToChangelogFile="true"/>
-    <!--<include file="fkey/employee/create-employee-department-table.xml" relativeToChangelogFile="true"/>-->
     <include file="fkey/employee/create-employee-post-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/employee/create-employee-article-favourites-table.xml" relativeToChangelogFile="true"/>
     <include file="fkey/employee/create-employee-role-table.xml" relativeToChangelogFile="true"/>

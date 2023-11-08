@@ -87,11 +87,28 @@ public class Company {
 
     @OneToMany
     @JoinTable(
-            name = "company_knowledge_base",
+            name = "company_articles",
             joinColumns = @JoinColumn(name = "company_id"),
-            inverseJoinColumns = @JoinColumn(name = "knowledge_base_id")
+            inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    private List<KnowledgeBase> knowledgeBases;
+    private List<Article> articles;
+
+    @OneToMany
+    @JoinTable(
+            name = "company_videos",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "video_id")
+    )
+    private List<Video> videos;
+
+    @OneToMany
+    @JoinTable(
+            name = "company_audios",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "audio_id")
+    )
+    private List<Audio> audio;
+
 
     @OneToMany
     @JoinTable(

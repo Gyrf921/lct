@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +24,10 @@ public class Stage extends BaseEntity {
 
     @Column(name = "company_id")
     private Long companyId;
-    
+
+    @Column(name = "employee_id")
+    private Long employeeId;
+
     @Column(name = "name")
     private String name;
 

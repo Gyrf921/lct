@@ -2,15 +2,11 @@ package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.mapper.KnowledgeMapper;
-import com.example.lct.model.Article;
 import com.example.lct.model.Audio;
-import com.example.lct.model.KnowledgeBase;
-import com.example.lct.model.Video;
+import com.example.lct.model.Post;
 import com.example.lct.repository.AudioRepository;
-import com.example.lct.repository.VideoRepository;
-import com.example.lct.web.dto.request.admin.KnowledgeBaseDTO;
+import com.example.lct.web.dto.request.admin.AudiosDTO;
 import com.example.lct.web.dto.request.admin.obj.AudioDTO;
-import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +21,9 @@ public class AudioServiceImpl {
     private final AudioRepository audioRepository;
 
     private final KnowledgeMapper knowledgeMapper;
+
+    private final PostServiceImpl postService;
+
     public Audio getAudioById(Long id) {
         Audio audio = audioRepository.findById(id)
                 .orElseThrow(() -> {
@@ -37,33 +36,33 @@ public class AudioServiceImpl {
         return audio;
     }
 
-    public KnowledgeBase createAudiosFromDtoToKnowledgeBase(KnowledgeBase knowledgeBase, KnowledgeBaseDTO knowledgeBaseDTO) {
-
-        List<Audio> audios;
-        if (isKnowledgeBaseHasAudios(knowledgeBase)){
-            audios = knowledgeBase.getAudio();
-            audios.addAll(mapAudiosDtoToAudios(knowledgeBaseDTO.getAudiosDTO()));
-        }
-        else {
-            audios = new ArrayList<>(mapAudiosDtoToAudios(knowledgeBaseDTO.getAudiosDTO()));
-        }
-
-        knowledgeBase.setAudio(audios);
-
-        return knowledgeBase;
+    public List<Audio> createAudios(Long companyId, AudiosDTO audiosDTO) {
+        return audioRepository.saveAll(mapAudiosDtoToAudios(companyId, audiosDTO.getAudioDTOList()));
     }
 
-    private List<Audio> mapAudiosDtoToAudios(List<AudioDTO> audioDTOS){
+    public Audio createAudio(Long companyId, AudioDTO audioDTO) {
+        Post post = postService.getPostByNameAndCompanyId(companyId, audioDTO.getPostName());
+        Audio audio = knowledgeMapper.audioDTOToAudio(audioDTO);
+        audio.setCompanyId(companyId);
+        audio.setPost(post);
+        audio.setDepartment(post.getDepartment());
+
+        return audioRepository.save(audio);
+    }
+
+    private List<Audio> mapAudiosDtoToAudios(Long companyId, List<AudioDTO> audioDTOS) {
 
         List<Audio> audios = new ArrayList<>();
 
-        for (AudioDTO audioDTO : audioDTOS){
-            audios.add(knowledgeMapper.audioDTOToAudio(audioDTO));
+        for (AudioDTO audioDTO : audioDTOS) {
+            Post post = postService.getPostByNameAndCompanyId(companyId, audioDTO.getPostName());
+            Audio audio = knowledgeMapper.audioDTOToAudio(audioDTO);
+            audio.setCompanyId(companyId);
+            audio.setPost(post);
+            audio.setDepartment(post.getDepartment());
+            audios.add(audio);
         }
+        return audios;
+    }
 
-        return audioRepository.saveAll(audios);
-    }
-    private boolean isKnowledgeBaseHasAudios(KnowledgeBase knowledgeBase){
-        return knowledgeBase.getAudio() != null && !knowledgeBase.getAudio().isEmpty();
-    }
 }

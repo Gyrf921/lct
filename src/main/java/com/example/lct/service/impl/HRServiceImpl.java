@@ -1,21 +1,22 @@
 package com.example.lct.service.impl;
 
+import com.example.lct.model.Article;
 import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
-import com.example.lct.model.TaskStage;
 import com.example.lct.model.Task;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
+import com.example.lct.service.StageService;
 import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
-import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,17 +27,25 @@ public class HRServiceImpl implements HRService {
     private final DepartmentServiceImpl departmentService;
 
     private final TaskService taskService;
+    private final StageService stageService;
 
     private final EmployeeService employeeService;
 
     private final CompanyRepository companyRepository;
 
     @Override
-    public List<Task> createTasksPlanForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
-
+    public List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
         List<Task> tasks = taskService.createTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
 
-        companyByUserPrincipal.setTasks(tasks);
+        List<Task> tasksSaved;
+        if (companyByUserPrincipal.getTasks() == null || companyByUserPrincipal.getTasks().isEmpty()) {
+            tasksSaved = new ArrayList<>(tasks);
+        } else {
+            tasksSaved = companyByUserPrincipal.getTasks();
+            tasksSaved.addAll(tasks);
+        }
+
+        companyByUserPrincipal.setTasks(tasksSaved);
 
         companyRepository.save(companyByUserPrincipal);
 
@@ -44,10 +53,26 @@ public class HRServiceImpl implements HRService {
 
         return tasks;
     }
-
     @Override
-    public Task updateTaskInfoForCompany(Long taskId, TaskDTO taskDTO) {
-        return taskService.updateTaskInfo(taskId, taskDTO);
+    public List<Task> createBaseTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
+
+        List<Task> tasks = taskService.createBaseTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
+
+        List<Task> tasksSaved;
+        if (companyByUserPrincipal.getTasks() == null || companyByUserPrincipal.getTasks().isEmpty()) {
+            tasksSaved = new ArrayList<>(tasks);
+        } else {
+            tasksSaved = companyByUserPrincipal.getTasks();
+            tasksSaved.addAll(tasks);
+        }
+
+        companyByUserPrincipal.setTasks(tasksSaved);
+
+        companyRepository.save(companyByUserPrincipal);
+
+        log.info("[createTasksPlanForCompany] << result: {}", tasks);
+
+        return tasks;
     }
 
     @Override
@@ -65,12 +90,6 @@ public class HRServiceImpl implements HRService {
     }
 
     @Override
-    public List<TaskStage> getAllTaskForCuratorChecking(Long curatorId) {
-
-        return taskService.getAllTaskForCuratorChecking(curatorId);
-    }
-
-    @Override
     public List<Employee> getAllInternForHR(Long employeeIdByUserPrincipal) {
         return employeeService.getAllInternByCuratorId(employeeIdByUserPrincipal);
     }
@@ -81,10 +100,11 @@ public class HRServiceImpl implements HRService {
     }
 
     @Override
-    public Employee createStageToIntern(StageDTO stageDTO) {
-
-        //создать Stage, привязать к нему задачи, привязать Stage к сотруднику
-        return null;
+    public Employee createStageToIntern(Long internId, StageDTO stageDTO) {
+        Employee intern = employeeService.getEmployeeById(internId);
+        intern.setStages(List.of(stageService.createStageForIntern(intern, stageDTO)));
+        return employeeService.saveEmployee(intern);
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.lct.web.controller;
+package com.example.lct.web.controller.general;
 
 import com.example.lct.service.EmployeeService;
 import com.example.lct.util.UserPrincipalUtils;

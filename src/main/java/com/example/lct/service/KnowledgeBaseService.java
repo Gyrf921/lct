@@ -1,14 +1,13 @@
 package com.example.lct.service;
 
 import com.example.lct.model.*;
-import com.example.lct.web.dto.request.admin.KnowledgeBaseDTO;
 import com.example.lct.web.dto.response.obj.ArticleResponseDTO;
 import com.example.lct.web.dto.response.obj.MediaContentDTO;
 
 import java.util.List;
 
 public interface KnowledgeBaseService {
-    KnowledgeBase createKnowledgeBaseForCompany(Company company, KnowledgeBaseDTO knowledgeBaseDTO);
+
 
     List<ArticleResponseDTO> getQuestions(Company companyByUserPrincipal);
 

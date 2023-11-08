@@ -9,7 +9,10 @@
             CREATE TABLE IF NOT EXISTS public.articles
             (
                 article_id bigserial NOT NULL,
-                knowledge_base_id bigserial,
+                company_id bigserial NOT NULL,
+                department_id bigserial NOT NULL,
+                post_id bigserial NOT NULL,
+                image_path varchar(255),
                 theme varchar(255),
                 information text,
                 created timestamp,

@@ -1,7 +1,6 @@
 package com.example.lct.repository;
 
 import com.example.lct.model.Audio;
-import com.example.lct.model.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

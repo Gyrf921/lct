@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 @Entity
 @Table(name = "tasks")
-public class Task extends BaseEntity{
+public class Task extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
@@ -25,6 +27,9 @@ public class Task extends BaseEntity{
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
 
+    @Column(name = "image_path")
+    private String imagePath;
+
     @Column(name = "name")
     private String name;
 
@@ -33,6 +38,9 @@ public class Task extends BaseEntity{
 
     @Column(name = "level_difficulty")
     private Integer levelDifficulty;
+
+    @Column(name = "deadline")
+    private Timestamp deadline;
 
     @Column(name = "rate")
     private Long rate;

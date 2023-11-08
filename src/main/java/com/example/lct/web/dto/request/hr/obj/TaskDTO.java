@@ -14,6 +14,8 @@ public class TaskDTO {
 
     private String postName;
 
+    private String imagePath;
+
     private String name;
 
     private String description;

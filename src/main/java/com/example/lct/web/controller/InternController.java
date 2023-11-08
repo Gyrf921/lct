@@ -1,7 +1,7 @@
 package com.example.lct.web.controller;
 
 import com.example.lct.service.InternService;
-import com.example.lct.service.impl.TaskServiceImpl;
+import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.intern.TasksToCheckDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,16 @@ import java.security.Principal;
 public class InternController {
 
     private final InternService internService;
+    private final UserPrincipalUtils userPrincipalUtils;
 
-    @Operation(summary = "sendTasksToChecking")
-    @PostMapping("/tasks")
-    public ResponseEntity<Boolean> sendTasksToChecking(@RequestBody TasksToCheckDTO tasks){
-        return ResponseEntity.ok(internService.sendTasksToCheck(tasks));
+    @Operation(summary = "set Answer To Task")
+    @PostMapping("/tasks/{taskStageId}/answer")
+    public ResponseEntity<Boolean> setAnswerToTask(@PathVariable(value = "taskStageId") Long taskStageId,
+                                                   @RequestBody TasksToCheckDTO answer,
+                                                   Principal principal) {
+
+        return ResponseEntity.ok(internService.setAnswerToTask(taskStageId, answer));
+
     }
 
 

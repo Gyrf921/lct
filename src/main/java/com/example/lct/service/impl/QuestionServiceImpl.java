@@ -1,7 +1,6 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
-import com.example.lct.model.Employee;
 import com.example.lct.model.Question;
 import com.example.lct.repository.QuestionRepository;
 import com.example.lct.web.dto.request.admin.QuestionsDTO;
@@ -38,7 +37,7 @@ public class QuestionServiceImpl {
     public List<Question> saveAllQuestionForCompany(Long companyId, QuestionsDTO questionsDTO) {
         List<Question> questions = new ArrayList<>();
 
-        for (QuestionDTO questionDTO: questionsDTO.getQuestionsDTO()) {
+        for (QuestionDTO questionDTO : questionsDTO.getQuestionsDTO()) {
             //TODO mapper
             questions.add(Question.builder().companyId(companyId)
                     .imagePath(questionDTO.getImagePath())

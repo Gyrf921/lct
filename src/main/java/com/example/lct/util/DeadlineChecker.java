@@ -13,7 +13,7 @@ public class DeadlineChecker {
 
     @Async
     @Scheduled(cron = "0 0 8,14,20 * * *") //В 8:00, 14:00 и 20:00 каждого дня
-    public void scheduleFixedRateTaskAsync(){
+    public void scheduleFixedRateTaskAsync() {
         log.info("Fixed rate task async");
         //Thread.sleep(2000);
     }

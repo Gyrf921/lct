@@ -3,10 +3,10 @@ package com.example.lct.service.impl;
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.model.Article;
 import com.example.lct.model.Employee;
-import com.example.lct.model.KnowledgeBase;
+import com.example.lct.model.Post;
 import com.example.lct.repository.ArticleRepository;
 import com.example.lct.service.EmployeeService;
-import com.example.lct.web.dto.request.admin.KnowledgeBaseDTO;
+import com.example.lct.web.dto.request.admin.ArticlesDTO;
 import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ import java.util.List;
 public class ArticleServiceImpl {
     private final EmployeeService employeeService;
     private final ArticleRepository articleRepository;
+    private final PostServiceImpl postService;
 
 
     public Article getArticleById(Long id) {
@@ -35,47 +36,48 @@ public class ArticleServiceImpl {
         return article;
     }
 
-    public KnowledgeBase createArticlesFromDtoToKnowledgeBase(KnowledgeBase knowledgeBase, KnowledgeBaseDTO knowledgeBaseDTO){
-        List<Article> articles;
-        if (isKnowledgeBaseHasArticles(knowledgeBase)){
-            articles = knowledgeBase.getArticles();
-            articles.addAll(mapArticlesDtoToArticles(knowledgeBase.getKnowledgeBaseId(), knowledgeBaseDTO.getArticlesDTO()));
-        }
-        else {
-            articles = new ArrayList<>(mapArticlesDtoToArticles(knowledgeBase.getKnowledgeBaseId(), knowledgeBaseDTO.getArticlesDTO()));
-        }
-        List<Article> savedArticle = articleRepository.saveAll(articles);
-        knowledgeBase.setArticles(savedArticle);
-        return knowledgeBase;
+    public List<Article> createArticles(Long companyId, ArticlesDTO articlesDTO) {
+        return articleRepository.saveAll(mapArticlesDtoToArticles(companyId, articlesDTO.getArticleDTOList()));
     }
 
-    private boolean isKnowledgeBaseHasArticles(KnowledgeBase knowledgeBase){
-        return knowledgeBase.getArticles() != null && !knowledgeBase.getArticles().isEmpty();
+    public Article createArticle(Long companyId, ArticleDTO articleDTO) {
+        Post post = postService.getPostByNameAndCompanyId(companyId, articleDTO.getPostName());
+        //TODO factory
+        return articleRepository.save(Article.builder()
+                .companyId(companyId)
+                .imagePath(articleDTO.getImagePath())
+                .post(post)
+                .department(post.getDepartment())
+                .theme(articleDTO.getTheme())
+                .information(articleDTO.getInformation()).build());
     }
-    private List<Article> mapArticlesDtoToArticles(Long knowledgeBaseId, List<ArticleDTO> ArticleDTOS){
+
+    private List<Article> mapArticlesDtoToArticles(Long companyId, List<ArticleDTO> articlesDTO) {
 
         List<Article> articleList = new ArrayList<>();
 
-        for (ArticleDTO knowledge : ArticleDTOS){
+        for (ArticleDTO articleDTO : articlesDTO) {
+            Post post = postService.getPostByNameAndCompanyId(companyId, articleDTO.getPostName());
             articleList.add(Article.builder()
-                    .knowledgeBaseId(knowledgeBaseId)
-                    .theme(knowledge.getTheme())
-                    .information(knowledge.getInformation()).build());
+                    .companyId(companyId)
+                    .imagePath(articleDTO.getImagePath())
+                    .post(post)
+                    .department(post.getDepartment())
+                    .theme(articleDTO.getTheme())
+                    .information(articleDTO.getInformation()).build());
         }
 
         return articleList;
     }
 
-
     public void addArticleByIdToFavorite(Employee employee, Long articleId) {
 
         Article article = getArticleById(articleId);
 
-        if (employee.getFavouriteArticles() == null || employee.getFavouriteArticles().isEmpty()){
+        if (employee.getFavouriteArticles() == null || employee.getFavouriteArticles().isEmpty()) {
             List<Article> articles = new ArrayList<>(List.of(article));
             employee.setFavouriteArticles(articles);
-        }
-        else {
+        } else {
             employee.getFavouriteArticles().add(article);
         }
 
@@ -84,11 +86,12 @@ public class ArticleServiceImpl {
 
     public void deleteArticleByIdFromFavorite(Employee employee, Long articleId) {
 
-        if (employee.getFavouriteArticles() == null || employee.getFavouriteArticles().isEmpty()){
+        if (employee.getFavouriteArticles() == null || employee.getFavouriteArticles().isEmpty()) {
             return;
         }
         Article article = getArticleById(articleId);
         employee.getFavouriteArticles().remove(article);
         employeeService.saveEmployee(employee);
     }
+
 }

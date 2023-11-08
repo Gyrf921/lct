@@ -2,13 +2,12 @@ package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.model.Employee;
-import com.example.lct.model.TaskStage;
 import com.example.lct.model.Post;
 import com.example.lct.model.Task;
+import com.example.lct.model.TaskStage;
 import com.example.lct.model.enumformodel.Status;
 import com.example.lct.model.factory.TaskFactory;
 import com.example.lct.repository.TaskRepository;
-import com.example.lct.service.EmployeeService;
 import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
@@ -25,7 +24,8 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-    private final EmployeeService employeeService;
+    private static final int LEVEL_FOR_BASE = 0;
+
     @Override
     public Task getTaskById(Long id) {
         log.info("[getTaskById] >> id: {}", id);
@@ -40,13 +40,29 @@ public class TaskServiceImpl implements TaskService {
 
         return task;
     }
+
     @Override
-    public List<Task> createTasks(Long companyId, TasksDTO tasksDTO){
+    public List<Task> createTasks(Long companyId, TasksDTO tasksDTO) {
 
         List<Task> tasks = new ArrayList<>();
 
-        for (TaskDTO taskDTO: tasksDTO.getTaskDTOList()) {
+        for (TaskDTO taskDTO : tasksDTO.getTaskDTOList()) {
             tasks.add(TaskFactory.create(companyId, taskDTO));
+        }
+
+        tasks = taskRepository.saveAll(tasks);
+
+        log.info("[createTasks] << result: {}", tasks);
+
+        return tasks;
+    }
+    @Override
+    public List<Task> createBaseTasks(Long companyId, TasksDTO tasksDTO) {
+
+        List<Task> tasks = new ArrayList<>();
+
+        for (TaskDTO taskDTO : tasksDTO.getTaskDTOList()) {
+            tasks.add(TaskFactory.createBase(companyId, taskDTO));
         }
 
         tasks = taskRepository.saveAll(tasks);
@@ -66,7 +82,7 @@ public class TaskServiceImpl implements TaskService {
 
         return savedTask;
     }
-    @Override
+
     public List<Task> getTasks(Long companyId, Post post, Integer levelDifficult) {
 
         List<Task> tasks = taskRepository
@@ -78,6 +94,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<Task> getBaseTasks(Long companyId) {
+
+        List<Task> tasks = taskRepository.findAllByCompanyId(companyId).stream()
+                .filter(task -> task.getLevelDifficulty().equals(LEVEL_FOR_BASE)).toList();
+
+        log.info("[getBaseTasks] << result: {}", tasks);
+
+        return tasks;
+    }
+
+    @Override
+    public List<Task> getTasksByListId(List<Long> tasksId) {
+        return tasksId.stream().map(this::getTaskById).toList();
+    }
+
+    @Override
     public TaskStage getEmployeeLinkTaskById(Long id) {
         return null;
     }
@@ -97,19 +129,10 @@ public class TaskServiceImpl implements TaskService {
         return null;
     }
 
+
     //TODO ПРОПАЛА РЕАЛИЗАЦИЯ
-/*    @Override
-    public List<TaskStage> getEmployeeLinkTaskForEmployee(Employee employee, Status status) {
 
-        List<TaskStage> tasks = employeeLinkTaskRepository
-                .findAllByEmployeeAndStatus(employee, status.name());
-
-        log.info("[getEmployeeLinkTaskForEmployee] << result: {}", tasks);
-
-        return tasks;
-    }
-
-    @Override
+   /*@Override
     public List<TaskStage> getAllTaskForCuratorChecking(Long curatorId) {
 
         List<Employee> curatorsEmployees = employeeService.getAllInternByCuratorId(curatorId);
@@ -119,32 +142,8 @@ public class TaskServiceImpl implements TaskService {
         for (Employee intern : curatorsEmployees){
             taskStages.addAll(employeeLinkTaskRepository.findAllByEmployeeAndStatus(intern, Status.REVIEW.name()));
         }
-        //TODO Create some DTO for response
+
         return taskStages;
-    }
-
-    @Override
-    public TaskStage getEmployeeLinkTaskById(Long id) {
-        log.info("[getEmployeeLinkTaskById] >> id: {}", id);
-
-        TaskStage task = employeeLinkTaskRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("TaskStage not found by this id :{} ", id);
-                    return new ResourceNotFoundException("TaskStage not found by this id :: " + id);
-                });
-
-        log.info("[getEmployeeLinkTaskById] << result: {}", task);
-
-        return task;
-    }
-    @Override
-    public TaskStage setStatusTaskForEmployee(Long taskEmployeeId, Status status) {
-        TaskStage taskStage = getEmployeeLinkTaskById(taskEmployeeId);
-
-        taskStage.setStatus(status);
-
-        return employeeLinkTaskRepository.save(taskStage);
     }*/
-
 
 }

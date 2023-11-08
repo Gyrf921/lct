@@ -1,6 +1,5 @@
 package com.example.lct.web.dto.request.admin.obj;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

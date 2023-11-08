@@ -4,7 +4,6 @@ import com.example.lct.exception.InsufficientFundsException;
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Product;
-import com.example.lct.model.Video;
 import com.example.lct.model.enumformodel.HistoryType;
 import com.example.lct.repository.ProductRepository;
 import com.example.lct.service.EmailService;
@@ -12,7 +11,6 @@ import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HistoryService;
 import com.example.lct.web.dto.request.admin.ProductsDTO;
 import com.example.lct.web.dto.request.admin.obj.ProductDTO;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,36 +34,36 @@ public class ProductServiceImpl {
 
         Product product = getProductById(productId);
 
-        if (employee.getAccount() < product.getCost()){
+        if (employee.getAccount() < product.getCost()) {
             throw new InsufficientFundsException("You don't have enough money to buy this product");
         }
 
-        long employeeAccount = employee.getAccount()-product.getCost();
+        long employeeAccount = employee.getAccount() - product.getCost();
 
         employee.setAccount(employeeAccount);
 
         employeeService.saveEmployee(employee);
 
-        historyService.createHistoryActionOther(employee, HistoryType.OTHER, "Покупка товара: " + product.getProductId() );
+        historyService.createHistoryActionOther(employee, HistoryType.OTHER, "Покупка товара: " + product.getProductId());
 
         notifyCuratorAboutBuyingProduct(employee, product);
 
         return true;
     }
 
-    private void notifyCuratorAboutBuyingProduct(Employee employee, Product product){
+    private void notifyCuratorAboutBuyingProduct(Employee employee, Product product) {
         emailService.sendEmail(emailService.createBuyEmail(employee, product));
     }
 
     public List<Product> saveAllProductsForCompany(Long companyId, ProductsDTO productsDTO) {
         List<Product> products = new ArrayList<>();
 
-        for (ProductDTO productDTO: productsDTO.getProductsDTO()) {
+        for (ProductDTO productDTO : productsDTO.getProductsDTO()) {
             products.add(Product.builder().companyId(companyId)
-                            .imagePath(productDTO.getImagePath())
-                            .name(productDTO.getName())
-                            .description(productDTO.getDescription())
-                            .cost(productDTO.getCost()).build());
+                    .imagePath(productDTO.getImagePath())
+                    .name(productDTO.getName())
+                    .description(productDTO.getDescription())
+                    .cost(productDTO.getCost()).build());
         }
 
         List<Product> savedProducts = productRepository.saveAll(products);
@@ -74,6 +72,7 @@ public class ProductServiceImpl {
 
         return savedProducts;
     }
+
     public Product getProductById(Long productId) {
 
         Product product = productRepository.findById(productId)

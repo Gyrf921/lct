@@ -1,7 +1,6 @@
-package com.example.lct.web.controller;
+package com.example.lct.web.controller.general;
 
 import com.example.lct.model.Product;
-import com.example.lct.web.dto.response.ArticleListResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor

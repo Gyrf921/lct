@@ -18,13 +18,14 @@ public class UserPrincipalUtils {
     private final EmployeeService employeeService;
     private final CompanyService companyService;
 
-    public Long getCompanyIdByUserPrincipal(Principal principal){
+    public Long getCompanyIdByUserPrincipal(Principal principal) {
 
         Employee employee = employeeService.getEmployeeByEmail(principal.getName());
         //TODO check on null company Id => Exception Unauthorized
         return employee.getCompanyId();
     }
-    public Company getCompanyByUserPrincipal(Principal principal){
+
+    public Company getCompanyByUserPrincipal(Principal principal) {
 
         Company company = companyService.getCompanyById(getCompanyIdByUserPrincipal(principal));
 
@@ -32,13 +33,15 @@ public class UserPrincipalUtils {
 
         return company;
     }
-    public Long getEmployeeIdByUserPrincipal(Principal principal){
+
+    public Long getEmployeeIdByUserPrincipal(Principal principal) {
 
         Employee employee = employeeService.getEmployeeByEmail(principal.getName());
 
         return employee.getEmployeeId();
     }
-    public Employee getEmployeeByUserPrincipal(Principal principal){
+
+    public Employee getEmployeeByUserPrincipal(Principal principal) {
         return employeeService.getEmployeeByEmail(principal.getName());
     }
 

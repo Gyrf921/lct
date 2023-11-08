@@ -16,6 +16,7 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+
     @Override
     public Role getRoleByName(String roleName) {
         log.info("[getRoleByName] >> roleName: {}", roleName);

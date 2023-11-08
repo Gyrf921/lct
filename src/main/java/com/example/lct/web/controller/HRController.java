@@ -1,8 +1,8 @@
 package com.example.lct.web.controller;
 
 import com.example.lct.model.Employee;
-import com.example.lct.model.TaskStage;
 import com.example.lct.model.Task;
+import com.example.lct.model.TaskStage;
 import com.example.lct.service.HRService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
@@ -47,20 +47,28 @@ public class HRController {
     @PostMapping("/tasks")
     public ResponseEntity<List<Task>> createTasksForCompany(Principal principal, @RequestBody TasksDTO tasksDTO) {
 
-        List<Task> tasks = hrService.createTasksPlanForCompany(
+        List<Task> tasks = hrService.createTasksForCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
 
         return ResponseEntity.ok().body(tasks);
     }
+    @Operation(summary = "add list of task to Company")
+    @PostMapping("/tasks/base")
+    public ResponseEntity<List<Task>> createBaseTasksForCompany(Principal principal, @RequestBody TasksDTO tasksDTO) {
 
-    @Operation(summary = "update task to Company")
+        List<Task> tasks = hrService.createBaseTasksForCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
+
+        return ResponseEntity.ok().body(tasks);
+    }
+/*    @Operation(summary = "update task to Company")
     @PutMapping("/tasks/{taskId}")
     public ResponseEntity<Task> updateTaskInfoForCompany(@PathVariable(value = "taskId") Long taskId, @RequestBody TaskDTO taskDTO) {
 
         Task task = hrService.updateTaskInfoForCompany(taskId, taskDTO);
 
         return ResponseEntity.ok().body(task);
-    }
+    }*/
 
 
     @Operation(summary = "create intern to Company")
@@ -73,7 +81,7 @@ public class HRController {
         return ResponseEntity.ok().body(employee);
     }
 
-
+/*
     @Operation(summary = "get all task for hr checking")
     @GetMapping("/interns/tasks")
     public ResponseEntity<List<TaskStage>> getAllTaskForChecking(Principal principal) {
@@ -83,14 +91,15 @@ public class HRController {
         );
 
         return ResponseEntity.ok().body(tasks);
-    }
+    }*/
 
     @Operation(summary = "create stage to intern")
-    @PostMapping("/intern/stage")
-    public ResponseEntity<Employee> createStageToIntern(Principal principal,
-                                                        @RequestBody StageDTO stageDTO) {
+    @PostMapping("/interns/{internId}/stage")
+    public ResponseEntity<Employee> createStageToIntern(@PathVariable(value = "internId") Long internId,
+                                                        @RequestBody StageDTO stageDTO,
+                                                        Principal principal) {
 
-        Employee employee = hrService.createStageToIntern(stageDTO);
+        Employee employee = hrService.createStageToIntern(internId, stageDTO);
 
         return ResponseEntity.ok().body(employee);
     }

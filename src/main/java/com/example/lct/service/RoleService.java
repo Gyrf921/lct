@@ -17,6 +17,7 @@ public interface RoleService {
 
     /**
      * Retrieve a list of all roles stored in the database.
+     *
      * @return A list of all roles available in the database.
      */
     List<Role> getAllRole();
@@ -30,6 +31,7 @@ public interface RoleService {
 
     /**
      * Create a new role with the provided name and save it in the database.
+     *
      * @param roleName The name for the new role.
      * @return The role object that has been saved in the database.
      */

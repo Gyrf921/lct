@@ -11,6 +11,7 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findAllByCompanyIdAndPostAndLevelDifficulty(Long companyId, Post post, Integer levelDifficulty);
+
     List<Task> findAllByCompanyId(Long companyId);
 
 }

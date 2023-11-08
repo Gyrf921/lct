@@ -4,15 +4,15 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="create-knowledge-base-videos-table" author="oladushek">
+    <changeSet id="create-company-videos-table" author="oladushek">
         <sql>
-            CREATE TABLE IF NOT EXISTS public.knowledge_base_videos
+            CREATE TABLE IF NOT EXISTS public.company_videos
             (
-                knowledge_base_id bigserial NOT NULL,
+                company_id bigserial NOT NULL,
                 video_id bigserial NOT NULL,
-                CONSTRAINT knowledge_base_videos_pkey PRIMARY KEY (knowledge_base_id, video_id),
-                CONSTRAINT ghjkghjkghjkghjghjkghjkghjkdfgh FOREIGN KEY (knowledge_base_id)
-                REFERENCES public.knowledge_bases (knowledge_base_id) MATCH SIMPLE
+                CONSTRAINT knowledge_base_videos_pkey PRIMARY KEY (company_id, video_id),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkghjkdfgh FOREIGN KEY (company_id)
+                REFERENCES public.companies (company_id) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
                 CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptqvideo FOREIGN KEY (video_id)
