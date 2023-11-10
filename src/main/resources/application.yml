@@ -19,8 +19,8 @@ spring:
   datasource:
     #url: jdbc:postgres://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
     #url: jdbc:postgresql:/${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:railway}
-    url: jdbc:postgresql://roundhouse.proxy.rlwy.net:22053/railway
-    password: ${PGPASSWORD:Bg*--D26-aaG32*3BDb2b-34A25b3BAe}
+    url: jdbc:postgresql://roundhouse.proxy.rlwy.net:15352/railway
+    password: ${PGPASSWORD:cCa*f46DACCaGB13eD1*1dBea2B1Aed5}
     username: ${PGUSER:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
