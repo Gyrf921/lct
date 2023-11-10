@@ -41,8 +41,7 @@ public class EmployeeFactory {
 
     /**
      * Create employee or intern
-     *
-     * @param companyId            - companyId where with employee working
+     * @param companyId - companyId where with employee working
      * @param employeeForCreateDTO - DTO with employee data
      * @return return employee or intern, intern has levelDifficulty = 1, account = 100, base stage and curator, for employee this field is null
      */

@@ -36,8 +36,7 @@ public class JwtTokenUtils {
         log.info("[generateToken] >> some userDetails");
         Map<String, Object> claims = new HashMap<>();
         List<String> rolesList = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .map(GrantedAuthority::getAuthority).toList();
 
         claims.put("roles", rolesList);
         claims.put("company", rolesList);
