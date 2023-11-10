@@ -44,36 +44,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    username, null, jwtTokenUtils.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+                    username, null, jwtTokenUtils.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).toList()
             );
             SecurityContextHolder.getContext().setAuthentication(token);
         }
         filterChain.doFilter(request, response);
     }
-
 }
-
- /*    @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-            String token = jwtTokenProvider.resolveToken(request);
-            String email = null;
-            String jwt = null;
-
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                //Authentication auth = jwtTokenProvider.getAuthentication(token);
-
-                try {
-                    email = jwtTokenProvider.getEmail(jwt);
-                } catch (ExpiredJwtException exception) {
-                    log.error("Время жизни токена вышло");
-                    throw new TokenLifetimeExpiredException("Время жизни токена вышло");
-                }
-                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email);
-                    SecurityContextHolder.getContext().setAuthentication(
-                            new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities()));
-                }
-            }
-            filterChain.doFilter(request, response);
-
-        }*/

@@ -4,6 +4,7 @@ import com.example.lct.model.*;
 import com.example.lct.web.dto.request.admin.*;
 import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import com.example.lct.web.dto.request.admin.obj.AudioDTO;
+import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
 
@@ -18,7 +19,9 @@ public interface AdminService {
 
     List<Employee> createEmployeesToCompany(Company companyByUserPrincipal, EmployeeListForCreateDTO employees);
 
-    List<Question> createQuestionToCompany(Company companyByUserPrincipal, QuestionsDTO questionsDTO);
+    List<Question> createQuestionsToCompany(Company company, QuestionsDTO questionsDTO);
+
+    List<Question> createQuestionToCompany(Company company, QuestionDTO questionDTO);
 
     List<Product> createProductToCompany(Company companyByUserPrincipal, ProductsDTO productDTO);
 
@@ -33,4 +36,6 @@ public interface AdminService {
     List<Audio> createAudioListToCompany(Company companyByUserPrincipal, AudiosDTO audiosDTO);
 
     List<Audio> createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO);
+
+
 }

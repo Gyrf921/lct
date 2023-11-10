@@ -6,6 +6,7 @@ import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.admin.*;
 import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import com.example.lct.web.dto.request.admin.obj.AudioDTO;
+import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +81,8 @@ public class AdminController {
 
     @Operation(summary = "add list of Employees To Company")
     @PostMapping("/employees")
-    public ResponseEntity<List<Employee>> createEmployeesToCompany(Principal principal, @RequestBody EmployeeListForCreateDTO employees) {
+    public ResponseEntity<List<Employee>> createEmployeesToCompany(Principal principal,
+                                                                   @RequestBody EmployeeListForCreateDTO employees) {
 
         List<Employee> savedEmployee = adminService.createEmployeesToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), employees);
@@ -89,66 +91,129 @@ public class AdminController {
     }
 
     //region Knowledge base
-    @Operation(summary = "add one Question To Company")
-    @PostMapping("/questions")
-    public ResponseEntity<List<Question>> createQuestionsToCompany(Principal principal, @RequestBody QuestionsDTO questionsDTO) {
+    @Operation(summary = "add questions To Company")
+    @PostMapping("/knowledge-base/questions")
+    public ResponseEntity<List<Question>> createQuestions(Principal principal,
+                                                          @RequestBody QuestionsDTO questionsDTO) {
+        log.info("[AdminController|createQuestions] >> questionsDTO: {}", questionsDTO);
 
-        List<Question> savedQuestions = adminService.createQuestionToCompany(
+        List<Question> savedQuestions = adminService.createQuestionsToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), questionsDTO);
+
+        log.info("[AdminController|createQuestions] << result: {}", savedQuestions);
 
         return ResponseEntity.ok().body(savedQuestions);
     }
 
+    @Operation(summary = "add one Question To Company")
+    @PostMapping("/knowledge-base/question")
+    public ResponseEntity<List<Question>> createQuestion(Principal principal,
+                                                         @RequestBody QuestionDTO questionDTO) {
+        log.info("[AdminController|createQuestion] >> questionDTO: {}", questionDTO);
 
+        List<Question> savedQuestions = adminService.createQuestionToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), questionDTO);
+
+        log.info("[AdminController|createQuestions] << result: {}", savedQuestions);
+        return ResponseEntity.ok().body(savedQuestions);
+    }
 
     @Operation(summary = "add articles to Company")
-    @PostMapping("/articles")
-    public ResponseEntity<List<Article>> createArticleListToCompany(Principal principal, @RequestBody ArticlesDTO articlesDTO) {
+    @PostMapping("/knowledge-base/articles")
+    public ResponseEntity<List<Article>> createArticles(Principal principal,
+                                                           @RequestBody ArticlesDTO articlesDTO) {
+        log.info("[AdminController|createArticles] >> articlesDTO: {}", articlesDTO);
 
-        return ResponseEntity.ok().body(adminService.createArticleListToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), articlesDTO));
+        List<Article> articles = adminService.createArticleListToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), articlesDTO);
+
+        log.info("[AdminController|createArticles] << result: {}", articlesDTO);
+        return ResponseEntity.ok().body(articles);
     }
 
     @Operation(summary = "add one article to Company")
-    @PostMapping("/article")
-    public ResponseEntity<List<Article>> createArticleToCompany(Principal principal, @RequestBody ArticleDTO articleDTO) {
+    @PostMapping("/knowledge-base/article")
+    public ResponseEntity<List<Article>> createArticle(Principal principal,
+                                                       @RequestBody ArticleDTO articleDTO) {
+        log.info("[AdminController|createArticle] >> articlesDTO: {}", articleDTO);
 
-        return ResponseEntity.ok().body(adminService.createArticleToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), articleDTO));
+        List<Article> articles = adminService.createArticleToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), articleDTO);
+
+        log.info("[AdminController|createArticle] << result: {}", articles);
+        return ResponseEntity.ok().body(articles);
     }
 
     @Operation(summary = "add videos to Company")
-    @PostMapping("/videos")
-    public ResponseEntity<List<Video>> createVideoListToCompany(Principal principal, @RequestBody VideosDTO videosDTO) {
+    @PostMapping("/knowledge-base/videos")
+    public ResponseEntity<List<Video>> createVideos(Principal principal,
+                                                       @RequestBody VideosDTO videosDTO) {
+        log.info("[AdminController|createVideos] >> videosDTO: {}", videosDTO);
 
-        return ResponseEntity.ok().body(adminService.createVideoListToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), videosDTO));
+        List<Video> videos = adminService.createVideoListToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), videosDTO);
+
+        log.info("[AdminController|createVideos] << result: {}", videosDTO);
+
+        return ResponseEntity.ok().body(videos);
+
     }
 
     @Operation(summary = "add one video to Company")
-    @PostMapping("/video")
-    public ResponseEntity<List<Video>> createVideoToCompany(Principal principal, @RequestBody VideoDTO videoDTO) {
+    @PostMapping("/knowledge-base/video")
+    public ResponseEntity<List<Video>> createVideo(Principal principal,
+                                                   @RequestBody VideoDTO videoDTO) {
+        log.info("[AdminController|createVideo] >> videoDTO: {}", videoDTO);
 
-        return ResponseEntity.ok().body(adminService.createVideoToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), videoDTO));
+        List<Video> videos = adminService.createVideoToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), videoDTO);
+
+        log.info("[AdminController|createVideo] << result: {}", videos);
+
+        return ResponseEntity.ok().body(videos);
     }
 
     @Operation(summary = "add audios to Company")
-    @PostMapping("/audios")
-    public ResponseEntity<List<Audio>> createAudioListToCompany(Principal principal, @RequestBody AudiosDTO audiosDTO) {
+    @PostMapping("/knowledge-base/audios")
+    public ResponseEntity<List<Audio>> createAudios(Principal principal,
+                                                                @RequestBody AudiosDTO audiosDTO) {
+        log.info("[AdminController|createAudios] >> audiosDTO: {}", audiosDTO);
 
-        return ResponseEntity.ok().body(adminService.createAudioListToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), audiosDTO));
+        List<Audio> audios = adminService.createAudioListToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), audiosDTO);
+
+        log.info("[AdminController|createAudios] << result: {}", audios);
+
+        return ResponseEntity.ok().body(audios);
     }
 
     @Operation(summary = "add one audio to Company")
-    @PostMapping("/audio")
-    public ResponseEntity<List<Audio>> createAudioToCompany(Principal principal, @RequestBody AudioDTO audioDTO) {
+    @PostMapping("/knowledge-base/audio")
+    public ResponseEntity<List<Audio>> createAudio(Principal principal,
+                                                            @RequestBody AudioDTO audioDTO) {
+        log.info("[AdminController|createAudio] >> audioDTO: {}", audioDTO);
 
-        return ResponseEntity.ok().body(adminService.createAudioToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), audioDTO));
+        List<Audio> audios = adminService.createAudioToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), audioDTO);
+
+        log.info("[AdminController|createAudio] << result: {}", audios);
+
+        return ResponseEntity.ok().body(audios);
     }
 
+
+    @Operation(summary = "update article by id")
+    @PutMapping("/knowledge-base/articles")
+    public ResponseEntity<List<Article>> updateArticle(Principal principal,
+                                                        @RequestBody ArticlesDTO articlesDTO) {
+        log.info("[AdminController|createArticles] >> articlesDTO: {}", articlesDTO);
+        //TODO
+        List<Article> articles = adminService.createArticleListToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), articlesDTO);
+
+        log.info("[AdminController|createArticles] << result: {}", articlesDTO);
+        return ResponseEntity.ok().body(articles);
+    }
     //endregion
 
 }

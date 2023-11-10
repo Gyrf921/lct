@@ -53,4 +53,10 @@ public class QuestionServiceImpl {
 
     }
 
+    public Question saveQuestionForCompany(Long companyId, QuestionDTO questionDTO) {
+        return questionRepository.save(Question.builder().companyId(companyId)
+                .imagePath(questionDTO.getImagePath())
+                .theme(questionDTO.getTheme())
+                .answer(questionDTO.getAnswer()).build());
+    }
 }

@@ -7,6 +7,7 @@ import com.example.lct.service.EmployeeService;
 import com.example.lct.web.dto.request.admin.*;
 import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import com.example.lct.web.dto.request.admin.obj.AudioDTO;
+import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
 import com.example.lct.web.dto.response.obj.JwtResponseDTO;
@@ -118,8 +119,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Question> createQuestionToCompany(Company company, QuestionsDTO questionsDTO) {
-
+    public List<Question> createQuestionsToCompany(Company company, QuestionsDTO questionsDTO) {
         List<Question> questions = questionService.saveAllQuestionForCompany(company.getCompanyId(), questionsDTO);
 
         List<Question> totalQuestions;
@@ -138,6 +138,28 @@ public class AdminServiceImpl implements AdminService {
         log.info("[createQuestionToCompany] << result: {}", savedCompany);
 
         return questions;
+    }
+    @Override
+    public List<Question> createQuestionToCompany(Company company, QuestionDTO questionsDTO) {
+
+        Question question = questionService.saveQuestionForCompany(company.getCompanyId(), questionsDTO);
+
+        List<Question> totalQuestions;
+
+        if (company.getQuestions() == null || company.getQuestions().isEmpty()) {
+            totalQuestions = new ArrayList<>(List.of(question));
+        } else {
+            totalQuestions = company.getQuestions();
+            totalQuestions.add(question);
+        }
+
+        company.setQuestions(totalQuestions);
+
+        Company savedCompany = companyService.saveCompany(company);
+
+        log.info("[createQuestionToCompany] << result: {}", savedCompany);
+
+        return savedCompany.getQuestions();
     }
 
     @Override
@@ -276,5 +298,7 @@ public class AdminServiceImpl implements AdminService {
 
         return company.getAudio();
     }
+
+
 
 }

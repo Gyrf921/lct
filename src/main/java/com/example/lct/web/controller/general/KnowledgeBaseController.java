@@ -52,7 +52,7 @@ public class KnowledgeBaseController {
     }
 
     @Operation(summary = "get all favourites article")
-    @GetMapping("/favourites/articles")
+    @GetMapping("/favorites/articles")
     public ResponseEntity<List<ArticleResponseDTO>> getFavouritesArticles(Principal principal) {
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getFavouritesArticles(userPrincipalUtils.getEmployeeByUserPrincipal(principal));
@@ -179,7 +179,7 @@ public class KnowledgeBaseController {
     }
 
     @Operation(summary = "add article to favourites")
-    @PostMapping("/favourites/articles/{articleId}")
+    @PostMapping("/favorites/articles/{articleId}")
     public ResponseEntity<Boolean> addArticleByIdToFavorite(@PathVariable(value = "articleId") Long articleId,
                                                             Principal principal) {
         Boolean isSaved
@@ -189,7 +189,7 @@ public class KnowledgeBaseController {
     }
 
     @Operation(summary = "delete article to favourites")
-    @DeleteMapping("/favourites/articles/{articleId}")
+    @DeleteMapping("/favorites/articles/{articleId}")
     public ResponseEntity<Boolean> deleteArticleByIdFromFavorite(@PathVariable(value = "articleId") Long articleId,
                                                                  Principal principal) {
         Boolean isDeleted
