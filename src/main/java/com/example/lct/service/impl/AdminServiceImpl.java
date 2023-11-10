@@ -46,10 +46,10 @@ public class AdminServiceImpl implements AdminService {
 
         companyService.saveAdmin(company, employee);
 
-        String token = employeeService.createTokenForUser(employee.getEmail());
+        JwtResponseDTO token = employeeService.createTokenForUser(employee.getEmail());
 
         CompanyAndJwtResponseDTO companyAndJwtResponseDTO =
-                new CompanyAndJwtResponseDTO(registrationCompanyDTO.getCompanyDTO(), new JwtResponseDTO(token));
+                new CompanyAndJwtResponseDTO(registrationCompanyDTO.getCompanyDTO(), token);
 
         log.info("[createCompany] << result: {}", companyAndJwtResponseDTO);
 
