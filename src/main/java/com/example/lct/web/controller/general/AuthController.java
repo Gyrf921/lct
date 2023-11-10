@@ -1,5 +1,6 @@
 package com.example.lct.web.controller.general;
 
+import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.model.Employee;
 import com.example.lct.service.AdminService;
 import com.example.lct.service.EmployeeService;
@@ -46,7 +47,7 @@ public class AuthController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authorizationUserDTO.getEmail(), authorizationUserDTO.getPassword()));
         } catch (BadCredentialsException badCredentialsException) {
             log.error(badCredentialsException.getMessage());
-            throw badCredentialsException;
+            throw new ResourceNotFoundException(badCredentialsException.getMessage());
         }
 
         // TODO rename
