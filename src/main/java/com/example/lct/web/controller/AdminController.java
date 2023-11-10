@@ -8,6 +8,7 @@ import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import com.example.lct.web.dto.request.admin.obj.AudioDTO;
 import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
+import com.example.lct.web.dto.response.obj.ArticleResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -150,11 +151,11 @@ public class AdminController {
 
     @Operation(summary = "add one article to Company")
     @PostMapping("/knowledge-base/article")
-    public ResponseEntity<List<Article>> createArticle(Principal principal,
-                                                       @RequestBody ArticleDTO articleDTO) {
+    public ResponseEntity<List<ArticleResponseDTO>> createArticle(Principal principal,
+                                                                  @RequestBody ArticleDTO articleDTO) {
         log.info("[AdminController|createArticle] >> articlesDTO: {}", articleDTO);
 
-        List<Article> articles = adminService.createArticleToCompany(
+        List<ArticleResponseDTO> articles = adminService.createArticleToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), articleDTO);
 
         log.info("[AdminController|createArticle] << result: {}", articles);
@@ -164,7 +165,7 @@ public class AdminController {
     @Operation(summary = "add videos to Company")
     @PostMapping("/knowledge-base/videos")
     public ResponseEntity<List<Video>> createVideos(Principal principal,
-                                                       @RequestBody VideosDTO videosDTO) {
+                                                    @RequestBody VideosDTO videosDTO) {
         log.info("[AdminController|createVideos] >> videosDTO: {}", videosDTO);
 
         List<Video> videos = adminService.createVideoListToCompany(

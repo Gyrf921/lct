@@ -1,5 +1,6 @@
 package com.example.lct.service.impl;
 
+import com.example.lct.mapper.KnowledgeMapper;
 import com.example.lct.model.*;
 import com.example.lct.service.AdminService;
 import com.example.lct.service.CompanyService;
@@ -11,6 +12,7 @@ import com.example.lct.web.dto.request.admin.obj.AudioDTO;
 import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
+import com.example.lct.web.dto.response.obj.ArticleResponseDTO;
 import com.example.lct.web.dto.response.obj.JwtResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,8 @@ public class AdminServiceImpl implements AdminService {
     private final ArticleServiceImpl articleService;
     private final VideoServiceImpl videoService;
     private final AudioServiceImpl audioService;
+
+    private final KnowledgeMapper knowledgeMapper;
 
 
     @Override
@@ -207,7 +211,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Article> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO) {
+    public List<ArticleResponseDTO> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO) {
         Article articleSaved = articleService.createArticle(companyByUserPrincipal.getCompanyId(), articleDTO);
 
         List<Article> articles;
@@ -222,7 +226,7 @@ public class AdminServiceImpl implements AdminService {
 
         Company company = companyService.saveCompany(companyByUserPrincipal);
 
-        return company.getArticles();
+        return company.getArticles().stream().map(knowledgeMapper::articleToArticleResponseDTO).toList();
     }
     @Override
     public List<Article> updateArticle(Long articleId, ArticleDTO articleDTO) {

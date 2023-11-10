@@ -7,6 +7,7 @@ import com.example.lct.web.dto.request.admin.obj.AudioDTO;
 import com.example.lct.web.dto.request.admin.obj.QuestionDTO;
 import com.example.lct.web.dto.request.admin.obj.VideoDTO;
 import com.example.lct.web.dto.response.CompanyAndJwtResponseDTO;
+import com.example.lct.web.dto.response.obj.ArticleResponseDTO;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface AdminService {
 
     List<Article> createArticleListToCompany(Company companyByUserPrincipal, ArticlesDTO articlesDTO);
 
-    List<Article> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
+    List<ArticleResponseDTO> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
 
     List<Article> updateArticle(Long articleId, ArticleDTO articleDTO);
 
