@@ -19,6 +19,7 @@ import com.example.lct.web.dto.request.admin.FilterTeamDTO;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.response.EmployeePersonalityResponseDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
+import com.example.lct.web.dto.response.obj.JwtResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -77,14 +78,16 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
-    public String createTokenForUser(String email) {
+    public JwtResponseDTO createTokenForUser(String email) {
         log.info("[createTokenForUser] >> create token for email: {}", email);
-
+        Employee employee = getEmployeeByEmail(email);
         UserDetails userDetails = loadUserByUsername(email);
 
         log.info("[createTokenForUser] << result is token");
 
-        return jwtTokenUtils.generateToken(userDetails);
+        String token = jwtTokenUtils.generateToken(userDetails);
+
+        return new JwtResponseDTO(token, employee.getRoles().toString());
     }
 
     @Override
@@ -105,13 +108,26 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
     @Override
     public List<Employee> getAllInternByCuratorId(Long employeeIdByUserPrincipal) {
+
         List<Employee> interns = employeeRepository.findAllByCuratorId(employeeIdByUserPrincipal);
 
         log.info("[getAllInternByCuratorId] << result : {}", interns);
 
         return interns;
     }
+    @Override
+    public List<Employee> getAllIntern() {
+        List<Role> rolesIntern = roleService.getRolesByName("ROLE_INTERN");
 
+        List<Employee> interns= new ArrayList<>();
+        for (Role role : rolesIntern){
+            interns.addAll(employeeRepository.findAllByRolesContaining(role));
+        }
+
+        log.info("[getAllIntern] << result : {}", interns);
+
+        return interns;
+    }
     @Override
     public List<Employee> createEmployeesByAdmin(Long companyId, EmployeeListForCreateDTO employeesByAdmin) {
 

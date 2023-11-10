@@ -20,9 +20,8 @@ public class InternServiceImpl implements InternService {
     private final StageService stageService;
 
     @Override
-    public Boolean setAnswerToTask(Long taskStageId, TasksToCheckDTO answer) {
-        stageService.setAnswerToTask(taskStageId, answer.getAnswerUrl());
-        return true;
+    public TaskStage setAnswerToTask(Long taskStageId, TasksToCheckDTO answer) {
+        return stageService.setAnswerToTask(taskStageId, answer.getAnswerUrl());
     }
 
     @Override

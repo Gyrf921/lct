@@ -50,11 +50,11 @@ public class AuthController {
         }
 
         // TODO rename
-        String token = employeeService.createTokenForUser(authorizationUserDTO.getEmail());
+        JwtResponseDTO token = employeeService.createTokenForUser(authorizationUserDTO.getEmail());
 
-        log.info("[createToken] << result is token: {}", token);
+        log.info("[createToken] << result is token: {}", token.getRoleName());
 
-        return ResponseEntity.ok().body(new JwtResponseDTO(token));
+        return ResponseEntity.ok().body(token);
     }
 
     @Operation(summary = "Registration and create Token")
@@ -67,10 +67,10 @@ public class AuthController {
 
         Employee employee = employeeService.registrationEmployee(registrationUserDTO);
 
-        String token = employeeService.createTokenForUser(employee.getEmail());
+        JwtResponseDTO token = employeeService.createTokenForUser(employee.getEmail());
         log.info("[createUser] << result is token");
 
-        return ResponseEntity.ok().body(new JwtResponseDTO(token));
+        return ResponseEntity.ok().body(token);
     }
 
     @Operation(summary = "registration Company and create admin")

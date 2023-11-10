@@ -1,6 +1,5 @@
 package com.example.lct.service.impl;
 
-import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.model.Role;
 import com.example.lct.repository.RoleRepository;
 import com.example.lct.service.RoleService;
@@ -18,17 +17,13 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
-    public Role getRoleByName(String roleName) {
-        log.info("[getRoleByName] >> roleName: {}", roleName);
+    public List<Role> getRolesByName(String roleName) {
+        log.info("[getRolesByName] >> roleName: {}", roleName);
 
-        Role role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> {
-                    log.error("Role not found by this name :{} ", roleName);
-                    return new ResourceNotFoundException("Role not found by this name :: " + roleName);
-                });
+        List<Role> roles = roleRepository.findAllByName(roleName);
 
-        log.info("[getRoleByName] << result: {}", role);
-        return role;
+        log.info("[getRolesByName] << result: {}", roles);
+        return roles;
     }
 
     @Override

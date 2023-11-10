@@ -35,6 +35,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all company questions")
     @GetMapping("/questions")
     public ResponseEntity<ArticleListResponseDTO> getQuestions(Principal principal) {
+
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getQuestions(userPrincipalUtils.getCompanyByUserPrincipal(principal));
         return ResponseEntity.ok().body(new ArticleListResponseDTO(articleListResponseDTO));

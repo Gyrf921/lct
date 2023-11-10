@@ -9,11 +9,14 @@ import java.util.List;
 public interface InternService {
 
 
-    Boolean setAnswerToTask(Long taskStageId, TasksToCheckDTO answer);
+
+    TaskStage setAnswerToTask(Long taskStageId, TasksToCheckDTO answer);
 
     TaskStage getTaskStageById(Long taskStageId);
 
     List<TaskStage> getTasksStageForEmployee(Employee employee);
 
     List<TaskStage> getTasksStagesForEmployeeByLevelDifficult(Employee employee, Integer stageLevelDifficult);
+
+
 }

@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface RoleService {
     /**
-     * Find a role in the database by its name.
+     * Find a roles in the database by its name.
      *
      * @param roleName The name of the role to find.
      * @return The role object from the database with the specified name.
      */
-    Role getRoleByName(String roleName);
+    List<Role> getRolesByName(String roleName);
 
     Role getRoleByNameAndCompany(Long companyId, String roleName);
 

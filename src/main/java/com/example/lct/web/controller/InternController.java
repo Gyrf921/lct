@@ -1,5 +1,8 @@
 package com.example.lct.web.controller;
 
+import com.example.lct.model.TaskStage;
+import com.example.lct.model.enumformodel.HistoryType;
+import com.example.lct.service.HistoryService;
 import com.example.lct.service.InternService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.intern.TasksToCheckDTO;
@@ -19,18 +22,28 @@ public class InternController {
 
     private final InternService internService;
     private final UserPrincipalUtils userPrincipalUtils;
+    private final HistoryService historyService;
 
     @Operation(summary = "set Answer To Task")
     @PostMapping("/tasks/{taskStageId}/answer")
-    public ResponseEntity<Boolean> setAnswerToTask(@PathVariable(value = "taskStageId") Long taskStageId,
+    public ResponseEntity<TaskStage> setAnswerAndMarkTaskLikeCompleted(@PathVariable(value = "taskStageId") Long taskStageId,
                                                    @RequestBody TasksToCheckDTO answer,
                                                    Principal principal) {
-
-        return ResponseEntity.ok(internService.setAnswerToTask(taskStageId, answer));
-
+        TaskStage taskStage = internService.setAnswerToTask(taskStageId, answer);
+        historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());
+        return ResponseEntity.ok().body(taskStage);
     }
 
+/*    @Operation(summary = "mark stage like completed")
+    @PostMapping("/stage/{stageId}")
+    public ResponseEntity<TaskStage> setTestAnswerAndMarkStageLikeCompleted(@PathVariable(value = "stageId") Long stageId,
+                                                                             @RequestBody TasksToCheckDTO answer,
+                                                                             Principal principal) {
 
+        TaskStage taskStage = internService.setAnswerToTask(taskStageId, answer);
+        historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());
+        return ResponseEntity.ok().body(taskStage);
+    }*/
 
     /*
     вывод всех stage текущих задач пользователя из stage в название, статус, дата создания

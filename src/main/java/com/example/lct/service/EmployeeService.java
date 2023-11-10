@@ -9,6 +9,7 @@ import com.example.lct.web.dto.request.admin.FilterTeamDTO;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.response.EmployeePersonalityResponseDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
+import com.example.lct.web.dto.response.obj.JwtResponseDTO;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ public interface EmployeeService {
 
     Employee getEmployeeById(Long id);
 
-    String createTokenForUser(String email);
+    JwtResponseDTO createTokenForUser(String email);
+
+    List<Employee> getAllIntern();
 
     List<Employee> createEmployeesByAdmin(Long companyId, EmployeeListForCreateDTO employeesByAdmin);
 

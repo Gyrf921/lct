@@ -3,7 +3,9 @@ package com.example.lct.web.controller;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Task;
 import com.example.lct.model.TaskStage;
+import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
+import com.example.lct.service.InternService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
@@ -25,6 +27,8 @@ import java.util.List;
 public class HRController {
 
     private final HRService hrService;
+    private final EmployeeService employeeService;
+    private final InternService internService;
     private final UserPrincipalUtils userPrincipalUtils;
 
     @Operation(summary = "get all interns for hr")
@@ -41,6 +45,7 @@ public class HRController {
     public ResponseEntity<List<Task>> getAllTasksForCompany(Principal principal) {
         return ResponseEntity.ok().body(hrService.getAllTasksForCompany(userPrincipalUtils.getCompanyByUserPrincipal(principal)));
     }
+
 
 
     @Operation(summary = "add list of task to Company")
@@ -61,15 +66,6 @@ public class HRController {
 
         return ResponseEntity.ok().body(tasks);
     }
-/*    @Operation(summary = "update task to Company")
-    @PutMapping("/tasks/{taskId}")
-    public ResponseEntity<Task> updateTaskInfoForCompany(@PathVariable(value = "taskId") Long taskId, @RequestBody TaskDTO taskDTO) {
-
-        Task task = hrService.updateTaskInfoForCompany(taskId, taskDTO);
-
-        return ResponseEntity.ok().body(task);
-    }*/
-
 
     @Operation(summary = "create intern to Company")
     @PostMapping("/intern")
@@ -81,28 +77,24 @@ public class HRController {
         return ResponseEntity.ok().body(employee);
     }
 
-/*
-    @Operation(summary = "get all task for hr checking")
-    @GetMapping("/interns/tasks")
-    public ResponseEntity<List<TaskStage>> getAllTaskForChecking(Principal principal) {
-
-        List<TaskStage> tasks = hrService.getAllTaskForCuratorChecking(
-                userPrincipalUtils.getEmployeeIdByUserPrincipal(principal)
-        );
-
-        return ResponseEntity.ok().body(tasks);
-    }*/
 
     @Operation(summary = "create stage to intern")
     @PostMapping("/interns/{internId}/stage")
     public ResponseEntity<Employee> createStageToIntern(@PathVariable(value = "internId") Long internId,
                                                         @RequestBody StageDTO stageDTO,
                                                         Principal principal) {
-
         Employee employee = hrService.createStageToIntern(internId, stageDTO);
 
         return ResponseEntity.ok().body(employee);
     }
+
+    @Operation(summary = "get all tasks for Intern")
+    @GetMapping("/tasks/{internId}")
+    public ResponseEntity<List<TaskStage>> getStagesForIntern(@PathVariable(value = "internId") Long internId,
+                                                              Principal principal) {
+        return ResponseEntity.ok().body(internService.getTasksStageForEmployee(employeeService.getEmployeeById(internId)));
+    }
+
 
     /* TODO
      * + добавление задач по департаментам на каждый уровень (6) (Можно только создать план и сразу приписать задачи)

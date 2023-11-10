@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class JwtResponseDTO {
     private String token;
+    private String roleName;
 }
