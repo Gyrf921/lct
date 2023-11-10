@@ -77,7 +77,7 @@ public class KnowledgeBaseController {
 
     @Operation(summary = "get all company questions")
     @GetMapping("/questions/{questionId}")
-    public ResponseEntity<?> getQuestionById(@PathVariable(value = "questionId") Long questionId,
+    public ResponseEntity<Question> getQuestionById(@PathVariable(value = "questionId") Long questionId,
                                              Principal principal) {
 
         Question question = knowledgeBaseService.getQuestionById(questionId);
