@@ -183,7 +183,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Article createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO) {
+    public List<Article> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO) {
         Article articleSaved = articleService.createArticle(companyByUserPrincipal.getCompanyId(), articleDTO);
 
         List<Article> articles;
@@ -196,9 +196,9 @@ public class AdminServiceImpl implements AdminService {
 
         companyByUserPrincipal.setArticles(articles);
 
-        companyService.saveCompany(companyByUserPrincipal);
+        Company company = companyService.saveCompany(companyByUserPrincipal);
 
-        return articleSaved;
+        return company.getArticles();
     }
 
     @Override
@@ -221,7 +221,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Video createVideoToCompany(Company companyByUserPrincipal, VideoDTO videoDTO) {
+    public List<Video> createVideoToCompany(Company companyByUserPrincipal, VideoDTO videoDTO) {
         Video videoSaved = videoService.createVideo(companyByUserPrincipal.getCompanyId(), videoDTO);
 
         List<Video> videos;
@@ -234,9 +234,9 @@ public class AdminServiceImpl implements AdminService {
 
         companyByUserPrincipal.setVideos(videos);
 
-        companyService.saveCompany(companyByUserPrincipal);
+        Company company = companyService.saveCompany(companyByUserPrincipal);
 
-        return videoSaved;
+        return company.getVideos();
     }
 
     @Override
@@ -259,7 +259,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Audio createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO) {
+    public List<Audio> createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO) {
         Audio audioSaved = audioService.createAudio(companyByUserPrincipal.getCompanyId(), audioDTO);
 
         List<Audio> audios;
@@ -272,9 +272,9 @@ public class AdminServiceImpl implements AdminService {
 
         companyByUserPrincipal.setAudio(audios);
 
-        companyService.saveCompany(companyByUserPrincipal);
+        Company company =companyService.saveCompany(companyByUserPrincipal);
 
-        return audioSaved;
+        return company.getAudio();
     }
 
 }

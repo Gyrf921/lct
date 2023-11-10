@@ -103,5 +103,10 @@ public class TaskServiceImpl implements TaskService {
         return tasks;
     }
 
+    @Override
+    public List<Task> getTasksByListId(List<Long> tasksId) {
+        return null;
+    }
+
 
 }

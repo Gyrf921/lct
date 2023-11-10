@@ -24,6 +24,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final UserPrincipalUtils userPrincipalUtils;
+
     //region Company
     @Operation(summary = "get company for admin")
     @GetMapping("/company")
@@ -75,7 +76,6 @@ public class AdminController {
         log.info("[AdminController|createPosts] << result: {}", savedProducts);
         return ResponseEntity.ok().body(savedProducts);
     }
-
     //endregion
 
     @Operation(summary = "add list of Employees To Company")
@@ -88,6 +88,7 @@ public class AdminController {
         return ResponseEntity.ok().body(savedEmployee);
     }
 
+    //region Knowledge base
     @Operation(summary = "add one Question To Company")
     @PostMapping("/questions")
     public ResponseEntity<List<Question>> createQuestionsToCompany(Principal principal, @RequestBody QuestionsDTO questionsDTO) {
@@ -110,7 +111,7 @@ public class AdminController {
 
     @Operation(summary = "add one article to Company")
     @PostMapping("/article")
-    public ResponseEntity<Article> createArticleToCompany(Principal principal, @RequestBody ArticleDTO articleDTO) {
+    public ResponseEntity<List<Article>> createArticleToCompany(Principal principal, @RequestBody ArticleDTO articleDTO) {
 
         return ResponseEntity.ok().body(adminService.createArticleToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), articleDTO));
@@ -126,8 +127,8 @@ public class AdminController {
 
     @Operation(summary = "add one video to Company")
     @PostMapping("/video")
-    public ResponseEntity<Video> createVideoToCompany(Principal principal, @RequestBody VideoDTO videoDTO) {
-        //TODO all video
+    public ResponseEntity<List<Video>> createVideoToCompany(Principal principal, @RequestBody VideoDTO videoDTO) {
+
         return ResponseEntity.ok().body(adminService.createVideoToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), videoDTO));
     }
@@ -142,10 +143,12 @@ public class AdminController {
 
     @Operation(summary = "add one audio to Company")
     @PostMapping("/audio")
-    public ResponseEntity<Audio> createAudioToCompany(Principal principal, @RequestBody AudioDTO audioDTO) {
+    public ResponseEntity<List<Audio>> createAudioToCompany(Principal principal, @RequestBody AudioDTO audioDTO) {
 
         return ResponseEntity.ok().body(adminService.createAudioToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), audioDTO));
     }
+
+    //endregion
 
 }

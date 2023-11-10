@@ -21,4 +21,5 @@ public interface TaskService {
     List<Task> getBaseTasks(Long companyId);
 
 
+    List<Task> getTasksByListId(List<Long> tasksId);
 }

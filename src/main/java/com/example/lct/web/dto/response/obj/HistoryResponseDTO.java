@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -22,5 +23,5 @@ public class HistoryResponseDTO {
 
     private String name;
 
-    public Timestamp created;
+    public Date created;
 }

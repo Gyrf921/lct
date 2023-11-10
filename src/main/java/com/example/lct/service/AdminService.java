@@ -24,13 +24,13 @@ public interface AdminService {
 
     List<Article> createArticleListToCompany(Company companyByUserPrincipal, ArticlesDTO articlesDTO);
 
-    Article createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
+    List<Article> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
 
     List<Video> createVideoListToCompany(Company companyByUserPrincipal, VideosDTO videosDTO);
 
-    Video createVideoToCompany(Company companyByUserPrincipal, VideoDTO videoDTO);
+    List<Video> createVideoToCompany(Company companyByUserPrincipal, VideoDTO videoDTO);
 
     List<Audio> createAudioListToCompany(Company companyByUserPrincipal, AudiosDTO audiosDTO);
 
-    Audio createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO);
+    List<Audio> createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO);
 }
