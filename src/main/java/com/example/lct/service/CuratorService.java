@@ -5,6 +5,7 @@ import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
+import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 
@@ -13,9 +14,11 @@ import java.util.List;
 public interface CuratorService {
 
     List<TaskForCheckDTO> getTaskStagesForCuratorChecking(Long curatorId);
-    List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO);
 
-    List<Task> createBaseTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO);
+    List<Task> createTasks(Company company, List<TaskDTO> tasksDTO);
+
+    List<Task> updateTask(Company companyByUserPrincipal, Long taskId, TaskDTO taskDTO);
+
 
     Employee createIntern(Company companyByUserPrincipal, EmployeeForCreateDTO employeeForCreateDTO);
 
@@ -28,4 +31,5 @@ public interface CuratorService {
     Stage setTestToStage(Long stageId, TestDTO testDTO);
 
     void evaluateInternAnswer(Long taskId, Boolean isAccepted);
+
 }

@@ -111,7 +111,7 @@ public class StageServiceImpl implements StageService {
                     .stage(stage)
                     .task(task)
                     .status(Status.OPENED)
-                    .deadline(task.getDeadline()).build());
+                    .deadline(stage.getDeadline()).build());
         }
         taskStageRepository.saveAll(taskStages);
 

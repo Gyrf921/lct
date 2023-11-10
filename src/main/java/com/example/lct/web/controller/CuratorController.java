@@ -30,15 +30,6 @@ public class CuratorController {
     private final EmployeeService employeeService;
     private final InternService internService;
     private final UserPrincipalUtils userPrincipalUtils;
-/*
---Вывод задания по Id (дубль)
-
-Создание списка задач(общие)
-Создание одной задачи(общие)
-Редактирование задач(общие)
-Добавление базовых заданий(общие) (none Post)
-
-*/
 
     //region Intern
     @Operation(summary = "get curator interns")
@@ -122,7 +113,6 @@ public class CuratorController {
     }
     //endregion
 
-
     //region tasks
     @Operation(summary = "get all company tasks")
     @GetMapping("/tasks")
@@ -136,49 +126,42 @@ public class CuratorController {
         return ResponseEntity.ok().body(company.getTasks());
     }
 
-    @Operation(summary = "create one task")
+    @Operation(summary = "create task")
     @PostMapping("/tasks")
     public ResponseEntity<List<Task>> createTasks(Principal principal, @RequestBody TasksDTO tasksDTO) {
+        log.info("[CuratorController|createTasks] >> user principal: {}, tasksDTO: {}", principal.getName(), tasksDTO);
 
-        List<Task> tasks = curatorService.createTasksForCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
+        List<Task> tasks = curatorService.createTasks(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO.getTaskDTOList());
 
-        return ResponseEntity.ok().body(tasks);
-    }
-  /*
-    @Operation(summary = "create tasks")
-    @PostMapping("/tasks")
-    public ResponseEntity<List<Task>> createTasks(Principal principal, @RequestBody TaskDTO tasksDTO) {
-
-        List<Task> tasks = hrService.createTasksForCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
-
+        log.info("[CuratorController|createTasks] << result: {}", tasks);
         return ResponseEntity.ok().body(tasks);
     }
 
+    @Operation(summary = "create one tasks")
+    @PostMapping("/task")
+    public ResponseEntity<List<Task>> createTask(Principal principal, @RequestBody TaskDTO taskDTO) {
+        log.info("[CuratorController|createTask] >> user principal: {}, taskDTO: {}", principal.getName(), taskDTO);
 
+        List<Task> tasks = curatorService.createTasks(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), List.of(taskDTO));
 
-    //endregion
-
-
-
-    @Operation(summary = "add list of task to Company")
-    @PostMapping("/tasks/base")
-    public ResponseEntity<List<Task>> createBaseTasksForCompany(Principal principal, @RequestBody TasksDTO tasksDTO) {
-
-        List<Task> tasks = hrService.createBaseTasksForCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
-
+        log.info("[CuratorController|createTask] << result: {}", tasks);
         return ResponseEntity.ok().body(tasks);
     }
 
+    @Operation(summary = "update task")
+    @PutMapping("/tasks/{taskId}")
+    public ResponseEntity<List<Task>> updateTask(@PathVariable(name = "taskId") Long taskId,
+                                                  Principal principal,
+                                                  @RequestBody TaskDTO taskDTO) {
+        log.info("[CuratorController|updateTask] >> taskId: {}, user principal: {}, tasksDTO: {}", taskId, principal.getName(), taskDTO);
 
-    @Operation(summary = "get all tasks by company")
-    @GetMapping("/tasks")
-    public ResponseEntity<List<Task>> getAllTasksForCompany(Principal principal) {
-        return ResponseEntity.ok().body(hrService.getAllTasksForCompany(userPrincipalUtils.getCompanyByUserPrincipal(principal)));
+        List<Task> tasks = curatorService.updateTask(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), taskId, taskDTO);
+
+        log.info("[CuratorController|updateTask] << result: {}", tasks);
+
+        return ResponseEntity.ok().body(tasks);
     }
-
-     */
-
 }

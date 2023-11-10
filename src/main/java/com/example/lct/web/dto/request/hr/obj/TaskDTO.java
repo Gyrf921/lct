@@ -22,8 +22,6 @@ public class TaskDTO {
 
     private String description;
 
-    private Timestamp deadline;
-
     @Max(value = 6)
     private Integer levelDifficulty;
 

@@ -39,11 +39,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> createTasks(Long companyId, TasksDTO tasksDTO) {
-
+    public List<Task> createTasks(Long companyId, List<TaskDTO> tasksDTO) {
         List<Task> tasks = new ArrayList<>();
 
-        for (TaskDTO taskDTO : tasksDTO.getTaskDTOList()) {
+        for (TaskDTO taskDTO : tasksDTO) {
             tasks.add(TaskFactory.create(companyId, taskDTO));
         }
 

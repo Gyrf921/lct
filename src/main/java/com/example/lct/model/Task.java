@@ -39,9 +39,6 @@ public class Task extends BaseEntity {
     @Column(name = "level_difficulty")
     private Integer levelDifficulty;
 
-    @Column(name = "deadline")
-    private Timestamp deadline;
-
     @Column(name = "rate")
     private Long rate;
 

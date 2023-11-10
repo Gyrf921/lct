@@ -12,7 +12,7 @@ import java.util.List;
 public interface TaskService {
     Task getTaskById(Long id);
 
-    List<Task> createTasks(Long companyId, TasksDTO tasksDTO);
+    List<Task> createTasks(Long companyId, List<TaskDTO> tasksDTO);
 
     List<Task> createBaseTasks(Long companyId, TasksDTO tasksDTO);
 

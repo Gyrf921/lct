@@ -8,6 +8,7 @@ import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
+import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CuratorServiceImpl implements CuratorService {
 
-    private final DepartmentServiceImpl departmentService;
+    private final PostServiceImpl postService;
 
     private final TaskService taskService;
     private final StageService stageService;
@@ -69,7 +70,7 @@ public class CuratorServiceImpl implements CuratorService {
     }
 
     @Override
-    public List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
+    public List<Task> createTasks(Company companyByUserPrincipal, List<TaskDTO> tasksDTO) {
         List<Task> tasks = taskService.createTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
 
         List<Task> tasksSaved;
@@ -90,25 +91,13 @@ public class CuratorServiceImpl implements CuratorService {
     }
 
     @Override
-    public List<Task> createBaseTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
+    public List<Task> updateTask(Company company, Long taskId, TaskDTO taskDTO) {
+        log.info("[CuratorService|updateTask] >> companyId: {} taskId: {}, taskDTO: {}", company.getCompanyId(), taskId, taskDTO);
+        Task task = taskService.updateTaskInfo(taskId, taskDTO);
 
-        List<Task> tasks = taskService.createBaseTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
+        log.info("[CuratorService|updateTask] << result: {}", task);
 
-        List<Task> tasksSaved;
-        if (companyByUserPrincipal.getTasks() == null || companyByUserPrincipal.getTasks().isEmpty()) {
-            tasksSaved = new ArrayList<>(tasks);
-        } else {
-            tasksSaved = companyByUserPrincipal.getTasks();
-            tasksSaved.addAll(tasks);
-        }
-
-        companyByUserPrincipal.setTasks(tasksSaved);
-
-        companyRepository.save(companyByUserPrincipal);
-
-        log.info("[createTasksPlanForCompany] << result: {}", tasks);
-
-        return tasks;
+        return company.getTasks();
     }
 
     @Override

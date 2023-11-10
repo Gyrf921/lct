@@ -1,6 +1,8 @@
 package com.example.lct.web.controller.general;
 
+import com.example.lct.model.History;
 import com.example.lct.service.EmployeeService;
+import com.example.lct.service.HistoryService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.EmployeePersonalityDTO;
 import com.example.lct.web.dto.response.EmployeePersonalityResponseDTO;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -20,6 +23,7 @@ public class PersonalAccountController {
 
     private final EmployeeService employeeService;
     private final UserPrincipalUtils userPrincipalUtils;
+    private final HistoryService historyService;
 
     @Operation(summary = "get employee information")
     @GetMapping
@@ -35,8 +39,11 @@ public class PersonalAccountController {
                 employeeService.setEmployeeInformation(userPrincipalUtils.getEmployeeByUserPrincipal(principal), employeePersonalityDTO));
     }
 
+    @Operation(summary = "get history for employee")
+    @GetMapping("/history")
+    public ResponseEntity<List<History>> getHistoryForEmployee(Principal principal) {
 
-    /*
-TODO Вывод всех отчивок c пометкой выполненых
-* */
+        return ResponseEntity.ok().body(historyService
+                .getAllHistoryForEmployee(userPrincipalUtils.getEmployeeByUserPrincipal(principal)));
+    }
 }
