@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.employee_achievement
             (
-                employee_id bigserial NOT NULL,
-                achievement_id bigserial NOT NULL,
-                CONSTRAINT employee_achievement_pkey PRIMARY KEY (employee_id, achievement_id),
-                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY (employee_id)
-                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                achievement_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                employee_achievement_pkey
+                PRIMARY
+                KEY
+            (
+                employee_id,
+                achievement_id
+            ),
+                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY
+            (
+                employee_id
+            )
+                REFERENCES public.employees
+            (
+                employee_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgasdgfsdfgdgfhkjjhkhjkkjhrver FOREIGN KEY (achievement_id)
-                REFERENCES public.achievements (achievement_id) MATCH SIMPLE
+                CONSTRAINT sdfgasdgfsdfgdgfhkjjhkhjkkjhrver FOREIGN KEY
+            (
+                achievement_id
+            )
+                REFERENCES public.achievements
+            (
+                achievement_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

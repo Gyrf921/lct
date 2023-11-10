@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.post_department
             (
-                post_id bigserial NOT NULL,
-                department_id bigserial NOT NULL,
-                CONSTRAINT post_department_pkey PRIMARY KEY (post_id, department_id),
-                CONSTRAINT ghjkghjkghjkghjghjkghjkpostadsfsdf FOREIGN KEY (post_id)
-                REFERENCES public.posts (post_id) MATCH SIMPLE
+                post_id
+                bigserial
+                NOT
+                NULL,
+                department_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                post_department_pkey
+                PRIMARY
+                KEY
+            (
+                post_id,
+                department_id
+            ),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkpostadsfsdf FOREIGN KEY
+            (
+                post_id
+            )
+                REFERENCES public.posts
+            (
+                post_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabaupdepartment FOREIGN KEY (department_id)
-                REFERENCES public.departments (department_id) MATCH SIMPLE
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabaupdepartment FOREIGN KEY
+            (
+                department_id
+            )
+                REFERENCES public.departments
+            (
+                department_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

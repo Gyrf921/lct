@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.company_department
             (
-                company_id bigserial NOT NULL,
-                department_id bigserial NOT NULL,
-                CONSTRAINT company_department_pkey PRIMARY KEY (company_id, department_id),
-                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY (company_id)
-                REFERENCES public.companies (company_id) MATCH SIMPLE
+                company_id
+                bigserial
+                NOT
+                NULL,
+                department_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                company_department_pkey
+                PRIMARY
+                KEY
+            (
+                company_id,
+                department_id
+            ),
+                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY
+            (
+                company_id
+            )
+                REFERENCES public.companies
+            (
+                company_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgasdgfsdfgsdfghdgfkljklildepartmentasdf FOREIGN KEY (department_id)
-                REFERENCES public.departments (department_id) MATCH SIMPLE
+                CONSTRAINT sdfgasdgfsdfgsdfghdgfkljklildepartmentasdf FOREIGN KEY
+            (
+                department_id
+            )
+                REFERENCES public.departments
+            (
+                department_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +21,8 @@ public class TaskDTO {
     private String name;
 
     private String description;
+
+    private Timestamp deadline;
 
     @Max(value = 6)
     private Integer levelDifficulty;

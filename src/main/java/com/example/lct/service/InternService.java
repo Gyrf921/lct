@@ -9,7 +9,6 @@ import java.util.List;
 public interface InternService {
 
 
-
     TaskStage setAnswerToTask(Long taskStageId, TasksToCheckDTO answer);
 
     TaskStage getTaskStageById(Long taskStageId);

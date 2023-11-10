@@ -20,6 +20,7 @@ public class MarketController {
 
     private final ProductServiceImpl productService;
     private final UserPrincipalUtils userPrincipalUtils;
+
     @Operation(summary = "get all products")
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(Principal principal) {

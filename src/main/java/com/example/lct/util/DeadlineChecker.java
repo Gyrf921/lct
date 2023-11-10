@@ -1,11 +1,12 @@
 package com.example.lct.util;
 
 import com.example.lct.model.Employee;
-import com.example.lct.model.Stage;
-import com.example.lct.model.Task;
 import com.example.lct.model.TaskStage;
 import com.example.lct.model.enumformodel.HistoryType;
-import com.example.lct.service.*;
+import com.example.lct.service.EmailService;
+import com.example.lct.service.EmployeeService;
+import com.example.lct.service.HistoryService;
+import com.example.lct.service.StageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,20 +39,22 @@ public class DeadlineChecker {
         checkDeadline();
         log.info("///DeadlineChecker///startChecking///");
     }
+
     public void checkDeadline() {
         List<Employee> interns = employeeService.getAllIntern();
         //TODO check null deadline
-        for(Employee intern : interns){
+        for (Employee intern : interns) {
             sendMessageAboutDeadline(intern, checkDeadlineForTaskStages(intern, stageService.getAllTaskStageForEmployee(intern)));
         }
     }
+
     public List<TaskStage> checkDeadlineForTaskStages(Employee intern, List<TaskStage> taskStages) {
         List<TaskStage> taskStagesAfterDeadline = new ArrayList<>();
-        for (TaskStage taskStage : taskStages){
-            if (taskStage.getDeadline().after(Timestamp.valueOf(LocalDateTime.now().minusDays(3)))){
+        for (TaskStage taskStage : taskStages) {
+            if (taskStage.getDeadline().after(Timestamp.valueOf(LocalDateTime.now().minusDays(3)))) {
                 taskStagesAfterDeadline.add(taskStage);
             }
-            if (taskStage.getDeadline().after(Timestamp.valueOf(LocalDateTime.now()))){
+            if (taskStage.getDeadline().after(Timestamp.valueOf(LocalDateTime.now()))) {
                 historyService.createHistoryActionMiss(intern, HistoryType.DEADLINE, "Просрочен дедлайн для задачи: ".concat(taskStage.getTask().getName()));
             }
         }
@@ -60,7 +63,7 @@ public class DeadlineChecker {
 
     @Async
     public void sendMessageAboutDeadline(Employee intern, List<TaskStage> taskStages) {
-        for (TaskStage taskStage : taskStages){
+        for (TaskStage taskStage : taskStages) {
             emailService.sendDeadlineMessage(intern, taskStage);
         }
     }

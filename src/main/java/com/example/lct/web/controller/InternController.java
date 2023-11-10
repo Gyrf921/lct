@@ -29,8 +29,8 @@ public class InternController {
     @Operation(summary = "set Answer To Task")
     @PostMapping("/tasks/{taskStageId}/answer")
     public ResponseEntity<TaskStage> setAnswerAndMarkTaskLikeCompleted(@PathVariable(value = "taskStageId") Long taskStageId,
-                                                   @RequestBody TasksToCheckDTO answer,
-                                                   Principal principal) {
+                                                                       @RequestBody TasksToCheckDTO answer,
+                                                                       Principal principal) {
         //TODO CHECK ATCHIVMENTS
         TaskStage taskStage = internService.setAnswerToTask(taskStageId, answer);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());

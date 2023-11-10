@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.company_employee
             (
-                company_id bigserial NOT NULL,
-                employee_id bigserial NOT NULL,
-                CONSTRAINT company_employee_pkey PRIMARY KEY (company_id, employee_id),
-                CONSTRAINT company_employee_pkeyeyssytsnjmsdfgsdfg FOREIGN KEY (company_id)
-                REFERENCES public.companies (company_id) MATCH SIMPLE
+                company_id
+                bigserial
+                NOT
+                NULL,
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                company_employee_pkey
+                PRIMARY
+                KEY
+            (
+                company_id,
+                employee_id
+            ),
+                CONSTRAINT company_employee_pkeyeyssytsnjmsdfgsdfg FOREIGN KEY
+            (
+                company_id
+            )
+                REFERENCES public.companies
+            (
+                company_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgasdgfsdfgsdfghdgfklemployees FOREIGN KEY (employee_id)
-                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                CONSTRAINT sdfgasdgfsdfgsdfghdgfklemployees FOREIGN KEY
+            (
+                employee_id
+            )
+                REFERENCES public.employees
+            (
+                employee_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

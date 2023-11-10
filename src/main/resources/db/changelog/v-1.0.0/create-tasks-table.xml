@@ -8,19 +8,44 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.tasks
             (
-                task_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                post_id bigserial NOT NULL,
-                image_path varchar(255),
-                name varchar(255),
+                task_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                post_id
+                bigserial
+                NOT
+                NULL,
+                image_path
+                varchar
+            (
+                255
+            ),
+                name varchar
+            (
+                255
+            ),
                 description text,
                 level_difficulty integer,
                 rate bigint,
                 deadline timestamp,
                 created timestamp,
-                CONSTRAINT task_pkey PRIMARY KEY (task_id),
-                CONSTRAINT sdfgmnvzxsahubagppasdfafrtqlfpost FOREIGN KEY (post_id)
-                REFERENCES public.posts (post_id) MATCH SIMPLE
+                CONSTRAINT task_pkey PRIMARY KEY
+            (
+                task_id
+            ),
+                CONSTRAINT sdfgmnvzxsahubagppasdfafrtqlfpost FOREIGN KEY
+            (
+                post_id
+            )
+                REFERENCES public.posts
+            (
+                post_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

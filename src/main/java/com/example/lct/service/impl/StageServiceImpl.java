@@ -45,6 +45,7 @@ public class StageServiceImpl implements StageService {
 
         return task;
     }
+
     @Override
     public Stage getStageById(Long id) {
         log.info("[getStageById] >> id: {}", id);
@@ -59,6 +60,7 @@ public class StageServiceImpl implements StageService {
 
         return stage;
     }
+
     @Override
     public Stage createBaseStageForIntern(Employee employee) {
 

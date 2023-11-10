@@ -8,10 +8,23 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.roles
             (
-                role_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                name varchar(255),
-                CONSTRAINT role_pkey PRIMARY KEY (role_id)
+                role_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                name
+                varchar
+            (
+                255
+            ),
+                CONSTRAINT role_pkey PRIMARY KEY
+            (
+                role_id
+            )
                 );
         </sql>
     </changeSet>

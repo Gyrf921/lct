@@ -8,15 +8,37 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.audios
             (
-                audio_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                department_id bigserial NOT NULL,
-                post_id bigserial NOT NULL,
-                url varchar(255),
-                name varchar(255),
+                audio_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                department_id
+                bigserial
+                NOT
+                NULL,
+                post_id
+                bigserial
+                NOT
+                NULL,
+                url
+                varchar
+            (
+                255
+            ),
+                name varchar
+            (
+                255
+            ),
                 description text,
                 created timestamp,
-                CONSTRAINT audio_pkey PRIMARY KEY (audio_id)
+                CONSTRAINT audio_pkey PRIMARY KEY
+            (
+                audio_id
+            )
                 );
         </sql>
     </changeSet>

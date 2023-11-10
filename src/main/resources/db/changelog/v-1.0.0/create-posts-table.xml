@@ -8,11 +8,27 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.posts
             (
-                post_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                department_id bigserial NOT NULL,
-                name varchar(255),
-                CONSTRAINT post_pkey PRIMARY KEY (post_id)
+                post_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                department_id
+                bigserial
+                NOT
+                NULL,
+                name
+                varchar
+            (
+                255
+            ),
+                CONSTRAINT post_pkey PRIMARY KEY
+            (
+                post_id
+            )
                 );
         </sql>
     </changeSet>

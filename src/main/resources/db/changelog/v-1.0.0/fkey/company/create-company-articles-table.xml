@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.company_articles
             (
-                company_id bigserial NOT NULL,
-                article_id bigserial NOT NULL,
-                CONSTRAINT companies_articles_pkey PRIMARY KEY (company_id, article_id),
-                CONSTRAINT ghjkghjkghjkghjghjkcompany FOREIGN KEY (company_id)
-                REFERENCES public.companies (company_id) MATCH SIMPLE
+                company_id
+                bigserial
+                NOT
+                NULL,
+                article_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                companies_articles_pkey
+                PRIMARY
+                KEY
+            (
+                company_id,
+                article_id
+            ),
+                CONSTRAINT ghjkghjkghjkghjghjkcompany FOREIGN KEY
+            (
+                company_id
+            )
+                REFERENCES public.companies
+            (
+                company_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptqsarticle FOREIGN KEY (article_id)
-                REFERENCES public.articles (article_id) MATCH SIMPLE
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptqsarticle FOREIGN KEY
+            (
+                article_id
+            )
+                REFERENCES public.articles
+            (
+                article_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

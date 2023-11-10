@@ -8,16 +8,44 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.histories
             (
-                history_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                employee_id bigserial NOT NULL,
-                name varchar(255),
-                history_type varchar(255),
-                action_type varchar(255),
+                history_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                name
+                varchar
+            (
+                255
+            ),
+                history_type varchar
+            (
+                255
+            ),
+                action_type varchar
+            (
+                255
+            ),
                 created timestamp,
-                CONSTRAINT histories_pkey PRIMARY KEY (history_id),
-                CONSTRAINT fgsdfgsdfjhgjkhjhgjdfasdfasdfemployee FOREIGN KEY (employee_id)
-                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                CONSTRAINT histories_pkey PRIMARY KEY
+            (
+                history_id
+            ),
+                CONSTRAINT fgsdfgsdfjhgjkhjhgjdfasdfasdfemployee FOREIGN KEY
+            (
+                employee_id
+            )
+                REFERENCES public.employees
+            (
+                employee_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

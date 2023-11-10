@@ -78,7 +78,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all company questions")
     @GetMapping("/questions/{questionId}")
     public ResponseEntity<Question> getQuestionById(@PathVariable(value = "questionId") Long questionId,
-                                             Principal principal) {
+                                                    Principal principal) {
 
         Question question = knowledgeBaseService.getQuestionById(questionId);
 
@@ -91,7 +91,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get article to favourites")
     @GetMapping("/articles/{articleId}")
     public ResponseEntity<Article> getArticleById(@PathVariable(value = "articleId") Long articleId,
-                                            Principal principal) {
+                                                  Principal principal) {
         Article article = knowledgeBaseService.getArticleById(articleId);
 
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal),
@@ -102,7 +102,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all video")
     @GetMapping("/videos/{videoId}")
     public ResponseEntity<MediaContentDTO> getVideoById(@PathVariable(value = "videoId") Long videoId,
-                                          Principal principal) {
+                                                        Principal principal) {
         Video video = knowledgeBaseService.getVideoById(videoId);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal),
                 HistoryType.ARTICLE, video.getName());
@@ -112,7 +112,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all audio")
     @GetMapping("/audios/{audioId}")
     public ResponseEntity<MediaContentDTO> getAudioById(@PathVariable(value = "audioId") Long audioId,
-                                          Principal principal) {
+                                                        Principal principal) {
         Audio audio = knowledgeBaseService.getAudioById(audioId);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal),
                 HistoryType.ARTICLE, audio.getName());
@@ -144,7 +144,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all video by Department")
     @GetMapping("/videos/departments")
     public ResponseEntity<List<MediaContentDTO>> getVideoByDepartment(@RequestParam(value = "departmentName") String departmentName,
-                                                  Principal principal) {
+                                                                      Principal principal) {
         List<MediaContentDTO> mediaContentDTOS
                 = knowledgeBaseService.getVideoByDepartmentName(userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentName);
         return ResponseEntity.ok().body(mediaContentDTOS);
@@ -153,7 +153,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all Video by post")
     @GetMapping("/videos/posts")
     public ResponseEntity<List<MediaContentDTO>> getVideoByPost(@RequestParam(value = "postName") String postName,
-                                            Principal principal) {
+                                                                Principal principal) {
         List<MediaContentDTO> mediaContentDTOS
                 = knowledgeBaseService.getVideoByPostName(userPrincipalUtils.getCompanyByUserPrincipal(principal), postName);
         return ResponseEntity.ok().body(mediaContentDTOS);
@@ -162,7 +162,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all Audio by department")
     @GetMapping("/audios/departments")
     public ResponseEntity<List<MediaContentDTO>> getAudioByDepartment(@RequestParam(value = "departmentName") String departmentName,
-                                                  Principal principal) {
+                                                                      Principal principal) {
         List<MediaContentDTO> mediaContentDTOS
                 = knowledgeBaseService.getAudioByDepartmentName(userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentName);
         return ResponseEntity.ok().body(mediaContentDTOS);
@@ -171,7 +171,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "get all Audio by post")
     @GetMapping("/audios/posts")
     public ResponseEntity<List<MediaContentDTO>> getAudioByPost(@RequestParam(value = "postName") String postName,
-                                            Principal principal) {
+                                                                Principal principal) {
         List<MediaContentDTO> mediaContentDTOS
                 = knowledgeBaseService.getAudioByPostName(userPrincipalUtils.getCompanyByUserPrincipal(principal), postName);
 
@@ -181,7 +181,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "add article to favourites")
     @PostMapping("/favourites/articles/{articleId}")
     public ResponseEntity<Boolean> addArticleByIdToFavorite(@PathVariable(value = "articleId") Long articleId,
-                                                      Principal principal) {
+                                                            Principal principal) {
         Boolean isSaved
                 = knowledgeBaseService.addArticleByIdToFavorite(userPrincipalUtils.getEmployeeByUserPrincipal(principal), articleId);
 
@@ -191,7 +191,7 @@ public class KnowledgeBaseController {
     @Operation(summary = "delete article to favourites")
     @DeleteMapping("/favourites/articles/{articleId}")
     public ResponseEntity<Boolean> deleteArticleByIdFromFavorite(@PathVariable(value = "articleId") Long articleId,
-                                                           Principal principal) {
+                                                                 Principal principal) {
         Boolean isDeleted
                 = knowledgeBaseService.deleteArticleByIdFromFavorite(userPrincipalUtils.getEmployeeByUserPrincipal(principal), articleId);
 

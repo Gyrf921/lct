@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class  EmployeePersonalityResponseDTO {
+public class EmployeePersonalityResponseDTO {
 
     private Long employeeId;
 

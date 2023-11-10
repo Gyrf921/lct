@@ -12,7 +12,6 @@ import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
-import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +48,6 @@ public class HRController {
     }
 
 
-
     @Operation(summary = "add list of task to Company")
     @PostMapping("/tasks")
     public ResponseEntity<List<Task>> createTasksForCompany(Principal principal, @RequestBody TasksDTO tasksDTO) {
@@ -59,6 +57,7 @@ public class HRController {
 
         return ResponseEntity.ok().body(tasks);
     }
+
     @Operation(summary = "add list of task to Company")
     @PostMapping("/tasks/base")
     public ResponseEntity<List<Task>> createBaseTasksForCompany(Principal principal, @RequestBody TasksDTO tasksDTO) {
@@ -71,30 +70,30 @@ public class HRController {
 
     @Operation(summary = "create intern to Company")
     @PostMapping("/intern")
-    public ResponseEntity<Employee> createInternForCompany(Principal principal, @RequestBody EmployeeForCreateDTO employeeForCreateDTO) {
+    public ResponseEntity<List<Stage>> createInternForCompany(Principal principal, @RequestBody EmployeeForCreateDTO employeeForCreateDTO) {
 
         Employee employee = hrService.createInternForCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), employeeForCreateDTO);
 
-        return ResponseEntity.ok().body(employee);
+        return ResponseEntity.ok().body(employee.getStages());
     }
 
 
     @Operation(summary = "create stage to intern")
     @PostMapping("/interns/{internId}/stage")
-    public ResponseEntity<Employee> createStageToIntern(@PathVariable(value = "internId") Long internId,
+    public ResponseEntity<List<Stage>> createStageToIntern(@PathVariable(value = "internId") Long internId,
                                                         @RequestBody StageDTO stageDTO,
                                                         Principal principal) {
         Employee employee = hrService.createStageToIntern(internId, stageDTO);
 
-        return ResponseEntity.ok().body(employee);
+        return ResponseEntity.ok().body(employee.getStages());
     }
 
     @Operation(summary = "create stage to intern")
     @PatchMapping("/stage/{stageId}/test")
     public ResponseEntity<Stage> setTestToStage(@PathVariable(value = "stageId") Long stageId,
-                                                   @RequestBody TestDTO testDTO,
-                                                   Principal principal) {
+                                                @RequestBody TestDTO testDTO,
+                                                Principal principal) {
 
         Stage stage = hrService.setTestToStage(stageId, testDTO);
 

@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.employee_role
             (
-                employee_id bigserial NOT NULL,
-                role_id bigserial NOT NULL,
-                CONSTRAINT employee_role_pkey PRIMARY KEY (employee_id, role_id),
-                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY (employee_id)
-                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                role_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                employee_role_pkey
+                PRIMARY
+                KEY
+            (
+                employee_id,
+                role_id
+            ),
+                CONSTRAINT asdffdghghjkrtyughnjmsdfgsdfg FOREIGN KEY
+            (
+                employee_id
+            )
+                REFERENCES public.employees
+            (
+                employee_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT ssdfgsqweadfgsdfggjkhgjkjklkjuio FOREIGN KEY (role_id)
-                REFERENCES public.roles (role_id) MATCH SIMPLE
+                CONSTRAINT ssdfgsqweadfgsdfggjkhgjkjklkjuio FOREIGN KEY
+            (
+                role_id
+            )
+                REFERENCES public.roles
+            (
+                role_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

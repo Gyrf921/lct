@@ -56,6 +56,7 @@ public class TaskServiceImpl implements TaskService {
 
         return tasks;
     }
+
     @Override
     public List<Task> createBaseTasks(Long companyId, TasksDTO tasksDTO) {
 
@@ -71,6 +72,7 @@ public class TaskServiceImpl implements TaskService {
 
         return tasks;
     }
+
     @Override
     public Task updateTaskInfo(Long taskId, TaskDTO taskDTO) {
 

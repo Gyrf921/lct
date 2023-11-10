@@ -8,22 +8,53 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.employees
             (
-                employee_id bigserial NOT NULL ,
-                image_path varchar(255),
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                image_path
+                varchar
+            (
+                255
+            ),
                 company_id bigserial NOT NULL,
-                email varchar(255) NOT NULL,
-                password varchar(255),
-                name varchar(255),
+                email varchar
+            (
+                255
+            ) NOT NULL,
+                password varchar
+            (
+                255
+            ),
+                name varchar
+            (
+                255
+            ),
                 level_difficulty int,
-                phone varchar(255),
-                social_network varchar(255),
-                city varchar(255),
+                phone varchar
+            (
+                255
+            ),
+                social_network varchar
+            (
+                255
+            ),
+                city varchar
+            (
+                255
+            ),
                 curator_id bigint,
                 account bigint,
                 created timestamp,
-                CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
-                CONSTRAINT email_unique_server UNIQUE (email)
-            );
+                CONSTRAINT employee_pkey PRIMARY KEY
+            (
+                employee_id
+            ),
+                CONSTRAINT email_unique_server UNIQUE
+            (
+                email
+            )
+                );
         </sql>
     </changeSet>
 </databaseChangeLog>

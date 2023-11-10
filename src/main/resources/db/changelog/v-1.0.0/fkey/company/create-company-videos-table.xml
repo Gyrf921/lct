@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.company_videos
             (
-                company_id bigserial NOT NULL,
-                video_id bigserial NOT NULL,
-                CONSTRAINT knowledge_base_videos_pkey PRIMARY KEY (company_id, video_id),
-                CONSTRAINT ghjkghjkghjkghjghjkghjkghjkdfgh FOREIGN KEY (company_id)
-                REFERENCES public.companies (company_id) MATCH SIMPLE
+                company_id
+                bigserial
+                NOT
+                NULL,
+                video_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                knowledge_base_videos_pkey
+                PRIMARY
+                KEY
+            (
+                company_id,
+                video_id
+            ),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkghjkdfgh FOREIGN KEY
+            (
+                company_id
+            )
+                REFERENCES public.companies
+            (
+                company_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptqvideo FOREIGN KEY (video_id)
-                REFERENCES public.videos (video_id) MATCH SIMPLE
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptqvideo FOREIGN KEY
+            (
+                video_id
+            )
+                REFERENCES public.videos
+            (
+                video_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

@@ -1,11 +1,13 @@
 package com.example.lct.service;
 
-import com.example.lct.model.*;
+import com.example.lct.model.Company;
+import com.example.lct.model.Employee;
+import com.example.lct.model.Stage;
+import com.example.lct.model.Task;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
-import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 
 import java.util.List;
 

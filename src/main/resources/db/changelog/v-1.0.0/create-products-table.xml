@@ -9,13 +9,27 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.products
             (
-                product_id bigserial NOT NULL,
-                company_id bigserial,
-                image_path varchar(255),
-                name varchar(255),
+                product_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial,
+                image_path
+                varchar
+            (
+                255
+            ),
+                name varchar
+            (
+                255
+            ),
                 description text,
                 cost bigint,
-                CONSTRAINT product_pkey PRIMARY KEY (product_id)
+                CONSTRAINT product_pkey PRIMARY KEY
+            (
+                product_id
+            )
                 );
         </sql>
     </changeSet>

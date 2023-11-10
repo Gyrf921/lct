@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.company_audios
             (
-                company_id bigserial NOT NULL,
-                audio_id bigserial NOT NULL,
-                CONSTRAINT company_audios_pkey PRIMARY KEY (company_id, audio_id),
-                CONSTRAINT ghjkghjkghjkghjghjkghjkghcompany FOREIGN KEY (company_id)
-                REFERENCES public.companies (company_id) MATCH SIMPLE
+                company_id
+                bigserial
+                NOT
+                NULL,
+                audio_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                company_audios_pkey
+                PRIMARY
+                KEY
+            (
+                company_id,
+                audio_id
+            ),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkghcompany FOREIGN KEY
+            (
+                company_id
+            )
+                REFERENCES public.companies
+            (
+                company_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptaudio FOREIGN KEY (audio_id)
-                REFERENCES public.audios (audio_id) MATCH SIMPLE
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabauptaudio FOREIGN KEY
+            (
+                audio_id
+            )
+                REFERENCES public.audios
+            (
+                audio_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

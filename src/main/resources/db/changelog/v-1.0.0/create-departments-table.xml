@@ -8,10 +8,23 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.departments
             (
-                department_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                name varchar(255),
-                CONSTRAINT department_pkey PRIMARY KEY (department_id)
+                department_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                name
+                varchar
+            (
+                255
+            ),
+                CONSTRAINT department_pkey PRIMARY KEY
+            (
+                department_id
+            )
                 );
         </sql>
     </changeSet>

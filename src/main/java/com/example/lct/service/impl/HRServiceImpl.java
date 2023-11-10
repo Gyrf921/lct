@@ -1,6 +1,9 @@
 package com.example.lct.service.impl;
 
-import com.example.lct.model.*;
+import com.example.lct.model.Company;
+import com.example.lct.model.Employee;
+import com.example.lct.model.Stage;
+import com.example.lct.model.Task;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
@@ -51,6 +54,7 @@ public class HRServiceImpl implements HRService {
 
         return tasks;
     }
+
     @Override
     public List<Task> createBaseTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
 

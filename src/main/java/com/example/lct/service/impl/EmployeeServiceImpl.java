@@ -62,6 +62,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
         return employee;
     }
+
     @Override
     public Employee getEmployeeById(Long id) {
         log.info("[getEmployeeById] >> email: {}", id);
@@ -115,12 +116,13 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
         return interns;
     }
+
     @Override
     public List<Employee> getAllIntern() {
         List<Role> rolesIntern = roleService.getRolesByName("ROLE_INTERN");
 
-        List<Employee> interns= new ArrayList<>();
-        for (Role role : rolesIntern){
+        List<Employee> interns = new ArrayList<>();
+        for (Role role : rolesIntern) {
             interns.addAll(employeeRepository.findAllByRolesContaining(role));
         }
 
@@ -128,6 +130,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
         return interns;
     }
+
     @Override
     public List<Employee> createEmployeesByAdmin(Long companyId, EmployeeListForCreateDTO employeesByAdmin) {
 

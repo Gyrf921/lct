@@ -8,15 +8,37 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.videos
             (
-                video_id bigserial NOT NULL,
-                company_id bigserial NOT NULL,
-                department_id bigserial NOT NULL,
-                post_id bigserial NOT NULL,
-                url varchar(255),
-                name varchar(255),
+                video_id
+                bigserial
+                NOT
+                NULL,
+                company_id
+                bigserial
+                NOT
+                NULL,
+                department_id
+                bigserial
+                NOT
+                NULL,
+                post_id
+                bigserial
+                NOT
+                NULL,
+                url
+                varchar
+            (
+                255
+            ),
+                name varchar
+            (
+                255
+            ),
                 description text,
                 created timestamp,
-                CONSTRAINT video_pkey PRIMARY KEY (video_id)
+                CONSTRAINT video_pkey PRIMARY KEY
+            (
+                video_id
+            )
                 );
         </sql>
     </changeSet>

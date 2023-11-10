@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.employee_stage
             (
-                employee_id bigserial NOT NULL,
-                stage_id bigserial NOT NULL,
-                CONSTRAINT employee_stage_pkey PRIMARY KEY (employee_id, stage_id),
-                CONSTRAINT sdfgjjksdfasdfsdfsadfasdfasdfer FOREIGN KEY (employee_id)
-                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                stage_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                employee_stage_pkey
+                PRIMARY
+                KEY
+            (
+                employee_id,
+                stage_id
+            ),
+                CONSTRAINT sdfgjjksdfasdfsdfsadfasdfasdfer FOREIGN KEY
+            (
+                employee_id
+            )
+                REFERENCES public.employees
+            (
+                employee_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgmnvzxsahubagppasdfafrtqlstages FOREIGN KEY (stage_id)
-                REFERENCES public.stages (stage_id) MATCH SIMPLE
+                CONSTRAINT sdfgmnvzxsahubagppasdfafrtqlstages FOREIGN KEY
+            (
+                stage_id
+            )
+                REFERENCES public.stages
+            (
+                stage_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

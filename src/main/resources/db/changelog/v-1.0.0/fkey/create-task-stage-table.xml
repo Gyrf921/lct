@@ -8,21 +8,52 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.task_stage
             (
-                task_stage_id bigserial NOT NULL,
-                stage_id bigserial NOT NULL,
-                task_id bigserial NOT NULL,
-                status varchar(255),
-                answer_url varchar(255),
+                task_stage_id
+                bigserial
+                NOT
+                NULL,
+                stage_id
+                bigserial
+                NOT
+                NULL,
+                task_id
+                bigserial
+                NOT
+                NULL,
+                status
+                varchar
+            (
+                255
+            ),
+                answer_url varchar
+            (
+                255
+            ),
                 created timestamp,
                 deadline timestamp,
                 time_finish timestamp,
-                CONSTRAINT stage_task_pkey PRIMARY KEY (task_stage_id),
-                CONSTRAINT ghjkghjkghjkghjghjkghjkgstage_id FOREIGN KEY (stage_id)
-                REFERENCES public.stages (stage_id) MATCH SIMPLE
+                CONSTRAINT stage_task_pkey PRIMARY KEY
+            (
+                task_stage_id
+            ),
+                CONSTRAINT ghjkghjkghjkghjghjkghjkgstage_id FOREIGN KEY
+            (
+                stage_id
+            )
+                REFERENCES public.stages
+            (
+                stage_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabaupttask_ide FOREIGN KEY (task_id)
-                REFERENCES public.tasks (task_id) MATCH SIMPLE
+                CONSTRAINT sdfgsdfgbagpsdgprtqlfvabaupttask_ide FOREIGN KEY
+            (
+                task_id
+            )
+                REFERENCES public.tasks
+            (
+                task_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

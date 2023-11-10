@@ -8,15 +8,40 @@
         <sql>
             CREATE TABLE IF NOT EXISTS public.employee_article_favourites
             (
-                employee_id bigserial NOT NULL,
-                article_id bigserial NOT NULL,
-                CONSTRAINT employee_knowledge_favourites_pkey PRIMARY KEY (employee_id, article_id),
-                CONSTRAINT jjksdfdgsbtrywegsdfsnsbfjdswqiqserver FOREIGN KEY (employee_id)
-                REFERENCES public.employees (employee_id) MATCH SIMPLE
+                employee_id
+                bigserial
+                NOT
+                NULL,
+                article_id
+                bigserial
+                NOT
+                NULL,
+                CONSTRAINT
+                employee_knowledge_favourites_pkey
+                PRIMARY
+                KEY
+            (
+                employee_id,
+                article_id
+            ),
+                CONSTRAINT jjksdfdgsbtrywegsdfsnsbfjdswqiqserver FOREIGN KEY
+            (
+                employee_id
+            )
+                REFERENCES public.employees
+            (
+                employee_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION,
-                CONSTRAINT mnvzxsahubagpsdgprtqlfvabauparticle FOREIGN KEY (article_id)
-                REFERENCES public.articles (article_id) MATCH SIMPLE
+                CONSTRAINT mnvzxsahubagpsdgprtqlfvabauparticle FOREIGN KEY
+            (
+                article_id
+            )
+                REFERENCES public.articles
+            (
+                article_id
+            ) MATCH SIMPLE
                 ON UPDATE NO ACTION
                 ON DELETE NO ACTION
                 );

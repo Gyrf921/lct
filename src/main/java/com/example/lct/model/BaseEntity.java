@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @MappedSuperclass
 @Data
@@ -14,7 +13,7 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(name = "created")
-    private Timestamp created;
+    private Date created;
 
     //TODO Date
 }
