@@ -33,8 +33,8 @@ public class CuratorController {
     private final EmployeeService employeeService;
     private final InternService internService;
     private final UserPrincipalUtils userPrincipalUtils;
-/*
 
+ /*
     //region Intern
     @Operation(summary = "get curator interns")
     @GetMapping("/interns")
@@ -50,8 +50,6 @@ public class CuratorController {
     public ResponseEntity<List<TaskStage>> getStagesForIntern(@PathVariable(value = "internId") Long internId) {
         return ResponseEntity.ok().body(internService.getTasksStageForEmployee(employeeService.getEmployeeById(internId)));
     }
-
-
 
 
     @Operation(summary = "create stage to intern")
@@ -74,8 +72,6 @@ public class CuratorController {
     }
 
     //endregion
-
-
 
 
 
@@ -106,6 +102,6 @@ public class CuratorController {
     public ResponseEntity<List<Task>> getAllTasksForCompany(Principal principal) {
         return ResponseEntity.ok().body(hrService.getAllTasksForCompany(userPrincipalUtils.getCompanyByUserPrincipal(principal)));
     }
-*/
+   */
 
 }

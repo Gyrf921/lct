@@ -37,7 +37,7 @@ public class CompanyController {
     }
 
     @Operation(summary = "get posts from company")
-    @GetMapping("/departments")
+    @GetMapping("/posts")
     public ResponseEntity<List<Post>> getPosts(Principal principal) {
         log.info("[CompanyController|getPosts] >> user principal: {}", principal.getName());
 
