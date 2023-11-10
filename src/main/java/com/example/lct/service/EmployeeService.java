@@ -39,4 +39,6 @@ public interface EmployeeService {
     EmployeePersonalityResponseDTO setEmployeeInformation(Employee employeeByUserPrincipal, EmployeePersonalityDTO employeePersonalityDTO);
 
     List<EmployeeTeamResponseDTO> getTeam(Company companyByUserPrincipal, FilterTeamDTO filterTeamDTO);
+
+    List<Employee> getInternsByCuratorId(Long curatorId);
 }

@@ -1,5 +1,6 @@
 package com.example.lct.exception.global;
 
+import com.example.lct.exception.CreateMimeMessageException;
 import com.example.lct.exception.InsufficientFundsException;
 import com.example.lct.exception.ResourceNotFoundException;
 import com.example.lct.exception.UserAlreadyExistException;
@@ -16,15 +17,6 @@ import java.time.LocalDate;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-
-
-/*    @ExceptionHandler(BadLoginOrPasswordException.class)
-    public ResponseEntity<?> badLoginOrPasswordException(Exception ex, WebRequest request) {
-        log.error(ex.getMessage(), ex);
-        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(), ConstantErrorCode.BUSINESS_ERROR_CODE_BAD_LOGIN_PASSWORD, LocalDate.now(), ex.getMessage(), request.getDescription(true));
-
-        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
-    }*/
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> resourceNotFoundException(Exception ex, WebRequest request) {
@@ -66,6 +58,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }*/
 
+    @ExceptionHandler(CreateMimeMessageException.class)
+    public ResponseEntity<?> createMimeMessageException(Exception ex, WebRequest request) {
+        log.error(ex.getMessage(), ex);
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), ConstantErrorCode.BUSINESS_ERROR_CODE_SERVER, LocalDate.now(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
@@ -74,4 +73,5 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

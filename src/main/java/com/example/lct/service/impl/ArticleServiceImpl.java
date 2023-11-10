@@ -74,11 +74,11 @@ public class ArticleServiceImpl {
 
         Article article = getArticleById(articleId);
 
-        if (employee.getFavouriteArticles() == null || employee.getFavouriteArticles().isEmpty()) {
+        if (employee.getFavoriteArticles() == null || employee.getFavoriteArticles().isEmpty()) {
             List<Article> articles = new ArrayList<>(List.of(article));
-            employee.setFavouriteArticles(articles);
+            employee.setFavoriteArticles(articles);
         } else {
-            employee.getFavouriteArticles().add(article);
+            employee.getFavoriteArticles().add(article);
         }
 
         employeeService.saveEmployee(employee);
@@ -86,11 +86,11 @@ public class ArticleServiceImpl {
 
     public void deleteArticleByIdFromFavorite(Employee employee, Long articleId) {
 
-        if (employee.getFavouriteArticles() == null || employee.getFavouriteArticles().isEmpty()) {
+        if (employee.getFavoriteArticles() == null || employee.getFavoriteArticles().isEmpty()) {
             return;
         }
         Article article = getArticleById(articleId);
-        employee.getFavouriteArticles().remove(article);
+        employee.getFavoriteArticles().remove(article);
         employeeService.saveEmployee(employee);
     }
 

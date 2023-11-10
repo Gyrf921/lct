@@ -20,14 +20,5 @@ public interface TaskService {
 
     List<Task> getBaseTasks(Long companyId);
 
-    TaskStage getEmployeeLinkTaskById(Long id);
 
-    TaskStage setStatusTaskForEmployee(Long taskEmployeeId, Status status);
-
-
-    List<TaskStage> getEmployeeLinkTaskForEmployee(Employee employee, Status status);
-
-    List<TaskStage> getAllTaskForCuratorChecking(Long curatorId);
-
-    List<Task> getTasksByListId(List<Long> tasksId);
 }

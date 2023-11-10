@@ -1,11 +1,8 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.exception.ResourceNotFoundException;
-import com.example.lct.model.Employee;
 import com.example.lct.model.Post;
 import com.example.lct.model.Task;
-import com.example.lct.model.TaskStage;
-import com.example.lct.model.enumformodel.Status;
 import com.example.lct.model.factory.TaskFactory;
 import com.example.lct.repository.TaskRepository;
 import com.example.lct.service.TaskService;
@@ -106,46 +103,5 @@ public class TaskServiceImpl implements TaskService {
         return tasks;
     }
 
-    @Override
-    public List<Task> getTasksByListId(List<Long> tasksId) {
-        return tasksId.stream().map(this::getTaskById).toList();
-    }
-
-    @Override
-    public TaskStage getEmployeeLinkTaskById(Long id) {
-        return null;
-    }
-
-    @Override
-    public TaskStage setStatusTaskForEmployee(Long taskEmployeeId, Status status) {
-        return null;
-    }
-
-    @Override
-    public List<TaskStage> getEmployeeLinkTaskForEmployee(Employee employee, Status status) {
-        return null;
-    }
-
-    @Override
-    public List<TaskStage> getAllTaskForCuratorChecking(Long curatorId) {
-        return null;
-    }
-
-
-    //TODO ПРОПАЛА РЕАЛИЗАЦИЯ
-
-   /*@Override
-    public List<TaskStage> getAllTaskForCuratorChecking(Long curatorId) {
-
-        List<Employee> curatorsEmployees = employeeService.getAllInternByCuratorId(curatorId);
-
-        List<TaskStage> taskStages = new ArrayList<>();
-
-        for (Employee intern : curatorsEmployees){
-            taskStages.addAll(employeeLinkTaskRepository.findAllByEmployeeAndStatus(intern, Status.REVIEW.name()));
-        }
-
-        return taskStages;
-    }*/
 
 }

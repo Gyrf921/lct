@@ -36,7 +36,7 @@ public class HRController {
     @GetMapping("/interns")
     public ResponseEntity<List<Employee>> getAllHRsIntern(Principal principal) {
 
-        List<Employee> employees = hrService.getAllInternForHR(userPrincipalUtils.getEmployeeIdByUserPrincipal(principal));
+        List<Employee> employees = hrService.getAllInternForHR(userPrincipalUtils.getEmployeeByUserPrincipal(principal).getEmployeeId());
 
         return ResponseEntity.ok().body(employees);
     }

@@ -218,6 +218,11 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
+    public List<Employee> getInternsByCuratorId(Long curatorId) {
+        return employeeRepository.findAllByCuratorId(curatorId);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Employee employee = getEmployeeByEmail(email);

@@ -14,6 +14,4 @@ public class BaseEntity {
     @CreatedDate
     @Column(name = "created")
     private Date created;
-
-    //TODO Date
 }

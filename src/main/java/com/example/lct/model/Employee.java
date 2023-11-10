@@ -78,7 +78,7 @@ public class Employee extends BaseEntity {
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    private List<Article> favouriteArticles;
+    private List<Article> favoriteArticles;
 
     @OneToMany
     @JoinTable(

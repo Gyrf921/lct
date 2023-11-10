@@ -40,7 +40,7 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
 
     @Override
     public List<ArticleResponseDTO> getFavouritesArticles(Employee employee) {
-        return employee.getFavouriteArticles().stream()
+        return employee.getFavoriteArticles().stream()
                 .map(knowledgeMapper::articleToArticleResponseDTO).toList();
     }
 

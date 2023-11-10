@@ -18,31 +18,24 @@ public class UserPrincipalUtils {
     private final EmployeeService employeeService;
     private final CompanyService companyService;
 
-    public Long getCompanyIdByUserPrincipal(Principal principal) {
+    public Company getCompanyByUserPrincipal(Principal principal) {
+        log.info("[UserPrincipalUtils|getCompany_ByUP] >> user principal: {}", principal.getName());
 
         Employee employee = employeeService.getEmployeeByEmail(principal.getName());
-        //TODO check on null company Id => Exception Unauthorized
-        return employee.getCompanyId();
-    }
 
-    public Company getCompanyByUserPrincipal(Principal principal) {
+        Company company = companyService.getCompanyById(employee.getCompanyId());
 
-        Company company = companyService.getCompanyById(getCompanyIdByUserPrincipal(principal));
-
-        log.info("[getCompanyByUserPrincipal] << result: {}", company);
-
+        log.info("[UserPrincipalUtils|getCompanyByUserPrincipal] << result is company with Id: {}", company.getCompanyId());
         return company;
     }
 
-    public Long getEmployeeIdByUserPrincipal(Principal principal) {
+    public Employee getEmployeeByUserPrincipal(Principal principal) {
+        log.info("[UserPrincipalUtils|getEmployee_ByUP] >> user principal: {}", principal.getName());
 
         Employee employee = employeeService.getEmployeeByEmail(principal.getName());
 
-        return employee.getEmployeeId();
-    }
-
-    public Employee getEmployeeByUserPrincipal(Principal principal) {
-        return employeeService.getEmployeeByEmail(principal.getName());
+        log.info("[UserPrincipalUtils|getEmployee_ByUP] << result is employee with Id: {}", employee.getEmployeeId());
+        return employee;
     }
 
 

@@ -19,37 +19,64 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/admin/company")
+@RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
     private final UserPrincipalUtils userPrincipalUtils;
-
+    //region Company
     @Operation(summary = "get company for admin")
-    @GetMapping
-    public ResponseEntity<Company> getDepartments(Principal principal) {
-        return ResponseEntity.ok().body(userPrincipalUtils.getCompanyByUserPrincipal(principal));
-    }
+    @GetMapping("/company")
+    public ResponseEntity<Company> getCompany(Principal principal) {
+        log.info("[AdminController|getCompany] >> user principal: {}", principal.getName());
 
+        Company company = userPrincipalUtils.getCompanyByUserPrincipal(principal);
+
+        log.info("[AdminController|getCompany] << result has companyId: {}", company.getCompanyId());
+
+        return ResponseEntity.ok().body(company);
+    }
     @Operation(summary = "add list of Departments To Company")
-    @PostMapping("/departments")
-    public ResponseEntity<List<Department>> createDepartmentsToCompany(Principal principal, @RequestBody DepartmentsDTO departmentsDTO) {
+    @PostMapping("/company/departments")
+    public ResponseEntity<List<Department>> createDepartments(Principal principal,
+                                                              @RequestBody DepartmentsDTO departmentsDTO) {
+        log.info("[AdminController|createDepartments] >> user principal: {}", principal.getName());
 
         List<Department> savedDepartment = adminService.createDepartmentsToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentsDTO);
+
+        log.info("[AdminController|createDepartments] << result: {}", savedDepartment);
 
         return ResponseEntity.ok().body(savedDepartment);
     }
 
     @Operation(summary = "add list of Posts To Company")
-    @PostMapping("/posts")
-    public ResponseEntity<List<Post>> createPostsToCompany(Principal principal, @RequestBody PostsDTO postsDTO) {
+    @PostMapping("/company/posts")
+    public ResponseEntity<List<Post>> createPosts(Principal principal,
+                                                           @RequestBody PostsDTO postsDTO) {
+        log.info("[AdminController|createPosts] >> user principal: {}", principal.getName());
 
         List<Post> savedPosts = adminService.createPostsToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), postsDTO);
 
+        log.info("[AdminController|createPosts] << result: {}", savedPosts);
         return ResponseEntity.ok().body(savedPosts);
     }
+
+    @Operation(summary = "add one product in shop for Company")
+    @PostMapping("/company/products")
+    public ResponseEntity<List<Product>> createProductsToCompany(Principal principal,
+                                                                 @RequestBody ProductsDTO productsDTO) {
+        log.info("[AdminController|createPosts] >> user principal: {}", principal.getName());
+
+        List<Product> savedProducts = adminService.createProductToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), productsDTO);
+
+        log.info("[AdminController|createPosts] << result: {}", savedProducts);
+        return ResponseEntity.ok().body(savedProducts);
+    }
+
+    //endregion
 
     @Operation(summary = "add list of Employees To Company")
     @PostMapping("/employees")
@@ -71,16 +98,7 @@ public class AdminController {
         return ResponseEntity.ok().body(savedQuestions);
     }
 
-    @Operation(summary = "add one product in shop for Company")
-    @PostMapping("/products")
-    public ResponseEntity<List<Product>> createProductsToCompany(Principal principal,
-                                                                 @RequestBody ProductsDTO productsDTO) {
 
-        List<Product> savedProducts = adminService.createProductToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), productsDTO);
-
-        return ResponseEntity.ok().body(savedProducts);
-    }
 
     @Operation(summary = "add articles to Company")
     @PostMapping("/articles")
@@ -109,7 +127,7 @@ public class AdminController {
     @Operation(summary = "add one video to Company")
     @PostMapping("/video")
     public ResponseEntity<Video> createVideoToCompany(Principal principal, @RequestBody VideoDTO videoDTO) {
-
+        //TODO all video
         return ResponseEntity.ok().body(adminService.createVideoToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), videoDTO));
     }
@@ -129,8 +147,5 @@ public class AdminController {
         return ResponseEntity.ok().body(adminService.createAudioToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), audioDTO));
     }
-/* TODO
-добавление записей в базу знаний
-методы для штучного добавления всего (в основе база знаний)
- * */
+
 }

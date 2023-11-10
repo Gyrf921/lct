@@ -36,27 +36,27 @@ public class KnowledgeBaseController {
     //region without filter
     @Operation(summary = "get all company questions")
     @GetMapping("/questions")
-    public ResponseEntity<ArticleListResponseDTO> getQuestions(Principal principal) {
+    public ResponseEntity<List<ArticleResponseDTO>> getQuestions(Principal principal) {
 
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getQuestions(userPrincipalUtils.getCompanyByUserPrincipal(principal));
-        return ResponseEntity.ok().body(new ArticleListResponseDTO(articleListResponseDTO));
+        return ResponseEntity.ok().body(articleListResponseDTO);
     }
 
     @Operation(summary = "get all article")
     @GetMapping("/articles")
-    public ResponseEntity<ArticleListResponseDTO> getArticles(Principal principal) {
+    public ResponseEntity<List<ArticleResponseDTO>> getArticles(Principal principal) {
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getArticles(userPrincipalUtils.getCompanyByUserPrincipal(principal));
-        return ResponseEntity.ok().body(new ArticleListResponseDTO(articleListResponseDTO));
+        return ResponseEntity.ok().body(articleListResponseDTO);
     }
 
     @Operation(summary = "get all favourites article")
     @GetMapping("/favourites/articles")
-    public ResponseEntity<ArticleListResponseDTO> getFavouritesArticles(Principal principal) {
+    public ResponseEntity<List<ArticleResponseDTO>> getFavouritesArticles(Principal principal) {
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getFavouritesArticles(userPrincipalUtils.getEmployeeByUserPrincipal(principal));
-        return ResponseEntity.ok().body(new ArticleListResponseDTO(articleListResponseDTO));
+        return ResponseEntity.ok().body(articleListResponseDTO);
     }
 
     @Operation(summary = "get all video")
@@ -124,21 +124,21 @@ public class KnowledgeBaseController {
     //region filter
     @Operation(summary = "get all article by department")
     @GetMapping("/articles/departments")
-    public ResponseEntity<ArticleListResponseDTO> getArticlesByDepartment(@RequestParam(value = "departmentName") String departmentName,
+    public ResponseEntity<List<ArticleResponseDTO>> getArticlesByDepartment(@RequestParam(value = "departmentName") String departmentName,
                                                                           Principal principal) {
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getArticlesByDepartmentName(userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentName);
 
-        return ResponseEntity.ok().body(new ArticleListResponseDTO(articleListResponseDTO));
+        return ResponseEntity.ok().body(articleListResponseDTO);
     }
 
     @Operation(summary = "get all article by post")
     @GetMapping("/articles/posts")
-    public ResponseEntity<ArticleListResponseDTO> getArticlesByPost(@RequestParam(value = "postName") String postName,
+    public ResponseEntity<List<ArticleResponseDTO>> getArticlesByPost(@RequestParam(value = "postName") String postName,
                                                                     Principal principal) {
         List<ArticleResponseDTO> articleListResponseDTO
                 = knowledgeBaseService.getArticlesByPostName(userPrincipalUtils.getCompanyByUserPrincipal(principal), postName);
-        return ResponseEntity.ok().body(new ArticleListResponseDTO(articleListResponseDTO));
+        return ResponseEntity.ok().body(articleListResponseDTO);
     }
 
     @Operation(summary = "get all video by Department")

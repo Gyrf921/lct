@@ -1,9 +1,7 @@
 package com.example.lct.service.impl;
 
-import com.example.lct.model.Company;
-import com.example.lct.model.Employee;
-import com.example.lct.model.Stage;
-import com.example.lct.model.Task;
+import com.example.lct.model.*;
+import com.example.lct.model.enumformodel.Status;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
@@ -34,6 +32,19 @@ public class HRServiceImpl implements HRService {
 
     private final CompanyRepository companyRepository;
 
+    @Override
+    public List<TaskStage> getTaskStagesForCuratorChecking(Long curatorId) {
+        List<Employee> interns = employeeService.getInternsByCuratorId(curatorId);
+        return getCompletedTasksForCurator(interns);
+    }
+
+    private List<TaskStage> getCompletedTasksForCurator(List<Employee> interns){
+        List<TaskStage> tasksForCheck = new ArrayList<>();
+        for (Employee intern: interns){
+            tasksForCheck.addAll(stageService.getAllTaskStageForEmployee(intern));
+        }
+        return tasksForCheck.stream().filter(taskStage -> taskStage.getStatus().equals(Status.DONE)).toList();
+    }
     @Override
     public List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
         List<Task> tasks = taskService.createTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);

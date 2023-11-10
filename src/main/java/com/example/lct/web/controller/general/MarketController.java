@@ -25,7 +25,7 @@ public class MarketController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(Principal principal) {
 
-        return ResponseEntity.ok().body(productService.getAllProduct(userPrincipalUtils.getCompanyIdByUserPrincipal(principal)));
+        return ResponseEntity.ok().body(productService.getAllProduct(userPrincipalUtils.getCompanyByUserPrincipal(principal)));
     }
 
     @Operation(summary = "buy product in market by id")

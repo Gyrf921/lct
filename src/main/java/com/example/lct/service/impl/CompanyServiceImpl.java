@@ -27,55 +27,63 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company createCompany(CompanyDTO companyDTO) {
-        log.info("[createCompany] >> companyDTO: {}", companyDTO);
+        log.info("[CompanyService|createCompany] >> companyDTO: {}", companyDTO);
 
         Company company = companyRepository.save(companyMapper.companyDTOToCompany(companyDTO));
+
+        log.info("[createCompany << companyMapper] == company: {}", company);
 
         company.setRoles(roleService.createBaseRoleForCompany(company.getCompanyId()));
 
         Company savedCompany = companyRepository.save(company);
 
-        log.info("[createCompany] << result: {}", savedCompany);
+        log.info("[CompanyService|createCompany] << result: {}", savedCompany);
 
         return savedCompany;
     }
 
     @Override
     public Company saveCompany(Company company) {
-        log.info("[saveCompany] >> company: {}", company);
+        log.info("[CompanyService|saveCompany] >> company: {}", company);
 
         Company savedCompany = companyRepository.save(company);
 
-        log.info("[createCompany] << result: {}", savedCompany);
+        log.info("[CompanyService|createCompany] << result: {}", savedCompany);
 
         return savedCompany;
     }
 
     @Override
-    public Company saveAdmin(Company company, Employee employee) {
+    public Company saveAdmin(Company company, Employee admin) {
+        log.info("[CompanyService|saveCompany] >> company: {}, employeeId: {}", company, admin.getEmployeeId());
+        List<Employee> employees;
 
-        List<Employee> employees = new ArrayList<>();
-        employees.add(employee);
-
+        if (company.getEmployees() == null ||company.getEmployees().isEmpty()){
+            employees = new ArrayList<>();
+            employees.add(admin);
+        }else{
+            employees = company.getEmployees();
+            employees.add(admin);
+        }
         company.setEmployees(employees);
 
         Company savedCompany = companyRepository.save(company);
 
-        log.info("[setAdmin] << result: {}", savedCompany);
+        log.info("[CompanyService|setAdmin] << result: {}", savedCompany);
         return savedCompany;
     }
 
     @Override
     public Company getCompanyById(Long companyIdByUserPrincipal) {
-        log.info("[getCompanyById] >> companyIdByUserPrincipal: {}", companyIdByUserPrincipal);
+        log.info("[CompanyService|getCompanyById] >> companyIdByUserPrincipal: {}", companyIdByUserPrincipal);
 
         Company company = companyRepository.findById(companyIdByUserPrincipal)
                 .orElseThrow(() -> {
-                    log.error("Company not found by this id :{} ", companyIdByUserPrincipal);
-                    return new ResourceNotFoundException("Company not found by this id :: " + companyIdByUserPrincipal);
+                    log.error("CompanyService|Company not found by this id :{} ", companyIdByUserPrincipal);
+                    return new ResourceNotFoundException("CompanyService|Company not found by this id :: " + companyIdByUserPrincipal);
                 });
 
-        log.info("[getCompanyById] << result: {}", company.getName());
+        log.info("[CompanyService|getCompanyById] << result: {}", company.getName());
 
         return company;
     }

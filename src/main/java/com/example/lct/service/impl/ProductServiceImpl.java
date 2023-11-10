@@ -2,6 +2,7 @@ package com.example.lct.service.impl;
 
 import com.example.lct.exception.InsufficientFundsException;
 import com.example.lct.exception.ResourceNotFoundException;
+import com.example.lct.model.Company;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Product;
 import com.example.lct.model.enumformodel.HistoryType;
@@ -86,7 +87,7 @@ public class ProductServiceImpl {
         return product;
     }
 
-    public List<Product> getAllProduct(Long companyId) {
-        return productRepository.findAllByCompanyId(companyId);
+    public List<Product> getAllProduct(Company company) {
+        return productRepository.findAllByCompanyId(company.getCompanyId());
     }
 }
