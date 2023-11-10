@@ -1,9 +1,12 @@
 package com.example.lct.web.dto.response.obj;
 
+import com.example.lct.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -11,5 +14,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class JwtResponseDTO {
     private String token;
-    private String roles;
+    private List<Role> roles;
 }

@@ -87,7 +87,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
         String token = jwtTokenUtils.generateToken(userDetails);
 
-        return new JwtResponseDTO(token, employee.getRoles().toString());
+        return new JwtResponseDTO(token, employee.getRoles());
     }
 
     @Override

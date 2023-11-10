@@ -10,11 +10,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class HistoryServiceImpl implements HistoryService {
     private final HistoryRepository historyRepository;
+
+    @Override
+    public List<History> getAllHistoryForEmployee(Employee employee) {
+        return historyRepository.findAllByEmployee(employee);
+    }
 
     @Override
     public History createHistoryActionCreate(Employee employee, HistoryType type, String name) {

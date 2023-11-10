@@ -53,7 +53,7 @@ public class AuthController {
         // TODO rename
         JwtResponseDTO token = employeeService.createTokenForUser(authorizationUserDTO.getEmail());
 
-        log.info("[createToken] << result is token: {}", token.getRoles());
+        log.info("[createToken] << result is role: {}", token.getRoles());
 
         return ResponseEntity.ok().body(token);
     }

@@ -1,9 +1,6 @@
 package com.example.lct.service.impl;
 
-import com.example.lct.model.Article;
-import com.example.lct.model.Company;
-import com.example.lct.model.Employee;
-import com.example.lct.model.Task;
+import com.example.lct.model.*;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
@@ -12,6 +9,7 @@ import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
+import com.example.lct.web.dto.request.hr.TestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -104,6 +102,11 @@ public class HRServiceImpl implements HRService {
         Employee intern = employeeService.getEmployeeById(internId);
         intern.setStages(List.of(stageService.createStageForIntern(intern, stageDTO)));
         return employeeService.saveEmployee(intern);
+    }
+
+    @Override
+    public Stage setTestToStage(Long stageId, TestDTO testDTO) {
+        return stageService.setTestToStage(stageId, testDTO.getTestUrl());
     }
 
 

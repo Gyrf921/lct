@@ -45,7 +45,20 @@ public class StageServiceImpl implements StageService {
 
         return task;
     }
+    @Override
+    public Stage getStageById(Long id) {
+        log.info("[getStageById] >> id: {}", id);
 
+        Stage stage = stageRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Stage not found by this id :{} ", id);
+                    return new ResourceNotFoundException("Stage not found by this id :: " + id);
+                });
+
+        log.info("[getStageById] << result: {}", stage);
+
+        return stage;
+    }
     @Override
     public Stage createBaseStageForIntern(Employee employee) {
 
@@ -121,6 +134,13 @@ public class StageServiceImpl implements StageService {
     public List<TaskStage> getAllTaskStageForEmployeeByStageLevelDifficult(Employee employee, Integer stageLevelDifficult) {
         return getAllTaskStageForEmployee(employee).stream()
                 .filter(taskStage -> taskStage.getStage().getLevelDifficulty().equals(stageLevelDifficult)).toList();
+    }
+
+    @Override
+    public Stage setTestToStage(Long stageId, String testUrl) {
+        Stage stage = getStageById(stageId);
+        stage.setTestUrl(testUrl);
+        return stageRepository.save(stage);
     }
 
 }

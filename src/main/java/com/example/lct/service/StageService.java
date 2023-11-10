@@ -10,6 +10,8 @@ import java.util.List;
 public interface StageService {
     TaskStage getTaskStageById(Long id);
 
+    Stage getStageById(Long id);
+
     Stage createBaseStageForIntern(Employee companyId);
 
     Stage createStageForIntern(Employee employee, StageDTO stageDTO);
@@ -19,4 +21,6 @@ public interface StageService {
     List<TaskStage> getAllTaskStageForEmployee(Employee employee);
 
     List<TaskStage> getAllTaskStageForEmployeeByStageLevelDifficult(Employee employee, Integer stageLevelDifficult);
+
+    Stage setTestToStage(Long stageId, String testUrl);
 }

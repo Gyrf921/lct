@@ -1,6 +1,7 @@
 package com.example.lct.web.controller;
 
 import com.example.lct.model.Employee;
+import com.example.lct.model.Stage;
 import com.example.lct.model.Task;
 import com.example.lct.model.TaskStage;
 import com.example.lct.service.EmployeeService;
@@ -10,6 +11,7 @@ import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
+import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -86,6 +88,17 @@ public class HRController {
         Employee employee = hrService.createStageToIntern(internId, stageDTO);
 
         return ResponseEntity.ok().body(employee);
+    }
+
+    @Operation(summary = "create stage to intern")
+    @PatchMapping("/stage/{stageId}/test")
+    public ResponseEntity<Stage> setTestToStage(@PathVariable(value = "stageId") Long stageId,
+                                                   @RequestBody TestDTO testDTO,
+                                                   Principal principal) {
+
+        Stage stage = hrService.setTestToStage(stageId, testDTO);
+
+        return ResponseEntity.ok().body(stage);
     }
 
     @Operation(summary = "get all tasks for Intern")

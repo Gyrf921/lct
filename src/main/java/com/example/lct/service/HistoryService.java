@@ -4,8 +4,11 @@ import com.example.lct.model.Employee;
 import com.example.lct.model.History;
 import com.example.lct.model.enumformodel.HistoryType;
 
+import java.util.List;
+
 public interface HistoryService {
 
+    List<History> getAllHistoryForEmployee(Employee employee);
 
     History createHistoryActionCreate(Employee employee, HistoryType type, String name);
 
