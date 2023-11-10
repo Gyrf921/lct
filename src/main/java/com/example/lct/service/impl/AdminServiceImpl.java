@@ -4,6 +4,7 @@ import com.example.lct.model.*;
 import com.example.lct.service.AdminService;
 import com.example.lct.service.CompanyService;
 import com.example.lct.service.EmployeeService;
+import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.admin.*;
 import com.example.lct.web.dto.request.admin.obj.ArticleDTO;
 import com.example.lct.web.dto.request.admin.obj.AudioDTO;
@@ -30,6 +31,7 @@ public class AdminServiceImpl implements AdminService {
     private final QuestionServiceImpl questionService;
     private final ProductServiceImpl productService;
     private final CompanyService companyService;
+    private final TaskService taskService;
 
     private final ArticleServiceImpl articleService;
     private final VideoServiceImpl videoService;
@@ -222,6 +224,41 @@ public class AdminServiceImpl implements AdminService {
 
         return company.getArticles();
     }
+    @Override
+    public List<Article> updateArticle(Long articleId, ArticleDTO articleDTO) {
+        Article article = articleService.getArticleById(articleId);
+        Post post = postService.getPostByNameAndCompanyId(article.getCompanyId(), articleDTO.getPostName());
+
+        article.setPost(post);
+        article.setDepartment(post.getDepartment());
+        article.setImagePath(articleDTO.getImagePath());
+        article.setTheme(articleDTO.getTheme());
+        article.setInformation(articleDTO.getInformation());
+
+        articleService.saveArticle(article);
+
+        return articleService.getAllArticleByCompanyId(article.getCompanyId());
+    }
+
+    @Override
+    public List<Article> deleteArticle(Company company, Long articleId) {
+
+        Article article = articleService.getArticleById(articleId);
+        articleService.deleteArticle(article);
+        company.getArticles().remove(article);
+
+        companyService.saveCompany(company);
+        return company.getArticles();
+    }
+
+    @Override
+    public List<Task> deleteTask(Company company, Long taskId) {
+        Task task = taskService.getTaskById(taskId);
+        taskService.deleteTask(task);
+        company.getTasks().remove(task);
+        companyService.saveCompany(company);
+        return company.getTasks();
+    }
 
     @Override
     public List<Video> createVideoListToCompany(Company companyByUserPrincipal, VideosDTO videosDTO) {
@@ -298,6 +335,7 @@ public class AdminServiceImpl implements AdminService {
 
         return company.getAudio();
     }
+
 
 
 

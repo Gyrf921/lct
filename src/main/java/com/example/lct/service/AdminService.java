@@ -17,25 +17,33 @@ public interface AdminService {
 
     List<Post> createPostsToCompany(Company company, PostsDTO postsDTO);
 
-    List<Employee> createEmployeesToCompany(Company companyByUserPrincipal, EmployeeListForCreateDTO employees);
+    List<Product> createProductToCompany(Company companyByUserPrincipal, ProductsDTO productDTO);
+
 
     List<Question> createQuestionsToCompany(Company company, QuestionsDTO questionsDTO);
 
     List<Question> createQuestionToCompany(Company company, QuestionDTO questionDTO);
 
-    List<Product> createProductToCompany(Company companyByUserPrincipal, ProductsDTO productDTO);
-
     List<Article> createArticleListToCompany(Company companyByUserPrincipal, ArticlesDTO articlesDTO);
 
     List<Article> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
 
+    List<Article> updateArticle(Long articleId, ArticleDTO articleDTO);
+
+    List<Article> deleteArticle(Company companyByUserPrincipal, Long articleId);
+
+
     List<Video> createVideoListToCompany(Company companyByUserPrincipal, VideosDTO videosDTO);
 
     List<Video> createVideoToCompany(Company companyByUserPrincipal, VideoDTO videoDTO);
+
 
     List<Audio> createAudioListToCompany(Company companyByUserPrincipal, AudiosDTO audiosDTO);
 
     List<Audio> createAudioToCompany(Company companyByUserPrincipal, AudioDTO audioDTO);
 
 
+    List<Employee> createEmployeesToCompany(Company companyByUserPrincipal, EmployeeListForCreateDTO employees);
+
+    List<Task> deleteTask(Company companyByUserPrincipal, Long taskId);
 }

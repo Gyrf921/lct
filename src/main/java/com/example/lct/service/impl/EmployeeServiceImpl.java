@@ -148,6 +148,19 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
+    public Employee createEmployeeByHR(Company company, EmployeeForCreateDTO employeeForCreateDTO) {
+        log.info("[EmployeeService|createEmployeesByAdmin] >> companyId: {}, employeeForCreateDTO: {}", company.getCompanyId(), employeeForCreateDTO);
+
+        Employee employee = employeeRepository.save(
+                EmployeeFactory.createEmployee(company.getCompanyId(), employeeForCreateDTO)
+        );
+
+        log.info("[EmployeeService|createEmployeesByAdmin] << result : {}", employee);
+
+        return employee;
+    }
+
+    @Override
     public Employee registrationEmployee(RegistrationUserDTO registrationUserDTO) {
 
         Employee employee = getEmployeeByEmail(registrationUserDTO.getEmail());
@@ -196,7 +209,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
-    public List<EmployeeTeamResponseDTO> getTeam(Company companyByUserPrincipal, FilterTeamDTO filterTeamDTO) {
+    public List<EmployeeTeamResponseDTO> getTeamWithFilter(Company companyByUserPrincipal, FilterTeamDTO filterTeamDTO) {
         List<Employee> employees = companyByUserPrincipal.getEmployees();
 
         if (filterTeamDTO.getPostName() != null) {
@@ -218,8 +231,19 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
+    public List<EmployeeTeamResponseDTO> getTeam(Company company) {
+        return company.getEmployees().stream().map(employeeMapper::employeeToTeamDTO).toList();
+    }
+
+
+    @Override
     public List<Employee> getInternsByCuratorId(Long curatorId) {
         return employeeRepository.findAllByCuratorId(curatorId);
+    }
+
+    @Override
+    public void deleteEmployee(Employee employee) {
+        employeeRepository.delete(employee);
     }
 
     @Override

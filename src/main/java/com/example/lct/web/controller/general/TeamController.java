@@ -38,7 +38,7 @@ public class TeamController {
         FilterTeamDTO filterTeamDTO = new FilterTeamDTO(departmentName, postName, cityName, employeeName);
 
         //TODO не должен быть пост, но передача параметров не через тело тогда
-        List<EmployeeTeamResponseDTO> teamDTOS = employeeService.getTeam(userPrincipalUtils.getCompanyByUserPrincipal(principal), filterTeamDTO);
+        List<EmployeeTeamResponseDTO> teamDTOS = employeeService.getTeamWithFilter(userPrincipalUtils.getCompanyByUserPrincipal(principal), filterTeamDTO);
 
         return ResponseEntity.ok().body(teamDTOS);
     }

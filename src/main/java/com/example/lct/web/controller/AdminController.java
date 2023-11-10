@@ -24,6 +24,7 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
+
     private final UserPrincipalUtils userPrincipalUtils;
 
     //region Company
@@ -79,16 +80,32 @@ public class AdminController {
     }
     //endregion
 
-    @Operation(summary = "add list of Employees To Company")
-    @PostMapping("/employees")
-    public ResponseEntity<List<Employee>> createEmployeesToCompany(Principal principal,
-                                                                   @RequestBody EmployeeListForCreateDTO employees) {
+    //region Tasks
+    @Operation(summary = "get all company tasks")
+    @GetMapping("/tasks")
+    public ResponseEntity<List<Task>> getTasks(Principal principal) {
+        log.info("[AdminController|getTasks] >> user principal: {}", principal.getName());
 
-        List<Employee> savedEmployee = adminService.createEmployeesToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), employees);
+        Company company = userPrincipalUtils.getCompanyByUserPrincipal(principal);
 
-        return ResponseEntity.ok().body(savedEmployee);
+        log.info("[AdminController|getTasks] << result: {}", company.getTasks());
+
+        return ResponseEntity.ok().body(company.getTasks());
     }
+
+    @Operation(summary = "delete task by id")
+    @GetMapping("/tasks/{taskId}")
+    public ResponseEntity<List<Task>> deleteTask(@PathVariable(name = "taskId") Long taskId,
+                                                 Principal principal) {
+        log.info("[AdminController|deleteTask] >> taskId: {}, user principal: {}", taskId,  principal.getName());
+
+        List<Task> tasks = adminService.deleteTask(userPrincipalUtils.getCompanyByUserPrincipal(principal), taskId);
+
+        log.info("[AdminController|deleteTask] << result: {}", tasks);
+
+        return ResponseEntity.ok().body(tasks);
+    }
+    //endregion
 
     //region Knowledge base
     @Operation(summary = "add questions To Company")
@@ -189,8 +206,7 @@ public class AdminController {
 
     @Operation(summary = "add one audio to Company")
     @PostMapping("/knowledge-base/audio")
-    public ResponseEntity<List<Audio>> createAudio(Principal principal,
-                                                            @RequestBody AudioDTO audioDTO) {
+    public ResponseEntity<List<Audio>> createAudio(Principal principal, @RequestBody AudioDTO audioDTO) {
         log.info("[AdminController|createAudio] >> audioDTO: {}", audioDTO);
 
         List<Audio> audios = adminService.createAudioToCompany(
@@ -203,17 +219,41 @@ public class AdminController {
 
 
     @Operation(summary = "update article by id")
-    @PutMapping("/knowledge-base/articles")
-    public ResponseEntity<List<Article>> updateArticle(Principal principal,
-                                                        @RequestBody ArticlesDTO articlesDTO) {
-        log.info("[AdminController|createArticles] >> articlesDTO: {}", articlesDTO);
-        //TODO
-        List<Article> articles = adminService.createArticleListToCompany(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), articlesDTO);
+    @PutMapping("/knowledge-base/articles/{articleId}")
+    public ResponseEntity<List<Article>> updateArticle(@PathVariable(value = "articleId") Long articleId,
+                                                       @RequestBody ArticleDTO articleDTO) {
+        log.info("[AdminController|updateArticle] >> articleId: {}, articleDTO: {}", articleId, articleDTO);
 
-        log.info("[AdminController|createArticles] << result: {}", articlesDTO);
+        List<Article> articles = adminService.updateArticle(articleId, articleDTO);
+
+        log.info("[AdminController|updateArticle] << result: {}", articleDTO);
+
+        return ResponseEntity.ok().body(articles);
+    }
+
+    @Operation(summary = "delete article by id")
+    @DeleteMapping("/knowledge-base/articles/{articleId}")
+    public ResponseEntity<List<Article>> deleteArticle(@PathVariable(value = "articleId") Long articleId,Principal principal) {
+        log.info("[AdminController|updateArticle] >> articleId: {}", articleId);
+
+        List<Article> articles = adminService.deleteArticle(userPrincipalUtils.getCompanyByUserPrincipal(principal), articleId);
+
+        log.info("[AdminController|updateArticle] << articleId: {}", articleId);
+
         return ResponseEntity.ok().body(articles);
     }
     //endregion
 
+    //region Employee
+    @Operation(summary = "add list of Employees To Company")
+    @PostMapping("/employees")
+    public ResponseEntity<List<Employee>> createEmployeesToCompany(Principal principal,
+                                                                   @RequestBody EmployeeListForCreateDTO employees) {
+
+        List<Employee> savedEmployee = adminService.createEmployeesToCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), employees);
+
+        return ResponseEntity.ok().body(savedEmployee);
+    }
+    //endregion
 }

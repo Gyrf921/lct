@@ -105,7 +105,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> getTasksByListId(List<Long> tasksId) {
-        return null;
+        List<Task> tasks = new ArrayList<>();
+        for (Long taskId: tasksId) {
+            tasks.add(getTaskById(taskId));
+        }
+        return tasks;
+    }
+
+    @Override
+    public void deleteTask(Task task) {
+        taskRepository.delete(task);
     }
 
 

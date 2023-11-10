@@ -22,4 +22,6 @@ public interface TaskService {
 
 
     List<Task> getTasksByListId(List<Long> tasksId);
+
+    void deleteTask(Task task);
 }

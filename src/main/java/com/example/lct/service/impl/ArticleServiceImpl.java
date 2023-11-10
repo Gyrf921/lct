@@ -94,4 +94,15 @@ public class ArticleServiceImpl {
         employeeService.saveEmployee(employee);
     }
 
+    public Article saveArticle(Article article) {
+        return articleRepository.save(article);
+    }
+
+    public List<Article> getAllArticleByCompanyId(Long companyId) {
+        return articleRepository.findAllByCompanyId(companyId);
+    }
+
+    public void deleteArticle(Article article) {
+        articleRepository.delete(article);
+    }
 }

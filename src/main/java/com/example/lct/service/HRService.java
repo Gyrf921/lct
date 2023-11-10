@@ -5,23 +5,15 @@ import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
+import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 
 import java.util.List;
 
 public interface HRService {
 
-    List<TaskStage> getTaskStagesForCuratorChecking(Long curatorId);
-    List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO);
+    List<EmployeeTeamResponseDTO> createIntern(Company companyByUserPrincipal, EmployeeForCreateDTO employeeForCreateDTO);
 
-    List<Task> createBaseTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO);
+    List<EmployeeTeamResponseDTO> createEmployee(Company company, EmployeeForCreateDTO employeeForCreateDTO);
 
-    Employee createInternForCompany(Company companyByUserPrincipal, EmployeeForCreateDTO employeeForCreateDTO);
-
-    List<Employee> getAllInternForHR(Long employeeIdByUserPrincipal);
-
-    List<Task> getAllTasksForCompany(Company companyByUserPrincipal);
-
-    Employee createStageToIntern(Long internId, StageDTO stageDTO);
-
-    Stage setTestToStage(Long stageId, TestDTO testDTO);
+    List<EmployeeTeamResponseDTO> deleteEmployee(Company companyByUserPrincipal, Long employeeId);
 }

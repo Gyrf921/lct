@@ -1,21 +1,17 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.model.*;
-import com.example.lct.model.enumformodel.Status;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HRService;
 import com.example.lct.service.StageService;
 import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
-import com.example.lct.web.dto.request.hr.StageDTO;
-import com.example.lct.web.dto.request.hr.TasksDTO;
-import com.example.lct.web.dto.request.hr.TestDTO;
+import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,105 +19,56 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HRServiceImpl implements HRService {
 
-    private final DepartmentServiceImpl departmentService;
-
-    private final TaskService taskService;
-    private final StageService stageService;
-
     private final EmployeeService employeeService;
 
     private final CompanyRepository companyRepository;
 
-    @Override
-    public List<TaskStage> getTaskStagesForCuratorChecking(Long curatorId) {
-        List<Employee> interns = employeeService.getInternsByCuratorId(curatorId);
-        return getCompletedTasksForCurator(interns);
-    }
-
-    private List<TaskStage> getCompletedTasksForCurator(List<Employee> interns){
-        List<TaskStage> tasksForCheck = new ArrayList<>();
-        for (Employee intern: interns){
-            tasksForCheck.addAll(stageService.getAllTaskStageForEmployee(intern));
-        }
-        return tasksForCheck.stream().filter(taskStage -> taskStage.getStatus().equals(Status.DONE)).toList();
-    }
-    @Override
-    public List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
-        List<Task> tasks = taskService.createTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
-
-        List<Task> tasksSaved;
-        if (companyByUserPrincipal.getTasks() == null || companyByUserPrincipal.getTasks().isEmpty()) {
-            tasksSaved = new ArrayList<>(tasks);
-        } else {
-            tasksSaved = companyByUserPrincipal.getTasks();
-            tasksSaved.addAll(tasks);
-        }
-
-        companyByUserPrincipal.setTasks(tasksSaved);
-
-        companyRepository.save(companyByUserPrincipal);
-
-        log.info("[createTasksPlanForCompany] << result: {}", tasks);
-
-        return tasks;
-    }
 
     @Override
-    public List<Task> createBaseTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
-
-        List<Task> tasks = taskService.createBaseTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
-
-        List<Task> tasksSaved;
-        if (companyByUserPrincipal.getTasks() == null || companyByUserPrincipal.getTasks().isEmpty()) {
-            tasksSaved = new ArrayList<>(tasks);
-        } else {
-            tasksSaved = companyByUserPrincipal.getTasks();
-            tasksSaved.addAll(tasks);
-        }
-
-        companyByUserPrincipal.setTasks(tasksSaved);
-
-        companyRepository.save(companyByUserPrincipal);
-
-        log.info("[createTasksPlanForCompany] << result: {}", tasks);
-
-        return tasks;
-    }
-
-    @Override
-    public Employee createInternForCompany(Company companyByUserPrincipal, EmployeeForCreateDTO employeeForCreateDTO) {
+    public List<EmployeeTeamResponseDTO> createIntern(Company company, EmployeeForCreateDTO employeeForCreateDTO) {
+        log.info("[HRServiceImpl|createIntern] >> company: {}, employeeForCreateDTO: {}", company, employeeForCreateDTO);
         //создать пользователя, добавить к нему задания и hr
-        Employee intern = employeeService.createIntern(companyByUserPrincipal.getCompanyId(), employeeForCreateDTO);
+        Employee intern = employeeService.createIntern(company.getCompanyId(), employeeForCreateDTO);
 
-        companyByUserPrincipal.getEmployees().add(intern);
+        company.getEmployees().add(intern);
 
-        Company savedCompany = companyRepository.save(companyByUserPrincipal);
+        Company savedCompany = companyRepository.save(company);
 
-        log.info("[createInternForCompany] << result company: {}", savedCompany);
+        log.info("[HRServiceImpl|createIntern] << result intern: {}", intern);
 
-        return intern;
+        return employeeService.getTeam(savedCompany);
     }
 
     @Override
-    public List<Employee> getAllInternForHR(Long employeeIdByUserPrincipal) {
-        return employeeService.getAllInternByCuratorId(employeeIdByUserPrincipal);
+    public List<EmployeeTeamResponseDTO> createEmployee(Company company, EmployeeForCreateDTO employeeForCreateDTO) {
+        log.info("[HRServiceImpl|createEmployee] >> company: {}, employeeForCreateDTO: {}", company, employeeForCreateDTO);
+
+        Employee employee = employeeService.createEmployeeByHR(company, employeeForCreateDTO);
+
+        company.getEmployees().add(employee);
+
+        Company savedCompany = companyRepository.save(company);
+
+        log.info("[HRServiceImpl|createEmployee] << result employee: {}", employee);
+
+        return employeeService.getTeam(savedCompany);
     }
 
     @Override
-    public List<Task> getAllTasksForCompany(Company companyByUserPrincipal) {
-        return companyByUserPrincipal.getTasks();
-    }
+    public List<EmployeeTeamResponseDTO> deleteEmployee(Company company, Long employeeId)
+    {
+        log.info("[HRServiceImpl|deleteEmployee] >> company: {}, employeeId: {}", company, employeeId);
 
-    @Override
-    public Employee createStageToIntern(Long internId, StageDTO stageDTO) {
-        Employee intern = employeeService.getEmployeeById(internId);
-        intern.setStages(List.of(stageService.createStageForIntern(intern, stageDTO)));
-        return employeeService.saveEmployee(intern);
-    }
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        employeeService.deleteEmployee(employee);
 
-    @Override
-    public Stage setTestToStage(Long stageId, TestDTO testDTO) {
-        return stageService.setTestToStage(stageId, testDTO.getTestUrl());
+        company.getEmployees().remove(employee);
+
+        Company savedCompany = companyRepository.save(company);
+
+        log.info("[HRServiceImpl|deleteEmployee] << result employee: {} , was deleted", employee);
+
+        return employeeService.getTeam(savedCompany);
     }
 
 

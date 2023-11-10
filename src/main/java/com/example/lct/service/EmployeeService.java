@@ -30,15 +30,20 @@ public interface EmployeeService {
 
     Employee createIntern(Long companyId, EmployeeForCreateDTO employeeForCreateDTO);
 
-    List<Employee> getAllInternByCuratorId(Long employeeIdByUserPrincipal);
+    List<Employee> getAllInternByCuratorId(Long curatorId);
 
     Employee saveEmployee(Employee employee);
 
-    EmployeePersonalityResponseDTO getEmployeeInformation(Employee employeeByUserPrincipal);
+    EmployeePersonalityResponseDTO getEmployeeInformation(Employee employee);
 
-    EmployeePersonalityResponseDTO setEmployeeInformation(Employee employeeByUserPrincipal, EmployeePersonalityDTO employeePersonalityDTO);
+    EmployeePersonalityResponseDTO setEmployeeInformation(Employee employee, EmployeePersonalityDTO employeePersonalityDTO);
 
-    List<EmployeeTeamResponseDTO> getTeam(Company companyByUserPrincipal, FilterTeamDTO filterTeamDTO);
+    List<EmployeeTeamResponseDTO> getTeamWithFilter(Company company, FilterTeamDTO filterTeamDTO);
+    List<EmployeeTeamResponseDTO> getTeam(Company company);
 
     List<Employee> getInternsByCuratorId(Long curatorId);
+
+    Employee createEmployeeByHR(Company company, EmployeeForCreateDTO employeeForCreateDTO);
+
+    void deleteEmployee(Employee employee);
 }
