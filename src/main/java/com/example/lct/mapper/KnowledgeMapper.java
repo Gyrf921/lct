@@ -23,9 +23,11 @@ public interface KnowledgeMapper {
     ArticleResponseDTO articleToArticleResponseDTO(Article article);
 
     @Mapping(source = "videoId", target = "id")
+    @Mapping(source = "post.name", target = "postName")
     MediaContentDTO videoToMediaContentDTO(Video video);
 
     @Mapping(source = "audioId", target = "id")
+    @Mapping(source = "post.name", target = "postName")
     MediaContentDTO audioToMediaContentDTO(Audio audio);
 
 

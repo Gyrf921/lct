@@ -30,7 +30,7 @@ public interface EmployeeService {
 
     Employee createIntern(Long companyId, EmployeeForCreateDTO employeeForCreateDTO);
 
-    List<Employee> getAllInternByCuratorId(Long curatorId);
+    List<EmployeeTeamResponseDTO> getAllInternByCuratorId(Long curatorId);
 
     Employee saveEmployee(Employee employee);
 

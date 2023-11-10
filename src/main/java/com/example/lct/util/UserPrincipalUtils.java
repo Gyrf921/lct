@@ -25,7 +25,7 @@ public class UserPrincipalUtils {
 
         Company company = companyService.getCompanyById(employee.getCompanyId());
 
-        log.info("[UserPrincipalUtils|getCompanyByUserPrincipal] << result is company with Id: {}", company.getCompanyId());
+        log.info("[UserPrincipalUtils|getCompany_ByUP] << result is company with Id: {}", company.getCompanyId());
         return company;
     }
 

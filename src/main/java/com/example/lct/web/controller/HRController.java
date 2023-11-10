@@ -29,21 +29,28 @@ public class HRController {
 
     @Operation(summary = "create intern to Company")
     @PostMapping("/employee")
-    public ResponseEntity<List<EmployeeTeamResponseDTO>> createEmployee(Principal principal, @RequestBody EmployeeForCreateDTO employeeForCreateDTO) {
+    public ResponseEntity<List<EmployeeTeamResponseDTO>> createEmployee(Principal principal,
+                                                                        @RequestBody EmployeeForCreateDTO employeeForCreateDTO) {
+        log.info("[HRController|createEmployee] >> user principal: {}, employeeForCreateDTO: {}", principal.getName(), employeeForCreateDTO);
 
         List<EmployeeTeamResponseDTO> employees = hrService.createEmployee(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), employeeForCreateDTO);
+
+        log.info("[HRController|createEmployee] << result employees.size: {}", employees.size());
 
         return ResponseEntity.ok().body(employees);
     }
 
     @Operation(summary = "create intern to Company")
     @PostMapping("/intern")
-    public ResponseEntity<List<EmployeeTeamResponseDTO>> createIntern(Principal principal, @RequestBody EmployeeForCreateDTO employeeForCreateDTO) {
+    public ResponseEntity<List<EmployeeTeamResponseDTO>> createIntern(Principal principal,
+                                                                      @RequestBody EmployeeForCreateDTO employeeForCreateDTO) {
+        log.info("[HRController|createIntern] >> user principal: {}, employeeForCreateDTO: {}", principal.getName(), employeeForCreateDTO);
 
         List<EmployeeTeamResponseDTO> employees = hrService.createIntern(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), employeeForCreateDTO);
 
+        log.info("[HRController|createIntern] << result employees.size: {}", employees.size());
         return ResponseEntity.ok().body(employees);
     }
 
@@ -51,9 +58,12 @@ public class HRController {
     @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<List<EmployeeTeamResponseDTO>> deleteEmployee(@PathVariable(name = "employeeId") Long employeeId,
                                                                       Principal principal) {
+        log.info("[HRController|deleteEmployee] >> user principal: {}, employeeId: {}", principal.getName(), employeeId);
+
         List<EmployeeTeamResponseDTO> employees = hrService.deleteEmployee(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), employeeId);
 
+        log.info("[HRController|deleteEmployee] << result employees.size: {}", employees.size());
         return ResponseEntity.ok().body(employees);
     }
 }

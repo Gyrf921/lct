@@ -1,13 +1,12 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.model.Employee;
-import com.example.lct.model.Stage;
 import com.example.lct.model.TaskStage;
-import com.example.lct.model.enumformodel.Status;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.InternService;
 import com.example.lct.service.StageService;
 import com.example.lct.web.dto.request.intern.TasksToCheckDTO;
+import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

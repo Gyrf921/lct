@@ -108,13 +108,13 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
-    public List<Employee> getAllInternByCuratorId(Long employeeIdByUserPrincipal) {
+    public List<EmployeeTeamResponseDTO> getAllInternByCuratorId(Long employeeIdByUserPrincipal) {
 
         List<Employee> interns = employeeRepository.findAllByCuratorId(employeeIdByUserPrincipal);
 
         log.info("[getAllInternByCuratorId] << result : {}", interns);
 
-        return interns;
+        return interns.stream().map(employeeMapper::employeeToTeamDTO).toList();
     }
 
     @Override

@@ -8,10 +8,14 @@ import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
+import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
+import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,18 +34,40 @@ public class CuratorServiceImpl implements CuratorService {
     private final CompanyRepository companyRepository;
 
     @Override
-    public List<TaskStage> getTaskStagesForCuratorChecking(Long curatorId) {
+    public List<TaskForCheckDTO> getTaskStagesForCuratorChecking(Long curatorId) {
         List<Employee> interns = employeeService.getInternsByCuratorId(curatorId);
         return getCompletedTasksForCurator(interns);
     }
 
-    private List<TaskStage> getCompletedTasksForCurator(List<Employee> interns){
+    private List<TaskForCheckDTO> getCompletedTasksForCurator(List<Employee> interns){
         List<TaskStage> tasksForCheck = new ArrayList<>();
+        List<TaskForCheckDTO> taskForCheckDTOS = new ArrayList<>();
+
         for (Employee intern: interns){
-            tasksForCheck.addAll(stageService.getAllTaskStageForEmployee(intern));
+            tasksForCheck.addAll(stageService.getAllTaskStageForEmployee(intern).stream()
+                    .filter(taskStage -> taskStage.getStatus().equals(Status.DONE))
+                    .toList());
+            taskForCheckDTOS.addAll(mapListTaskStageToTaskForCheckDTO(intern, tasksForCheck));
         }
-        return tasksForCheck.stream().filter(taskStage -> taskStage.getStatus().equals(Status.DONE)).toList();
+
+        return taskForCheckDTOS;
     }
+
+    private List<TaskForCheckDTO> mapListTaskStageToTaskForCheckDTO(Employee employee, List<TaskStage> tasksStage){
+        List<TaskForCheckDTO> taskForCheckDTOS = new ArrayList<>();
+
+        for (TaskStage taskStage:tasksStage) {
+            taskForCheckDTOS.add(TaskForCheckDTO.builder()
+                    .employeeId(employee.getEmployeeId())
+                    .employeeName(employee.getName())
+                    .post(employee.getPost())
+                    .taskStageId(taskStage.getTaskStageId())
+                    .taskName(taskStage.getTask().getName()).build());
+        }
+
+        return taskForCheckDTOS;
+    }
+
     @Override
     public List<Task> createTasksForCompany(Company companyByUserPrincipal, TasksDTO tasksDTO) {
         List<Task> tasks = taskService.createTasks(companyByUserPrincipal.getCompanyId(), tasksDTO);
@@ -100,7 +126,7 @@ public class CuratorServiceImpl implements CuratorService {
     }
 
     @Override
-    public List<Employee> getAllInternForHR(Long employeeIdByUserPrincipal) {
+    public List<EmployeeTeamResponseDTO> getCuratorInterns(Long employeeIdByUserPrincipal) {
         return employeeService.getAllInternByCuratorId(employeeIdByUserPrincipal);
     }
 
@@ -110,10 +136,28 @@ public class CuratorServiceImpl implements CuratorService {
     }
 
     @Override
-    public Employee createStageToIntern(Long internId, StageDTO stageDTO) {
+    public List<Stage> createStageToIntern(Long internId, StageDTO stageDTO) {
+        log.info("[CuratorService|createStageToIntern] >> internId: {}, stageDTO: {}", internId, stageDTO);
+
         Employee intern = employeeService.getEmployeeById(internId);
-        intern.setStages(List.of(stageService.createStageForIntern(intern, stageDTO)));
-        return employeeService.saveEmployee(intern);
+
+        List<Stage> internStages;
+
+        if (intern.getStages() == null || intern.getStages().isEmpty()){
+            internStages = new ArrayList<>(List.of(stageService.createStageForIntern(intern, stageDTO)));
+        }
+        else {
+            internStages = intern.getStages();
+            internStages.add(stageService.createStageForIntern(intern, stageDTO));
+        }
+
+        intern.setStages(internStages);
+
+        Employee employee = employeeService.saveEmployee(intern);
+
+        log.info("[CuratorService|createStageToIntern] << result: {}", employee.getStages());
+
+        return employee.getStages();
     }
 
     @Override
@@ -121,5 +165,18 @@ public class CuratorServiceImpl implements CuratorService {
         return stageService.setTestToStage(stageId, testDTO.getTestUrl());
     }
 
+
+    @Override
+    public void evaluateInternAnswer(Long taskId, Boolean isAccepted) {
+        TaskStage taskStage = stageService.getTaskStageById(taskId);
+
+        if (isAccepted){
+            taskStage.setStatus(Status.ACCEPTED);
+            taskStage.setTimeFinish(Timestamp.valueOf(LocalDateTime.now()));
+        }
+        else{
+            taskStage.setStatus(Status.REWRITE);
+        }
+    }
 
 }

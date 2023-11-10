@@ -11,6 +11,7 @@ import com.example.lct.repository.TaskStageRepository;
 import com.example.lct.service.StageService;
 import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,8 @@ public class StageServiceImpl implements StageService {
 
         return task;
     }
+
+
 
     @Override
     public Stage getStageById(Long id) {
@@ -90,6 +93,8 @@ public class StageServiceImpl implements StageService {
 
     @Override
     public Stage createStageForIntern(Employee employee, StageDTO stageDTO) {
+        log.info("[StageService|createStageForIntern] >> stageDTO: {}", stageDTO);
+
         List<Task> tasks = taskService.getTasksByListId(stageDTO.getTasksId());
 
         Stage stage = stageRepository.save(Stage.builder()
@@ -109,6 +114,8 @@ public class StageServiceImpl implements StageService {
                     .deadline(task.getDeadline()).build());
         }
         taskStageRepository.saveAll(taskStages);
+
+        log.info("[StageService|createStageForIntern] << result: {}", stage);
 
         return stage;
     }

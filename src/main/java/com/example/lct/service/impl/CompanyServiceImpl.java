@@ -22,7 +22,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyMapper companyMapper;
     private final CompanyRepository companyRepository;
-
     private final RoleService roleService;
 
     @Override
@@ -83,7 +82,7 @@ public class CompanyServiceImpl implements CompanyService {
                     return new ResourceNotFoundException("CompanyService|Company not found by this id :: " + companyIdByUserPrincipal);
                 });
 
-        log.info("[CompanyService|getCompanyById] << result: {}", company.getName());
+        log.info("[CompanyService|getCompanyById] << result company: {}", company);
 
         return company;
     }
