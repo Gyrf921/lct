@@ -1,9 +1,12 @@
 package com.example.lct.web.dto.response;
 
+import com.example.lct.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +21,8 @@ public class EmployeeTeamResponseDTO {
     private String city;
 
     private String postName;
+
+    private List<Role> roles;
 
     private String network;
 

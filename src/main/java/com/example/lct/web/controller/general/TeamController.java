@@ -34,7 +34,6 @@ public class TeamController {
                                                                    @RequestParam(required = false, name = "cityName") String cityName,
                                                                    @RequestParam(required = false, name = "employeeName") String employeeName,
                                                                    Principal principal) {
-
         FilterTeamDTO filterTeamDTO = new FilterTeamDTO(departmentName, postName, cityName, employeeName);
 
         //TODO не должен быть пост, но передача параметров не через тело тогда

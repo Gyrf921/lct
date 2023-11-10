@@ -6,7 +6,9 @@ import com.example.lct.service.EmployeeService;
 import com.example.lct.service.InternService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
+import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,10 +33,11 @@ public class CuratorController {
 /*
 --Вывод задания по Id (дубль)
 
-Добавление базовых заданий(общие) (none Post)
 Создание списка задач(общие)
 Создание одной задачи(общие)
 Редактирование задач(общие)
+Добавление базовых заданий(общие) (none Post)
+
 */
 
     //region Intern
@@ -132,9 +135,20 @@ public class CuratorController {
 
         return ResponseEntity.ok().body(company.getTasks());
     }
-      /*  @Operation(summary = "create tasks")
+
+    @Operation(summary = "create one task")
     @PostMapping("/tasks")
     public ResponseEntity<List<Task>> createTasks(Principal principal, @RequestBody TasksDTO tasksDTO) {
+
+        List<Task> tasks = curatorService.createTasksForCompany(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
+
+        return ResponseEntity.ok().body(tasks);
+    }
+  /*
+    @Operation(summary = "create tasks")
+    @PostMapping("/tasks")
+    public ResponseEntity<List<Task>> createTasks(Principal principal, @RequestBody TaskDTO tasksDTO) {
 
         List<Task> tasks = hrService.createTasksForCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), tasksDTO);
