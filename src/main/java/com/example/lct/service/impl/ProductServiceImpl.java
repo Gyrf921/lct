@@ -85,4 +85,8 @@ public class ProductServiceImpl {
 
         return product;
     }
+
+    public List<Product> getAllProduct(Long companyId) {
+        return productRepository.findAllByCompanyId(companyId);
+    }
 }

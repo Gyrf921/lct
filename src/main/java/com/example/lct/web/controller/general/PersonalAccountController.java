@@ -28,9 +28,9 @@ public class PersonalAccountController {
                 employeeService.getEmployeeInformation(userPrincipalUtils.getEmployeeByUserPrincipal(principal)));
     }
 
-    @Operation(summary = "add article to favourites")
+    @Operation(summary = "set Employee Information")
     @PutMapping()
-    public ResponseEntity<?> addArticleByIdToFavorite(Principal principal, @RequestBody EmployeePersonalityDTO employeePersonalityDTO) {
+    public ResponseEntity<?> setEmployeeInformation(Principal principal, @RequestBody EmployeePersonalityDTO employeePersonalityDTO) {
         return ResponseEntity.ok().body(
                 employeeService.setEmployeeInformation(userPrincipalUtils.getEmployeeByUserPrincipal(principal), employeePersonalityDTO));
     }

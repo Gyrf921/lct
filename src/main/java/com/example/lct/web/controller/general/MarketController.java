@@ -1,6 +1,8 @@
 package com.example.lct.web.controller.general;
 
 import com.example.lct.model.Product;
+import com.example.lct.service.impl.ProductServiceImpl;
+import com.example.lct.util.UserPrincipalUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +18,13 @@ import java.util.List;
 @RequestMapping("/market")
 public class MarketController {
 
+    private final ProductServiceImpl productService;
+    private final UserPrincipalUtils userPrincipalUtils;
     @Operation(summary = "get all products")
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(Principal principal) {
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(productService.getAllProduct(userPrincipalUtils.getCompanyIdByUserPrincipal(principal)));
     }
 
     @Operation(summary = "buy product in market by id")
