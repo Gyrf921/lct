@@ -179,7 +179,7 @@ public class KnowledgeBaseController {
     }
 
     @Operation(summary = "add article to favourites")
-    @PostMapping("/favorites/articles/{articleId}")
+    @PostMapping("/favourites/articles/{articleId}")
     public ResponseEntity<Boolean> addArticleByIdToFavorite(@PathVariable(value = "articleId") Long articleId,
                                                       Principal principal) {
         Boolean isSaved
@@ -189,7 +189,7 @@ public class KnowledgeBaseController {
     }
 
     @Operation(summary = "delete article to favourites")
-    @DeleteMapping("/favorites/articles/{articleId}")
+    @DeleteMapping("/favourites/articles/{articleId}")
     public ResponseEntity<Boolean> deleteArticleByIdFromFavorite(@PathVariable(value = "articleId") Long articleId,
                                                            Principal principal) {
         Boolean isDeleted
