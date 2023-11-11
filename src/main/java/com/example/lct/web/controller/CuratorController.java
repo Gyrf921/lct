@@ -50,9 +50,9 @@ public class CuratorController {
         return ResponseEntity.ok().body(employees);
     }
 
-    @Operation(summary = "get all tasks in stages for Intern")
+/*    @Operation(summary = "get all tasks in stages for Intern")
     @GetMapping("/interns/{internId}/tasks")
-    public ResponseEntity<List<Stage>> getTasksInStagesIntern(@PathVariable(value = "internId") Long internId) {
+    public ResponseEntity<List<StageResponseDTO>> getTasksInStagesIntern(@PathVariable(value = "internId") Long internId) {
         log.info("[CuratorController|getStagesForIntern] >> internId: {}", internId);
 
         List<Stage> stages = internService.getStageForEmployee(employeeService.getEmployeeById(internId));
@@ -60,7 +60,7 @@ public class CuratorController {
         log.info("[CuratorController|getStagesForIntern] << result stages.size: {}", stages.size());
 
         return ResponseEntity.ok().body(stages);
-    }
+    }*/
     @Operation(summary = "get all tasks in stages for Intern")
     @GetMapping("/interns/tasks")
     public ResponseEntity<List<TaskForCheckDTO>> getTasksForChecking(Principal principal) {

@@ -36,15 +36,11 @@ public class AnalyticalServiceImpl implements AnalyticalService {
                 .toList();
 
         List<AnalyticDTO> analyticList = new ArrayList<>();
-        for(History history : totalHistories){
-            setRecordAnalytic(analyticList, history);
-        }
 
-        return analyticList;
-    }
-    private List<AnalyticDTO> setRecordAnalytic(List<AnalyticDTO> analyticList, History history){
-        if (Boolean.TRUE.equals(isHistoryForAnalytic(history))){
-            plusRecordAnalytic(analyticList, history.getHistoryType());
+        for(History history : totalHistories){
+            if (Boolean.TRUE.equals(isHistoryForAnalytic(history))) {
+                analyticList.add(new AnalyticDTO(history.getHistoryType(), 1));
+            }
         }
         return analyticList;
     }
@@ -63,14 +59,5 @@ public class AnalyticalServiceImpl implements AnalyticalService {
     }
     private Boolean isDeadline(History history) {
         return history.getActionType().equals(ActionType.MISS) && history.getHistoryType().equals(HistoryType.DEADLINE);
-    }
-    private List<AnalyticDTO> plusRecordAnalytic(List<AnalyticDTO> analyticList, HistoryType type){
-        for (AnalyticDTO analytic : analyticList){
-            if (!analytic.getName().equals(type)){
-                analyticList.add(new AnalyticDTO(type, 0));
-            }
-            analytic.setCountDone(analytic.getCountDone() + 1);
-        }
-        return analyticList;
     }
 }

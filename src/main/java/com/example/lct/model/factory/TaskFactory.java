@@ -42,6 +42,7 @@ public class TaskFactory {
     public static Task update(Task task, TaskDTO taskDTO) {
         return Task.builder()
                 .taskId(task.getTaskId())
+                .imagePath(taskDTO.getImagePath())
                 .companyId(task.getCompanyId())
                 .post(getPostForTask(task.getCompanyId(), taskDTO.getPostName()))
                 .name(taskDTO.getName())

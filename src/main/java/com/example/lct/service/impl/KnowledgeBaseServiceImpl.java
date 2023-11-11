@@ -18,7 +18,6 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
 
     private final PostServiceImpl postService;
     private final DepartmentServiceImpl departmentService;
-
     private final QuestionServiceImpl questionService;
     private final ArticleServiceImpl articleService;
     private final VideoServiceImpl videoService;

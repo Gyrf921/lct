@@ -8,6 +8,7 @@ import com.example.lct.service.EmployeeService;
 import com.example.lct.service.InternService;
 import com.example.lct.service.StageService;
 import com.example.lct.web.dto.request.intern.TasksToCheckDTO;
+import com.example.lct.web.dto.response.StageResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +45,13 @@ public class InternServiceImpl implements InternService {
     }
 
     @Override
-    public List<Stage> getStageForEmployee(Employee employee) {
-        return employee.getStages();
+    public List<StageResponseDTO> getStageForEmployee(Employee employee) {
+       // List
+        for (Stage stage: employee.getStages()) {
+
+        }
+        return null;
+        //return employee.getStages();
     }
 
     @Override

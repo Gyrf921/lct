@@ -105,7 +105,7 @@ public class KnowledgeBaseController {
                                                         Principal principal) {
         Video video = knowledgeBaseService.getVideoById(videoId);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal),
-                HistoryType.ARTICLE, video.getName());
+                HistoryType.VIDEO, video.getName());
         return ResponseEntity.ok().body(knowledgeMapper.videoToMediaContentDTO(video));
     }
 
@@ -115,7 +115,7 @@ public class KnowledgeBaseController {
                                                         Principal principal) {
         Audio audio = knowledgeBaseService.getAudioById(audioId);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal),
-                HistoryType.ARTICLE, audio.getName());
+                HistoryType.AUDIO, audio.getName());
         return ResponseEntity.ok().body(knowledgeMapper.audioToMediaContentDTO(audio));
     }
 
