@@ -1,5 +1,6 @@
 package com.example.lct.web.dto.response;
 
+import com.example.lct.model.enumformodel.HistoryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class AnalyticDTO {
 
-    private String name;
+    private HistoryType name;
 
     private Integer countDone;
 

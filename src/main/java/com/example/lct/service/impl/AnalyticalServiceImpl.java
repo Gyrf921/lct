@@ -8,14 +8,12 @@ import com.example.lct.model.enumformodel.ActionType;
 import com.example.lct.model.enumformodel.HistoryType;
 import com.example.lct.service.AnalyticalService;
 import com.example.lct.service.HistoryService;
+import com.example.lct.web.dto.response.AnalyticDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -26,7 +24,7 @@ public class AnalyticalServiceImpl implements AnalyticalService {
     private final DepartmentServiceImpl departmentService;
 
     @Override
-    public Map<HistoryType, Integer> getAnalyticByDepartment(Company company, String departmentName){
+    public List<AnalyticDTO> getAnalyticByDepartment(Company company, String departmentName){
         Department department = departmentService.getDepartmentByNameAndCompanyId(company.getCompanyId(), departmentName);
 
         List<Employee> employeesInDep = company.getEmployees().stream()
@@ -37,18 +35,18 @@ public class AnalyticalServiceImpl implements AnalyticalService {
                 .flatMap(Collection::stream)
                 .toList();
 
-        Map<HistoryType, Integer> analiticMap = new HashMap<>();
+        List<AnalyticDTO> analyticList = new ArrayList<>();
         for(History history : totalHistories){
-            setRecordAnalytic(analiticMap, history);
+            setRecordAnalytic(analyticList, history);
         }
 
-        return analiticMap;
+        return analyticList;
     }
-    private Map<HistoryType, Integer> setRecordAnalytic(Map<HistoryType, Integer> analiticMap, History history){
+    private List<AnalyticDTO> setRecordAnalytic(List<AnalyticDTO> analyticList, History history){
         if (Boolean.TRUE.equals(isHistoryForAnalytic(history))){
-            plusRecordAnalytic(analiticMap, history.getHistoryType());
+            plusRecordAnalytic(analyticList, history.getHistoryType());
         }
-        return analiticMap;
+        return analyticList;
     }
 
     private Boolean isHistoryForAnalytic(History history) {
@@ -66,11 +64,13 @@ public class AnalyticalServiceImpl implements AnalyticalService {
     private Boolean isDeadline(History history) {
         return history.getActionType().equals(ActionType.MISS) && history.getHistoryType().equals(HistoryType.DEADLINE);
     }
-    private Map<HistoryType, Integer> plusRecordAnalytic(Map<HistoryType, Integer> analiticMap, HistoryType type){
-        if (!analiticMap.containsKey(type)){
-            analiticMap.put(type, 0);
+    private List<AnalyticDTO> plusRecordAnalytic(List<AnalyticDTO> analyticList, HistoryType type){
+        for (AnalyticDTO analytic : analyticList){
+            if (!analytic.getName().equals(type)){
+                analyticList.add(new AnalyticDTO(type, 0));
+            }
+            analytic.setCountDone(analytic.getCountDone() + 1);
         }
-        analiticMap.put(type, analiticMap.get(type) + 1);
-        return analiticMap;
+        return analyticList;
     }
 }

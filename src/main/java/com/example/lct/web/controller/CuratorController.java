@@ -11,6 +11,7 @@ import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
+import com.example.lct.web.dto.response.AnalyticDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -174,15 +175,14 @@ public class CuratorController {
     //region Analytic
     @Operation(summary = "get analytic by department")
     @GetMapping("/analytic")
-    public ResponseEntity<Map<HistoryType, Integer>> getAnalyticByDepartment(@RequestParam(name = "departmentName" , required = false) String departmentName, Principal principal) {
+    public ResponseEntity<List<AnalyticDTO>> getAnalyticByDepartment(@RequestParam(name = "departmentName" , required = false) String departmentName, Principal principal) {
         log.info("[CuratorController|getAnalyticByDepartment] >> user principal: {}, departmentName: {}", principal.getName(), departmentName);
 
-        Map<HistoryType, Integer> map =
-                analyticalService.getAnalyticByDepartment(userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentName);
+        List<AnalyticDTO> analyticByDepartment =analyticalService.getAnalyticByDepartment(userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentName);
 
-        log.info("[CuratorController|getAnalyticByDepartment] << result map.size: {}", map.size());
+        log.info("[CuratorController|getAnalyticByDepartment] << result analyticByDepartment: {}", analyticByDepartment);
 
-        return ResponseEntity.ok().body(map);
+        return ResponseEntity.ok().body(analyticByDepartment);
     }
     //endregion
 }

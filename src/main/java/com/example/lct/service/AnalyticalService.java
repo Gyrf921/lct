@@ -1,10 +1,10 @@
 package com.example.lct.service;
 
 import com.example.lct.model.Company;
-import com.example.lct.model.enumformodel.HistoryType;
+import com.example.lct.web.dto.response.AnalyticDTO;
 
-import java.util.Map;
+import java.util.List;
 
 public interface AnalyticalService {
-    Map<HistoryType, Integer> getAnalyticByDepartment(Company company, String departmentName);
+    List<AnalyticDTO> getAnalyticByDepartment(Company company, String departmentName);
 }
