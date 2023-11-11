@@ -42,7 +42,7 @@ public class AnalyticalServiceImpl implements AnalyticalService {
                 analyticList.add(new AnalyticDTO(history.getHistoryType(), 1));
             }
         }
-        return analyticList;
+        return sumCounts(analyticList);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class AnalyticalServiceImpl implements AnalyticalService {
                 analyticList.add(new AnalyticDTO(history.getHistoryType(), 1));
             }
         }
-        return analyticList;
+        return sumCounts(analyticList);
     }
 
     public List<AnalyticDTO> sumCounts(List<AnalyticDTO> inputList) {

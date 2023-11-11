@@ -43,9 +43,8 @@ public class PersonalAccountController {
     }
 
     @Operation(summary = "get history for employee")
-    @GetMapping("/history")
+    @GetMapping("/analytic")
     public ResponseEntity<List<AnalyticDTO>> getHistoryForEmployee(Principal principal) {
-
         return ResponseEntity.ok().body(analyticalService
                 .getAnalyticByEmployee(userPrincipalUtils.getEmployeeByUserPrincipal(principal)));
     }
