@@ -4,15 +4,9 @@ import com.example.lct.model.Employee;
 import com.example.lct.model.Product;
 import com.example.lct.model.TaskStage;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.scheduling.annotation.Async;
 
 public interface EmailService {
-    void sendEmail(MimeMessage emailMessage);
-
-    MimeMessage createBuyEmail(Employee employee, Product product);
-
-    void sendDeadlineMessage(Employee intern, TaskStage taskStage);
-
-
-    //MimeMessage createEmailMimeMessage(EmailInfo emailInfo);
-
+    @Async
+    void sendBuyEmail(Employee employee, Product product);
 }

@@ -59,4 +59,12 @@ public class QuestionServiceImpl {
                 .theme(questionDTO.getTheme())
                 .answer(questionDTO.getAnswer()).build());
     }
+
+    public Question saveQuestion(Question question) {
+        return questionRepository.save(question);
+    }
+
+    public void deleteQuestion(Question question) {
+        questionRepository.delete(question);
+    }
 }

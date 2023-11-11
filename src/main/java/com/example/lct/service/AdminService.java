@@ -18,6 +18,10 @@ public interface AdminService {
 
     List<Post> createPostsToCompany(Company company, PostsDTO postsDTO);
 
+    Question updateQuestion(Long questionId, QuestionDTO questionDTO);
+
+    void deleteQuestion(Company company, Long questionId);
+
     List<Product> createProductToCompany(Company companyByUserPrincipal, ProductsDTO productDTO);
 
     List<Question> createQuestionsToCompany(Company company, QuestionsDTO questionsDTO);

@@ -53,7 +53,7 @@ public class ProductServiceImpl {
     }
 
     private void notifyCuratorAboutBuyingProduct(Employee employee, Product product) {
-        emailService.sendEmail(emailService.createBuyEmail(employee, product));
+        emailService.sendBuyEmail(employee, product);
     }
 
     public List<Product> saveAllProductsForCompany(Long companyId, ProductsDTO productsDTO) {

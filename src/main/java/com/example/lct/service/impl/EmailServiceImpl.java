@@ -1,10 +1,11 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.config.EmailPropertiesConfig;
-import com.example.lct.exception.CreateMimeMessageException;
+import com.example.lct.exception.PrepareMimeMessageException;
+import com.example.lct.exception.SetModelToEmailTemplateException;
+import com.example.lct.exception.TemplateNotExistException;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Product;
-import com.example.lct.model.TaskStage;
 import com.example.lct.service.EmailService;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
@@ -16,9 +17,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ import java.util.Map;
 public class EmailServiceImpl implements EmailService {
 
     private final EmailPropertiesConfig emailPropertiesConfig;
-    private final freemarker.template.Configuration configurationEmail;
+
     private final JavaMailSender emailSender;
 
     @Value("${spring.mail.username}")
@@ -36,82 +37,56 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendEmail(MimeMessage emailMessage) {
-        log.info("[sendEmail] >> emailMessage: {}", emailMessage);
+    public void sendBuyEmail(Employee employee, Product product) {
+        log.info("[sendEmail] >> employee: {}", employee);
 
-        emailSender.send(emailMessage);
-
-        log.info("[sendEmail] << result void");
-    }
-
-    @Override
-    @Async
-    public void sendDeadlineMessage(Employee intern, TaskStage taskStage) {
-        log.info("[sendDeadlineMessage] >> intern: {}, taskStage: {}", intern, taskStage);
-
-        emailSender.send(createDeadlineEmail(intern, taskStage));
+        //emailSender.send(employee);
 
         log.info("[sendEmail] << result void");
     }
 
 
-    @Override
-    public MimeMessage createBuyEmail(Employee employee, Product product) {
-        return null;
-    }
-
-    private MimeMessage createEmail(Employee intern){
+    private MimeMessage prepareEmail(String emailForNotify, String theme, String text) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-
         try {
             helper.setFrom(emailFrom);
-            helper.setTo(intern.getEmail());
+            helper.setTo(emailForNotify);
+            helper.setSubject(theme);
+            helper.setText(createEmailContent(theme, text), true);
+        } catch (MessagingException e) {
+            log.error("[prepareEmail] MessagingException -> PrepareMimeMessageException: {}", e.getMessage());
+            throw new PrepareMimeMessageException(e.getMessage());
         }
-        catch (MessagingException e) {
-            log.error("Error when creating a email");
-            throw new CreateMimeMessageException("Error when creating a email, exception's message: " + e.getMessage());
-        }
-
         return mimeMessage;
     }
 
-
-    private MimeMessage createDeadlineEmail(Employee intern, TaskStage taskStage) {
-        MimeMessage mimeMessage = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-
+    private String createEmailContent(String theme, String text) {
+        log.info("[EmailService|createEmailContent] >> theme: {}", theme);
         try {
-            helper.setFrom(emailFrom);
-            helper.setTo(intern.getEmail());
-
-            helper.setSubject(emailPropertiesConfig.getDeadlineTheme() + taskStage.getTask().getName());
-            String emailContent = getDeadlineEmailContent(
-                    emailPropertiesConfig.getDeadlineTheme());
-            helper.setText(emailContent, true);
-
-        } catch (MessagingException | TemplateException | IOException e) {
-            log.error("Error when creating a email");
-            throw new CreateMimeMessageException("Error when creating a email, exception's message: " + e.getMessage());
+            String emailContentInHtml = FreeMarkerTemplateUtils
+                    .processTemplateIntoString(emailPropertiesConfig.templateEmail(), getDataMapForTemplate(theme, text));
+            log.info("[EmailService|createEmailContent] << emailContentInHtml: {}", emailContentInHtml);
+            return emailContentInHtml;
+        } catch (TemplateException e) {
+            log.error("[EmailService|createEmailContent] TemplateException -> SetModelToEmailTemplateException: {}", e.getMessage());
+            throw new SetModelToEmailTemplateException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[EmailService|createEmailContent] IOException -> TemplateNotExistException: {}", e.getMessage());
+            throw new TemplateNotExistException(e.getMessage());
         }
-
-        return mimeMessage;
     }
 
-    private String getDeadlineEmailContent(String theme) throws IOException, TemplateException {
-        log.info("[getDeadlineEmailContent] >> theme: {}", theme);
+    private Map<String, Object> getDataMapForTemplate(String theme, String text) {
+        log.info("[EmailService|getDataMapForTemplate] >> theme: {}", theme);
 
-        StringWriter stringWriter = new StringWriter();
         Map<String, Object> model = new HashMap<>();
 
         model.put("theme", theme);
+        model.put("text", text);
 
-        configurationEmail.getTemplate("email-deadline.ftlh").process(model, stringWriter);
+        log.info("[EmailService|getDataMapForTemplate] << result: {}", model);
 
-        String emailContent = stringWriter.getBuffer().toString();
-
-        log.info("[getDeadlineEmailContent] << result: {}", emailContent);
-
-        return emailContent;
+        return model;
     }
 }

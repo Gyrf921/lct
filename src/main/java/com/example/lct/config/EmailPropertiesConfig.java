@@ -1,15 +1,29 @@
 package com.example.lct.config;
 
+import freemarker.template.Template;
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
 
 @Configuration
 @Data
 public class EmailPropertiesConfig {
-    String buyTheme = "Уведомление о покупке сотрудника";
-    String deadlineTheme = "Выходит время сдачи задания: ";
-    String buyText = "Уведомление о недавней покупке товара сотрудником ${employeeName}. Был приобретён товар : ${productName}, за ${productCost}.";
+    private final freemarker.template.Configuration configurationEmail;
+    @Bean
+    public Template templateEmail() throws IOException {
+        return configurationEmail.getTemplate("email.ftlh");
+    }
 
-    String completeTaskTheme = "Уведомление о выполнении задачи пользователем";
-    String completeTaskText = "Пользователь выполнил задание и его нужно проверить";
+    String buyTheme = "Уведомление о покупке сотрудника";
+    String buyText = "Уведомление о недавней покупке товара сотрудником  %s. Был приобретён товар :  %s, за  %d.";
+
+    String deadlineTheme = "Выходит время сдачи задания: ";
+
+    String completeTaskTheme = "Уведомление о выполнении задачи";
+    String completeTaskText = "Пользователь %s , выполнил задание ' %s ', и его нужно проверить!";
+
+    String checkTaskTheme = "Вашу задачу проверили!";
+    String checkTaskText = "Куратор внимательно проверил ваш ответ и поставил статус: %s";
 }

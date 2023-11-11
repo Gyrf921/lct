@@ -64,7 +64,7 @@ public class DeadlineChecker {
     @Async
     public void sendMessageAboutDeadline(Employee intern, List<TaskStage> taskStages) {
         for (TaskStage taskStage : taskStages) {
-            emailService.sendDeadlineMessage(intern, taskStage);
+            //emailService.sendDeadlineMessage(intern, taskStage);
         }
     }
 }

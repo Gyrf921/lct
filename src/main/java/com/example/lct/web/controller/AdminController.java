@@ -136,6 +136,31 @@ public class AdminController {
         return ResponseEntity.ok().body(savedQuestions);
     }
 
+    @Operation(summary = "update question by id")
+    @PutMapping("/knowledge-base/questions/{questionId}")
+    public ResponseEntity<Question> updateQuestion(@PathVariable(value = "questionId") Long questionId,
+                                                 @RequestBody QuestionDTO questionDTO) {
+        log.info("[AdminController|updateQuestion] >> questionId: {}, questionDTO: {}", questionId, questionDTO);
+
+        Question question = adminService.updateQuestion(questionId, questionDTO);
+
+        log.info("[AdminController|updateQuestion] << result: {}", question);
+
+        return ResponseEntity.ok().body(question);
+    }
+
+    @Operation(summary = "delete question by id")
+    @DeleteMapping("/knowledge-base/questions/{questionId}")
+    public ResponseEntity<Boolean> deleteQuestion(@PathVariable(value = "questionId") Long questionId, Principal principal) {
+        log.info("[AdminController|deleteQuestion] >> questionId: {}", questionId);
+
+        adminService.deleteQuestion(userPrincipalUtils.getCompanyByUserPrincipal(principal), questionId);
+
+        log.info("[AdminController|deleteQuestion] << result question is deleted");
+
+        return ResponseEntity.ok().body(true);
+    }
+
     @Operation(summary = "add articles to Company")
     @PostMapping("/knowledge-base/articles")
     public ResponseEntity<List<Article>> createArticles(Principal principal,

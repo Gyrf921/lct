@@ -146,9 +146,9 @@ public class AdminServiceImpl implements AdminService {
         return questions;
     }
     @Override
-    public List<ArticleResponseDTO> createQuestionToCompany(Company company, QuestionDTO questionsDTO) {
+    public List<ArticleResponseDTO> createQuestionToCompany(Company company, QuestionDTO questionDTO) {
 
-        Question question = questionService.saveQuestionForCompany(company.getCompanyId(), questionsDTO);
+        Question question = questionService.saveQuestionForCompany(company.getCompanyId(), questionDTO);
 
         List<Question> totalQuestions;
 
@@ -166,6 +166,28 @@ public class AdminServiceImpl implements AdminService {
         log.info("[createQuestionToCompany] << result: {}", savedCompany);
 
         return savedCompany.getQuestions().stream().map(knowledgeMapper::questionToArticleResponseDTO).toList();
+    }
+
+    @Override
+    public Question updateQuestion(Long questionId, QuestionDTO questionDTO) {
+        Question question =  questionService.getQuestionById(questionId);
+
+        question.setImagePath(questionDTO.getImagePath());
+        question.setTheme(questionDTO.getTheme());
+        question.setAnswer(questionDTO.getAnswer());
+
+        return questionService.saveQuestion(question);
+    }
+
+    @Override
+    public void deleteQuestion(Company company, Long questionId) {
+        Question question = questionService.getQuestionById(questionId);
+
+        company.getQuestions().remove(question);
+
+        company = companyService.saveCompany(company);
+
+        questionService.deleteQuestion(question);
     }
 
     @Override
@@ -248,10 +270,16 @@ public class AdminServiceImpl implements AdminService {
     public List<Article> deleteArticle(Company company, Long articleId) {
 
         Article article = articleService.getArticleById(articleId);
-        articleService.deleteArticle(article);
         company.getArticles().remove(article);
 
-        companyService.saveCompany(company);
+        for(Employee employee :company.getEmployees()){
+            employee.getFavoriteArticles().remove(article);
+        }
+
+        company = companyService.saveCompany(company);
+
+        articleService.deleteArticle(article);
+
         return company.getArticles();
     }
 
