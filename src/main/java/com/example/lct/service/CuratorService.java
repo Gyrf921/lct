@@ -18,8 +18,9 @@ public interface CuratorService {
 
     List<Task> createTasks(Company company, List<TaskDTO> tasksDTO);
 
-    List<Task> updateTask(Company companyByUserPrincipal, Long taskId, TaskDTO taskDTO);
+    List<Task> createTask(Company companyByUserPrincipal, TaskDTO taskDTO);
 
+    List<Task> updateTask(Company companyByUserPrincipal, Long taskId, TaskDTO taskDTO);
 
     Employee createIntern(Company companyByUserPrincipal, EmployeeForCreateDTO employeeForCreateDTO);
 
@@ -36,4 +37,6 @@ public interface CuratorService {
     void evaluateInternAnswer(Long intern, Long taskId, Boolean isAccepted);
 
     List<StageResponseDTO> setTaskToStage(Long stageId, Long taskId);
+
+
 }

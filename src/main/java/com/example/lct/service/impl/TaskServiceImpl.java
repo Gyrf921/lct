@@ -37,6 +37,11 @@ public class TaskServiceImpl implements TaskService {
 
         return task;
     }
+    @Override
+    public List<Task> createTask(Long companyId, TaskDTO taskDTO) {
+        taskRepository.save(TaskFactory.create(companyId, taskDTO));
+        return taskRepository.findAllByCompanyId(companyId);
+    }
 
     @Override
     public List<Task> createTasks(Long companyId, List<TaskDTO> tasksDTO) {
@@ -45,12 +50,11 @@ public class TaskServiceImpl implements TaskService {
         for (TaskDTO taskDTO : tasksDTO) {
             tasks.add(TaskFactory.create(companyId, taskDTO));
         }
-
-        tasks = taskRepository.saveAll(tasks);
+        taskRepository.saveAll(tasks);
 
         log.info("[createTasks] << result: {}", tasks);
 
-        return tasks;
+        return taskRepository.findAllByCompanyId(companyId);
     }
 
     @Override
@@ -115,6 +119,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Task task) {
         taskRepository.delete(task);
     }
+
 
 
 }

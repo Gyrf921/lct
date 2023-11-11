@@ -14,6 +14,8 @@ public interface TaskService {
 
     List<Task> createTasks(Long companyId, List<TaskDTO> tasksDTO);
 
+    List<Task> createTask(Long companyId, TaskDTO taskDTO);
+
     List<Task> createBaseTasks(Long companyId, TasksDTO tasksDTO);
 
     Task updateTaskInfo(Long taskId, TaskDTO taskDTO);
@@ -24,4 +26,5 @@ public interface TaskService {
     List<Task> getTasksByListId(List<Long> tasksId);
 
     void deleteTask(Task task);
+
 }

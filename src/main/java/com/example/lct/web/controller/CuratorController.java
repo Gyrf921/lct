@@ -178,8 +178,8 @@ public class CuratorController {
     public ResponseEntity<List<Task>> createTask(Principal principal, @RequestBody TaskDTO taskDTO) {
         log.info("[CuratorController|createTask] >> user principal: {}, taskDTO: {}", principal.getName(), taskDTO);
 
-        List<Task> tasks = curatorService.createTasks(
-                userPrincipalUtils.getCompanyByUserPrincipal(principal), List.of(taskDTO));
+        List<Task> tasks = curatorService.createTask(
+                userPrincipalUtils.getCompanyByUserPrincipal(principal), taskDTO);
 
         log.info("[CuratorController|createTask] << result: {}", tasks);
         return ResponseEntity.ok().body(tasks);
