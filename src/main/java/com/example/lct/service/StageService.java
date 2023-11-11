@@ -2,6 +2,7 @@ package com.example.lct.service;
 
 import com.example.lct.model.Employee;
 import com.example.lct.model.Stage;
+import com.example.lct.model.Task;
 import com.example.lct.model.TaskStage;
 import com.example.lct.web.dto.request.hr.StageDTO;
 
@@ -23,4 +24,6 @@ public interface StageService {
     List<TaskStage> getAllTaskStageForEmployeeByStageLevelDifficult(Employee employee, Integer stageLevelDifficult);
 
     Stage setTestToStage(Long stageId, String testUrl);
+
+    List<Task> getTaskFromStage(Stage stage);
 }

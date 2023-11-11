@@ -65,6 +65,15 @@ public class StageServiceImpl implements StageService {
     }
 
     @Override
+    public List<Task> getTaskFromStage(Stage stage) {
+        return taskStageRepository.findAllByStage(stage).stream().map(this::mapTaskStageToTask).toList();
+    }
+
+    private Task mapTaskStageToTask(TaskStage taskStage){
+        return taskStage.getTask();
+    }
+
+    @Override
     public Stage createBaseStageForIntern(Employee employee) {
 
         List<Task> tasks = taskService.getBaseTasks(employee.getCompanyId());
@@ -109,11 +118,11 @@ public class StageServiceImpl implements StageService {
 
         List<TaskStage> taskStages = new ArrayList<>();
         for (Task task : tasks) {
-            taskStages.add(TaskStage.builder()
+            taskStages.add(taskStageRepository.save(TaskStage.builder()
                     .stage(stage)
                     .task(task)
                     .status(Status.OPENED)
-                    .deadline(stage.getDeadline()).build());
+                    .deadline(stage.getDeadline()).build()));
         }
 
         log.info("[StageService|createStageForIntern] << result: {}", stage);
@@ -151,5 +160,7 @@ public class StageServiceImpl implements StageService {
         stage.setTestUrl(testUrl);
         return stageRepository.save(stage);
     }
+
+
 
 }

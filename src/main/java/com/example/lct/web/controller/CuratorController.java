@@ -13,6 +13,7 @@ import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.AnalyticDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
+import com.example.lct.web.dto.response.StageResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -50,17 +51,17 @@ public class CuratorController {
         return ResponseEntity.ok().body(employees);
     }
 
-/*    @Operation(summary = "get all tasks in stages for Intern")
+    @Operation(summary = "get all tasks in stages for Intern")
     @GetMapping("/interns/{internId}/tasks")
     public ResponseEntity<List<StageResponseDTO>> getTasksInStagesIntern(@PathVariable(value = "internId") Long internId) {
         log.info("[CuratorController|getStagesForIntern] >> internId: {}", internId);
 
-        List<Stage> stages = internService.getStageForEmployee(employeeService.getEmployeeById(internId));
+        List<StageResponseDTO> stages = internService.getStageForEmployee(employeeService.getEmployeeById(internId));
 
         log.info("[CuratorController|getStagesForIntern] << result stages.size: {}", stages.size());
 
         return ResponseEntity.ok().body(stages);
-    }*/
+    }
     @Operation(summary = "get all tasks in stages for Intern")
     @GetMapping("/interns/tasks")
     public ResponseEntity<List<TaskForCheckDTO>> getTasksForChecking(Principal principal) {
@@ -94,12 +95,12 @@ public class CuratorController {
 
     @Operation(summary = "create stage to intern")
     @PostMapping("/interns/{internId}/stage")
-    public ResponseEntity<List<Stage>> createStageToIntern(@PathVariable(value = "internId") Long internId,
+    public ResponseEntity<List<StageResponseDTO>> createStageToIntern(@PathVariable(value = "internId") Long internId,
                                                            @RequestBody StageDTO stageDTO,
                                                            Principal principal) {
         log.info("[CuratorController|evaluateInternAnswer] >> principal: {}", principal.getName());
 
-        List<Stage> stages = curatorService.createStageToIntern(internId, stageDTO);
+        List<StageResponseDTO> stages = curatorService.createStageToIntern(internId, stageDTO);
 
         log.info("[CuratorController|evaluateInternAnswer] << result taskStages.size: {}", stages);
 

@@ -2,6 +2,7 @@ package com.example.lct.service.impl;
 
 import com.example.lct.model.Employee;
 import com.example.lct.model.Stage;
+import com.example.lct.model.Task;
 import com.example.lct.model.TaskStage;
 import com.example.lct.service.EmailService;
 import com.example.lct.service.EmployeeService;
@@ -46,12 +47,14 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public List<StageResponseDTO> getStageForEmployee(Employee employee) {
-       // List
+        List<StageResponseDTO> responseDTOS = new ArrayList<>();
         for (Stage stage: employee.getStages()) {
+            List<Task> tasksInStage = stageService.getTaskFromStage(stage);
 
+            responseDTOS.add(new StageResponseDTO(stage, tasksInStage));
         }
-        return null;
-        //return employee.getStages();
+
+        return responseDTOS;
     }
 
     @Override

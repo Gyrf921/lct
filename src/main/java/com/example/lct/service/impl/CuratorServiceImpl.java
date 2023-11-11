@@ -7,10 +7,10 @@ import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.*;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
-import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
+import com.example.lct.web.dto.response.StageResponseDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -126,7 +126,7 @@ public class CuratorServiceImpl implements CuratorService {
     }
 
     @Override
-    public List<Stage> createStageToIntern(Long internId, StageDTO stageDTO) {
+    public List<StageResponseDTO> createStageToIntern(Long internId, StageDTO stageDTO) {
         log.info("[CuratorService|createStageToIntern] >> internId: {}, stageDTO: {}", internId, stageDTO);
 
         Employee intern = employeeService.getEmployeeById(internId);
@@ -147,7 +147,15 @@ public class CuratorServiceImpl implements CuratorService {
 
         log.info("[CuratorService|createStageToIntern] << result: {}", employee.getStages());
 
-        return employee.getStages();
+        List<StageResponseDTO> responseDTOS = new ArrayList<>();
+
+        for (Stage stage: employee.getStages()) {
+            List<Task> tasksInStage = stageService.getTaskFromStage(stage);
+
+            responseDTOS.add(new StageResponseDTO(stage, tasksInStage));
+        }
+
+        return responseDTOS;
     }
 
     @Override
