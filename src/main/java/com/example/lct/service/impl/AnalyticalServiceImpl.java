@@ -42,7 +42,20 @@ public class AnalyticalServiceImpl implements AnalyticalService {
                 analyticList.add(new AnalyticDTO(history.getHistoryType(), 1));
             }
         }
-        return sumCounts(analyticList);
+        return analyticList;
+    }
+
+    @Override
+    public List<AnalyticDTO> getAnalyticByEmployee(Employee employee) {
+        List<History> totalHistories = historyService.getAllHistoryForEmployee(employee);
+        List<AnalyticDTO> analyticList = new ArrayList<>();
+
+        for(History history : totalHistories){
+            if (Boolean.TRUE.equals(isHistoryForAnalytic(history))) {
+                analyticList.add(new AnalyticDTO(history.getHistoryType(), 1));
+            }
+        }
+        return analyticList;
     }
 
     public List<AnalyticDTO> sumCounts(List<AnalyticDTO> inputList) {
