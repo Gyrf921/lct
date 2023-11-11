@@ -33,8 +33,9 @@ public class DeadlineChecker {
 
     @Async
     @Transactional
-    @Scheduled(cron = "0 0 20 * * *") //В 20:00 каждого дня
-    //@Scheduled(cron = "1,5,10,15,20,25 * * * * *") //В 20:00 каждого дня TODO ТЕСТИМ НА КАЖДОЙ СЕКУНДЕ
+    //@Scheduled(cron = "0 0 8 * * *") //В 08:00 каждого дня
+    //В 20:00 каждого дня TODO ТЕСТИМ НА КАЖДОЙ СЕКУНДЕ
+    @Scheduled(cron = "1,10,20,30,40,50 * * * * *")
     public void startChecking() {
         checkDeadline();
         log.info("///DeadlineChecker///startChecking///");
@@ -42,7 +43,6 @@ public class DeadlineChecker {
 
     public void checkDeadline() {
         List<Employee> interns = employeeService.getAllIntern();
-        //TODO check null deadline
         for (Employee intern : interns) {
             sendMessageAboutDeadline(intern, checkDeadlineForTaskStages(intern, stageService.getAllTaskStageForEmployee(intern)));
         }
@@ -61,10 +61,9 @@ public class DeadlineChecker {
         return taskStagesAfterDeadline;
     }
 
-    @Async
     public void sendMessageAboutDeadline(Employee intern, List<TaskStage> taskStages) {
         for (TaskStage taskStage : taskStages) {
-            //emailService.sendDeadlineMessage(intern, taskStage);
+            emailService.sendDeadlineEmail(intern, taskStage);
         }
     }
 }

@@ -293,6 +293,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Employee getEmployee(Long id) {
+        return employeeService.getEmployeeById(id);
+    }
+
+    @Override
     public List<Video> createVideoListToCompany(Company companyByUserPrincipal, VideosDTO videosDTO) {
         List<Video> videosSaved = videoService.createVideos(companyByUserPrincipal.getCompanyId(), videosDTO);
 

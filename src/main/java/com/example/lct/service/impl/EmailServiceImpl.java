@@ -37,7 +37,6 @@ public class EmailServiceImpl implements EmailService {
     private String emailFrom;
 
     @Override
-    @Async
     public void sendBuyEmail(String emailCurator, Employee buyer, Product product) {
         log.info("[sendBuyEmail] >> buyer: {}", buyer.getEmail());
 
@@ -48,7 +47,6 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    @Async
     public void sendCuratorCompleteTask(String emailCurator, Employee intern, TaskStage taskStage) {
         log.info("[sendCuratorCompleteTask] >> intern: {}", intern.getEmail());
 
@@ -59,7 +57,6 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    @Async
     public void sendMarkToTaskByCurator(Employee intern, TaskStage taskStage) {
         log.info("[sendMarkToTaskByCurator] >> intern: {}", intern.getEmail());
 
@@ -67,6 +64,16 @@ public class EmailServiceImpl implements EmailService {
                 String.format(emailPropertiesConfig.getCheckTaskText(), taskStage.getStatus())));
 
         log.info("[sendMarkToTaskByCurator] << result void");
+    }
+
+    @Override
+    public void sendDeadlineEmail(Employee intern, TaskStage taskStage) {
+        log.info("[sendDeadlineEmail] >> intern: {}", intern.getEmail());
+
+        emailSender.send(prepareEmail(intern.getEmail(), emailPropertiesConfig.getDeadlineTheme(),
+                String.format(emailPropertiesConfig.getDeadlineText(), taskStage.getTask().getName())));
+
+        log.info("[sendDeadlineEmail] << result void");
     }
 
     private MimeMessage prepareEmail(String emailForNotify, String theme, String text) {

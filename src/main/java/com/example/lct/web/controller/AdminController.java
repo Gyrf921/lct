@@ -39,6 +39,15 @@ public class AdminController {
 
         return ResponseEntity.ok().body(employee);
     }
+    @Operation(summary = "get employee by id")
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> createEmployeesToCompany(@PathVariable(name = "id") Long id, Principal principal) {
+
+        Employee savedEmployee = adminService.getEmployee(id);
+
+        return ResponseEntity.ok().body(savedEmployee);
+    }
+
 
     //region Company
     @Operation(summary = "get company for admin")

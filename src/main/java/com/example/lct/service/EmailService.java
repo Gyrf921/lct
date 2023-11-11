@@ -15,4 +15,7 @@ public interface EmailService {
 
     @Async
     void sendMarkToTaskByCurator(Employee intern, TaskStage taskStage);
+
+    @Async
+    void sendDeadlineEmail(Employee intern, TaskStage taskStage);
 }

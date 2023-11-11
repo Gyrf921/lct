@@ -50,4 +50,6 @@ public interface AdminService {
     List<Employee> createEmployeesToCompany(Company companyByUserPrincipal, EmployeeListForCreateDTO employees);
 
     List<Task> deleteTask(Company companyByUserPrincipal, Long taskId);
+
+    Employee getEmployee(Long id);
 }
