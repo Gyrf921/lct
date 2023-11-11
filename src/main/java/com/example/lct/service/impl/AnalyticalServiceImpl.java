@@ -42,7 +42,26 @@ public class AnalyticalServiceImpl implements AnalyticalService {
                 analyticList.add(new AnalyticDTO(history.getHistoryType(), 1));
             }
         }
-        return analyticList;
+        return sumCounts(analyticList);
+    }
+
+    public List<AnalyticDTO> sumCounts(List<AnalyticDTO> inputList) {
+        Map<HistoryType, Integer> countMap = new HashMap<>();
+
+        for (AnalyticDTO dto : inputList) {
+            HistoryType name = dto.getName();
+            countMap.put(name, countMap.getOrDefault(name, 0) + 1);
+        }
+
+        List<AnalyticDTO> resultList = new ArrayList<>();
+        for (Map.Entry<HistoryType, Integer> entry : countMap.entrySet()) {
+            AnalyticDTO resultDTO = new AnalyticDTO();
+            resultDTO.setName(entry.getKey());
+            resultDTO.setCountDone(entry.getValue());
+            resultList.add(resultDTO);
+        }
+
+        return resultList;
     }
 
     private Boolean isHistoryForAnalytic(History history) {
