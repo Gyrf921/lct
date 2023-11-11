@@ -47,12 +47,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/login/**").permitAll()
-                        /*.requestMatchers("/unsecure/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/hr/**").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers("/inter/**").hasRole("INTERN")
-                        .requestMatchers("/general/**").authenticated()*/
-                        .anyRequest().permitAll()
+                        .requestMatchers("/curator/**").hasAnyRole("CURATOR","HR", "ADMIN")
+                        .requestMatchers("/interns/**").hasRole("INTERN")
+                        .anyRequest().authenticated()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable);//withDefaults()
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

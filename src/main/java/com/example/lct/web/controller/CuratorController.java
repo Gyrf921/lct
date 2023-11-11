@@ -99,11 +99,11 @@ public class CuratorController {
     public ResponseEntity<List<StageResponseDTO>> createStageToIntern(@PathVariable(value = "internId") Long internId,
                                                            @RequestBody StageDTO stageDTO,
                                                            Principal principal) {
-        log.info("[CuratorController|evaluateInternAnswer] >> principal: {}", principal.getName());
+        log.info("[CuratorController|createStageToIntern] >> principal: {}", principal.getName());
 
         List<StageResponseDTO> stages = curatorService.createStageToIntern(internId, stageDTO);
 
-        log.info("[CuratorController|evaluateInternAnswer] << result taskStages.size: {}", stages);
+        log.info("[CuratorController|createStageToIntern] << result taskStages.size: {}", stages);
 
         return ResponseEntity.ok().body(stages);
     }
@@ -113,11 +113,11 @@ public class CuratorController {
     public ResponseEntity<List<StageResponseDTO>> createStageToInternWithoutTask(@PathVariable(value = "internId") Long internId,
                                                                       @RequestBody StageWithoutTasksDTO stageWithoutTasksDTO,
                                                                       Principal principal) {
-        log.info("[CuratorController|evaluateInternAnswer] >> principal: {}", principal.getName());
+        log.info("[CuratorController|createStageToInternWithoutTask] >> principal: {}", principal.getName());
 
         List<StageResponseDTO> stages = curatorService.createStageToInternWithoutTask(internId, stageWithoutTasksDTO);
 
-        log.info("[CuratorController|evaluateInternAnswer] << result taskStages.size: {}", stages);
+        log.info("[CuratorController|createStageToInternWithoutTask] << result taskStages.size: {}", stages);
 
         return ResponseEntity.ok().body(stages);
     }
