@@ -8,5 +8,5 @@ import org.springframework.scheduling.annotation.Async;
 
 public interface EmailService {
     @Async
-    void sendBuyEmail(Employee employee, Product product);
+    void sendBuyEmail(String emailCurator, Employee employee, Product product);
 }

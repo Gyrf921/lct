@@ -37,10 +37,11 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendBuyEmail(Employee employee, Product product) {
-        log.info("[sendEmail] >> employee: {}", employee);
+    public void sendBuyEmail(String emailCurator, Employee buyer, Product product) {
+        log.info("[sendEmail] >> buyer: {}", buyer.getEmail());
 
-        //emailSender.send(employee);
+        emailSender.send(prepareEmail(emailCurator,emailPropertiesConfig.getBuyTheme(),
+                String.format(emailPropertiesConfig.getBuyTheme(), buyer.getName(), product.getName(), product.getCost())));
 
         log.info("[sendEmail] << result void");
     }

@@ -31,29 +31,30 @@ public class ProductServiceImpl {
 
     private final EmailService emailService;
 
-    public Boolean buyProductForEmployeeAndNotifyCurator(Long productId, Employee employee) {
+    public Boolean buyProductForEmployeeAndNotifyCurator(Long productId, Employee buyer) {
 
         Product product = getProductById(productId);
 
-        if (employee.getAccount() < product.getCost()) {
+        if (buyer.getAccount() < product.getCost()) {
             throw new InsufficientFundsException("You don't have enough money to buy this product");
         }
 
-        long employeeAccount = employee.getAccount() - product.getCost();
+        long employeeAccount = buyer.getAccount() - product.getCost();
 
-        employee.setAccount(employeeAccount);
+        buyer.setAccount(employeeAccount);
 
-        employeeService.saveEmployee(employee);
+        employeeService.saveEmployee(buyer);
 
-        historyService.createHistoryActionOther(employee, HistoryType.OTHER, "Покупка товара: " + product.getProductId());
+        historyService.createHistoryActionOther(buyer, HistoryType.OTHER, "Покупка товара: " + product.getProductId());
 
-        notifyCuratorAboutBuyingProduct(employee, product);
+        Employee curator = employeeService.getEmployeeById(buyer.getCuratorId());
+        notifyCuratorAboutBuyingProduct(curator.getEmail(), buyer, product);
 
         return true;
     }
 
-    private void notifyCuratorAboutBuyingProduct(Employee employee, Product product) {
-        emailService.sendBuyEmail(employee, product);
+    private void notifyCuratorAboutBuyingProduct(String emailCurator, Employee buyer, Product product) {
+        emailService.sendBuyEmail(emailCurator, buyer, product);
     }
 
     public List<Product> saveAllProductsForCompany(Long companyId, ProductsDTO productsDTO) {
