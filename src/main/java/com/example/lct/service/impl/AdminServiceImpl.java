@@ -229,7 +229,7 @@ public class AdminServiceImpl implements AdminService {
         return company.getArticles().stream().map(knowledgeMapper::articleToArticleResponseDTO).toList();
     }
     @Override
-    public List<Article> updateArticle(Long articleId, ArticleDTO articleDTO) {
+    public Article updateArticle(Long articleId, ArticleDTO articleDTO) {
         Article article = articleService.getArticleById(articleId);
         Post post = postService.getPostByNameAndCompanyId(article.getCompanyId(), articleDTO.getPostName());
 
@@ -241,7 +241,7 @@ public class AdminServiceImpl implements AdminService {
 
         articleService.saveArticle(article);
 
-        return articleService.getAllArticleByCompanyId(article.getCompanyId());
+        return article;
     }
 
     @Override

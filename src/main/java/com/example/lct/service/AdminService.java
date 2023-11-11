@@ -28,7 +28,7 @@ public interface AdminService {
 
     List<ArticleResponseDTO> createArticleToCompany(Company companyByUserPrincipal, ArticleDTO articleDTO);
 
-    List<Article> updateArticle(Long articleId, ArticleDTO articleDTO);
+    Article updateArticle(Long articleId, ArticleDTO articleDTO);
 
     List<Article> deleteArticle(Company companyByUserPrincipal, Long articleId);
 

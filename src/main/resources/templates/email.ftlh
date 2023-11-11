@@ -17,7 +17,7 @@
                 <tr>
                     <td align="center"
                         style="  border-collapse: collapse; text-align: center; border-bottom: #333333 1px solid; font-size: 18px;">
-                        <p>Ваш номер заявки: ${applicationId}</p>
+                        <p>${theme}</p>
                     </td>
                 </tr>
             </table>
@@ -33,7 +33,7 @@
                 <tr style="margin: 10px 10px 10px 10px;">
                     <td align="center"
                         style="border-collapse: collapse; font-size: 20px; text-align: center; color:#272727; background-color: #efefef; margin: 10px 10px 10px 10px;">
-                        <p>Тема: ${theme}</p>
+                        <p>${theme}</p>
                     </td>
                 </tr>
                 <tr>

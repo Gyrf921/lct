@@ -45,6 +45,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async
     public void sendDeadlineMessage(Employee intern, TaskStage taskStage) {
         log.info("[sendDeadlineMessage] >> intern: {}, taskStage: {}", intern, taskStage);
 
@@ -53,10 +54,28 @@ public class EmailServiceImpl implements EmailService {
         log.info("[sendEmail] << result void");
     }
 
+
     @Override
     public MimeMessage createBuyEmail(Employee employee, Product product) {
         return null;
     }
+
+    private MimeMessage createEmail(Employee intern){
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+
+        try {
+            helper.setFrom(emailFrom);
+            helper.setTo(intern.getEmail());
+        }
+        catch (MessagingException e) {
+            log.error("Error when creating a email");
+            throw new CreateMimeMessageException("Error when creating a email, exception's message: " + e.getMessage());
+        }
+
+        return mimeMessage;
+    }
+
 
     private MimeMessage createDeadlineEmail(Employee intern, TaskStage taskStage) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -65,8 +84,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             helper.setFrom(emailFrom);
             helper.setTo(intern.getEmail());
-            helper.setSubject(emailPropertiesConfig.getDeadlineTheme() + taskStage.getTask().getName());
 
+            helper.setSubject(emailPropertiesConfig.getDeadlineTheme() + taskStage.getTask().getName());
             String emailContent = getDeadlineEmailContent(
                     emailPropertiesConfig.getDeadlineTheme());
             helper.setText(emailContent, true);

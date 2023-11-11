@@ -9,4 +9,7 @@ public class EmailPropertiesConfig {
     String buyTheme = "Уведомление о покупке сотрудника";
     String deadlineTheme = "Выходит время сдачи задания: ";
     String buyText = "Уведомление о недавней покупке товара сотрудником ${employeeName}. Был приобретён товар : ${productName}, за ${productCost}.";
+
+    String completeTaskTheme = "Уведомление о выполнении задачи пользователем";
+    String completeTaskText = "Пользователь выполнил задание и его нужно проверить";
 }

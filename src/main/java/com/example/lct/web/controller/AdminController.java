@@ -221,11 +221,11 @@ public class AdminController {
 
     @Operation(summary = "update article by id")
     @PutMapping("/knowledge-base/articles/{articleId}")
-    public ResponseEntity<List<Article>> updateArticle(@PathVariable(value = "articleId") Long articleId,
+    public ResponseEntity<Article> updateArticle(@PathVariable(value = "articleId") Long articleId,
                                                        @RequestBody ArticleDTO articleDTO) {
         log.info("[AdminController|updateArticle] >> articleId: {}, articleDTO: {}", articleId, articleDTO);
 
-        List<Article> articles = adminService.updateArticle(articleId, articleDTO);
+        Article articles = adminService.updateArticle(articleId, articleDTO);
 
         log.info("[AdminController|updateArticle] << result: {}", articleDTO);
 

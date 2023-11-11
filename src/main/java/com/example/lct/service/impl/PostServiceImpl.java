@@ -27,7 +27,7 @@ public class PostServiceImpl {
 
         List<Post> posts = new ArrayList<>();
         Department department;
-        //TODO можно убрать запрос и сделать передачу сразу id
+
         for (PostDTO postDTO : postsDTO.getPostDTOList()) {
             department = departmentService.getDepartmentByNameAndCompanyId(companyId, postDTO.getDepartmentName());
 

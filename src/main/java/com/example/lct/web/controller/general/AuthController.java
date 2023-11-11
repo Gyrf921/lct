@@ -50,7 +50,6 @@ public class AuthController {
             throw new ResourceNotFoundException(badCredentialsException.getMessage());
         }
 
-        // TODO rename
         JwtResponseDTO token = employeeService.createTokenForUser(authorizationUserDTO.getEmail());
 
         log.info("[createToken] << result is role: {}", token.getRoles());
