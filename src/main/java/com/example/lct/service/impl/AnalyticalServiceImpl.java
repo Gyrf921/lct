@@ -8,7 +8,6 @@ import com.example.lct.model.enumformodel.ActionType;
 import com.example.lct.model.enumformodel.HistoryType;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.HistoryService;
-import com.example.lct.web.dto.response.AnalyticDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,27 +39,20 @@ public class AnalyticalServiceImpl {
 
         Map<HistoryType, Integer> analiticMap = new HashMap<>();
         for(History history : totalHistories){
-            mapToAnalyticDTO(analiticMap, history);
+            setRecordAnalytic(analiticMap, history);
         }
 
         return analiticMap;
     }
-    private Map<HistoryType, Integer> mapToAnalyticDTO(Map<HistoryType, Integer> analiticMap, History history){
-        fillingMapFromHistory(analiticMap, history);
+    private Map<HistoryType, Integer> setRecordAnalytic(Map<HistoryType, Integer> analiticMap, History history){
+        if (Boolean.TRUE.equals(isHistoryForAnalytic(history))){
+            plusRecordAnalytic(analiticMap, history.getHistoryType());
+        }
         return analiticMap;
     }
 
-    private Map<HistoryType, Integer> fillingMapFromHistory(Map<HistoryType, Integer> analiticMap, History history){
-        if (isHistoryTypeForRead(history)){
-            plusRecordAnalytic(analiticMap, history.getHistoryType());
-        }
-        else if (isCompleted(history)){
-            plusRecordAnalytic(analiticMap, history.getHistoryType());
-        }
-        else if(isDeadline(history)){
-            plusRecordAnalytic(analiticMap, history.getHistoryType());
-        }
-        return analiticMap;
+    private Boolean isHistoryForAnalytic(History history) {
+        return isHistoryTypeForRead(history) || isCompleted(history) || isDeadline(history);
     }
 
     private Boolean isHistoryTypeForRead(History history) {
