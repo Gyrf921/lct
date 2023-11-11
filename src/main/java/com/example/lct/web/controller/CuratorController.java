@@ -122,7 +122,7 @@ public class CuratorController {
         return ResponseEntity.ok().body(stages);
     }
     @Operation(summary = "set task to intern's stage")
-    @PatchMapping("/stage/{stageId}/tasks/{taskId}")
+    @PostMapping("/stage/{stageId}/tasks/{taskId}")
     public ResponseEntity<List<StageResponseDTO>> setTaskToInternStage(@PathVariable(value = "stageId") Long stageId,
                                                       @PathVariable(value = "taskId") Long taskId) {
         log.info("[CuratorController|setTaskToInternStage] >> stageId: {}, taskId: {}", stageId, taskId);
