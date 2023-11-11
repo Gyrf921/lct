@@ -47,9 +47,10 @@ public class ProductServiceImpl {
 
         historyService.createHistoryActionOther(buyer, HistoryType.OTHER, "Покупка товара: " + product.getProductId());
 
-        Employee curator = employeeService.getEmployeeById(buyer.getCuratorId());
-        notifyCuratorAboutBuyingProduct(curator.getEmail(), buyer, product);
-
+        if(employeeService.getEmployeeById(buyer.getCuratorId()) != null){
+            Employee curator = employeeService.getEmployeeById(buyer.getCuratorId());
+            notifyCuratorAboutBuyingProduct(curator.getEmail(), buyer, product);
+        }
         return true;
     }
 

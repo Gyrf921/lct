@@ -198,6 +198,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
     @Override
     public Employee saveEmployee(Employee employee) {
+        log.info("[EmployeeService|saveEmployee] == result is save employee: {}", employee);
         return employeeRepository.save(employee);
     }
 

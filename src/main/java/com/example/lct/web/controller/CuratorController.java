@@ -1,6 +1,8 @@
 package com.example.lct.web.controller;
 
 import com.example.lct.model.*;
+import com.example.lct.model.enumformodel.HistoryType;
+import com.example.lct.service.AnalyticalService;
 import com.example.lct.service.CuratorService;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.InternService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -29,6 +32,7 @@ public class CuratorController {
     private final CuratorService curatorService;
     private final EmployeeService employeeService;
     private final InternService internService;
+    private final AnalyticalService analyticalService;
     private final UserPrincipalUtils userPrincipalUtils;
 
     //region Intern
@@ -114,7 +118,7 @@ public class CuratorController {
     }
     //endregion
 
-    //region tasks
+    //region Tasks
     @Operation(summary = "get all company tasks")
     @GetMapping("/tasks")
     public ResponseEntity<List<Task>> getTasks(Principal principal) {
@@ -165,4 +169,20 @@ public class CuratorController {
 
         return ResponseEntity.ok().body(tasks);
     }
+    //endregion
+
+    //region Analytic
+    @Operation(summary = "get analytic by department")
+    @GetMapping("/analytic")
+    public ResponseEntity<Map<HistoryType, Integer>> getAnalyticByDepartment(@RequestParam(name = "departmentName" , required = false) String departmentName, Principal principal) {
+        log.info("[CuratorController|getAnalyticByDepartment] >> user principal: {}, departmentName: {}", principal.getName(), departmentName);
+
+        Map<HistoryType, Integer> map =
+                analyticalService.getAnalyticByDepartment(userPrincipalUtils.getCompanyByUserPrincipal(principal), departmentName);
+
+        log.info("[CuratorController|getAnalyticByDepartment] << result map.size: {}", map.size());
+
+        return ResponseEntity.ok().body(map);
+    }
+    //endregion
 }

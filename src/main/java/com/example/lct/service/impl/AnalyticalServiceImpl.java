@@ -6,7 +6,7 @@ import com.example.lct.model.Employee;
 import com.example.lct.model.History;
 import com.example.lct.model.enumformodel.ActionType;
 import com.example.lct.model.enumformodel.HistoryType;
-import com.example.lct.service.EmployeeService;
+import com.example.lct.service.AnalyticalService;
 import com.example.lct.service.HistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +21,11 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AnalyticalServiceImpl {
-    private final EmployeeService employeeService;
+public class AnalyticalServiceImpl implements AnalyticalService {
     private final HistoryService historyService;
     private final DepartmentServiceImpl departmentService;
 
+    @Override
     public Map<HistoryType, Integer> getAnalyticByDepartment(Company company, String departmentName){
         Department department = departmentService.getDepartmentByNameAndCompanyId(company.getCompanyId(), departmentName);
 

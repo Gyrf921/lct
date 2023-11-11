@@ -20,5 +20,7 @@ public interface HistoryService {
 
     History createHistoryActionMiss(Employee employee, HistoryType type, String name);
 
+    History createHistoryActionCompleted(Employee employee, HistoryType type, String name);
+
     History createHistoryActionOther(Employee employee, HistoryType type, String name);
 }

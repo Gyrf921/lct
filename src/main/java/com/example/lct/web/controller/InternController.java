@@ -40,7 +40,7 @@ public class InternController {
                                                                        @RequestBody TasksToCheckDTO answer,
                                                                        Principal principal) {
         TaskStage taskStage = internService.setAnswerToTask(userPrincipalUtils.getEmployeeByUserPrincipal(principal), taskStageId, answer);
-        historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());
+        historyService.createHistoryActionCompleted(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.TASK, "Сдал задачу" + taskStage.getTask().getName());
         return ResponseEntity.ok().body(taskStage);
     }
 
@@ -50,7 +50,7 @@ public class InternController {
                                                                              @RequestBody TasksToCheckDTO answer,
                                                                              Principal principal) {
         TaskStage taskStage = internService.setAnswerToTask(userPrincipalUtils.getEmployeeByUserPrincipal(principal), stageId, answer);
-        historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());
+        historyService.createHistoryActionCompleted(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.TEST, "Сдал тест" + taskStage.getTask().getName());
         return ResponseEntity.ok().body(taskStage);
     }
 

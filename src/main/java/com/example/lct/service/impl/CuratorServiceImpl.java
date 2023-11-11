@@ -1,6 +1,7 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.model.*;
+import com.example.lct.model.enumformodel.HistoryType;
 import com.example.lct.model.enumformodel.Status;
 import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.*;
@@ -25,8 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CuratorServiceImpl implements CuratorService {
 
-    private final PostServiceImpl postService;
-
+    private final HistoryService historyService;
     private final TaskService taskService;
     private final StageService stageService;
 
@@ -155,21 +155,22 @@ public class CuratorServiceImpl implements CuratorService {
         return stageService.setTestToStage(stageId, testDTO.getTestUrl());
     }
 
-
     @Override
     public void evaluateInternAnswer(Long internId, Long taskId, Boolean isAccepted) {
-        Employee employee = employeeService.getEmployeeById(internId);
+        Employee intern = employeeService.getEmployeeById(internId);
         TaskStage taskStage = stageService.getTaskStageById(taskId);
 
-        if (isAccepted){
+        if (Boolean.TRUE.equals(isAccepted)){
             taskStage.setStatus(Status.ACCEPTED);
             taskStage.setTimeFinish(Timestamp.valueOf(LocalDateTime.now()));
+
+            historyService.createHistoryActionCompleted(intern, HistoryType.TASK, String.format("Задача с id: %s, принята", taskId));
         }
         else{
             taskStage.setStatus(Status.REWRITE);
         }
-
-        emailService.sendMarkToTaskByCurator(employee, taskStage);
+        
+        emailService.sendMarkToTaskByCurator(intern, taskStage);
     }
 
 }

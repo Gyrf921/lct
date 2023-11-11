@@ -74,6 +74,16 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public History createHistoryActionCompleted(Employee employee, HistoryType type, String name) {
+        return historyRepository.save(History.builder()
+                .companyId(employee.getCompanyId())
+                .employee(employee)
+                .historyType(type)
+                .actionType(ActionType.COMPLETED)
+                .name(name).build());
+    }
+
+    @Override
     public History createHistoryActionOther(Employee employee, HistoryType type, String name) {
         return historyRepository.save(History.builder()
                 .companyId(employee.getCompanyId())
