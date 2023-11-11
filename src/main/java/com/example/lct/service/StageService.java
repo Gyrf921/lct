@@ -5,6 +5,7 @@ import com.example.lct.model.Stage;
 import com.example.lct.model.Task;
 import com.example.lct.model.TaskStage;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.request.hr.StageWithoutTasksDTO;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface StageService {
     Stage setTestToStage(Long stageId, String testUrl);
 
     List<Task> getTaskFromStage(Stage stage);
+
+    Stage createStageForInternWithoutTask(Employee intern, StageWithoutTasksDTO stageWithoutTasksDTO);
 }

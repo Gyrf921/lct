@@ -7,6 +7,7 @@ import com.example.lct.repository.CompanyRepository;
 import com.example.lct.service.*;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.request.hr.StageWithoutTasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
@@ -139,6 +140,39 @@ public class CuratorServiceImpl implements CuratorService {
         else {
             internStages = intern.getStages();
             internStages.add(stageService.createStageForIntern(intern, stageDTO));
+        }
+
+        intern.setStages(internStages);
+
+        Employee employee = employeeService.saveEmployee(intern);
+
+        log.info("[CuratorService|createStageToIntern] << result: {}", employee.getStages());
+
+        List<StageResponseDTO> responseDTOS = new ArrayList<>();
+
+        for (Stage stage: employee.getStages()) {
+            List<Task> tasksInStage = stageService.getTaskFromStage(stage);
+
+            responseDTOS.add(new StageResponseDTO(stage, tasksInStage));
+        }
+
+        return responseDTOS;
+    }
+
+    @Override
+    public List<StageResponseDTO> createStageToInternWithoutTask(Long internId, StageWithoutTasksDTO stageWithoutTasksDTO) {
+        log.info("[CuratorService|createStageToIntern] >> internId: {}, stageDTO: {}", internId, stageWithoutTasksDTO);
+
+        Employee intern = employeeService.getEmployeeById(internId);
+
+        List<Stage> internStages;
+
+        if (intern.getStages() == null || intern.getStages().isEmpty()){
+            internStages = new ArrayList<>(List.of(stageService.createStageForInternWithoutTask(intern, stageWithoutTasksDTO)));
+        }
+        else {
+            internStages = intern.getStages();
+            internStages.add(stageService.createStageForInternWithoutTask(intern, stageWithoutTasksDTO));
         }
 
         intern.setStages(internStages);

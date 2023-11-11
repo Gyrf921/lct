@@ -8,6 +8,7 @@ import com.example.lct.service.EmployeeService;
 import com.example.lct.service.InternService;
 import com.example.lct.util.UserPrincipalUtils;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.request.hr.StageWithoutTasksDTO;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
@@ -106,6 +107,22 @@ public class CuratorController {
 
         return ResponseEntity.ok().body(stages);
     }
+
+    @Operation(summary = "create stage to intern")
+    @PostMapping("/interns/{internId}/stage/non-task")
+    public ResponseEntity<List<StageResponseDTO>> createStageToInternWithoutTask(@PathVariable(value = "internId") Long internId,
+                                                                      @RequestBody StageWithoutTasksDTO stageWithoutTasksDTO,
+                                                                      Principal principal) {
+        log.info("[CuratorController|evaluateInternAnswer] >> principal: {}", principal.getName());
+
+        List<StageResponseDTO> stages = curatorService.createStageToInternWithoutTask(internId, stageWithoutTasksDTO);
+
+        log.info("[CuratorController|evaluateInternAnswer] << result taskStages.size: {}", stages);
+
+        return ResponseEntity.ok().body(stages);
+    }
+
+
     @Operation(summary = "set test to intern's stage")
     @PatchMapping("/stage/{stageId}/test")
     public ResponseEntity<Stage> setTestToInternStage(@PathVariable(value = "stageId") Long stageId,

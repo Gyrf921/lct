@@ -3,6 +3,7 @@ package com.example.lct.service;
 import com.example.lct.model.*;
 import com.example.lct.web.dto.request.admin.obj.EmployeeForCreateDTO;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.request.hr.StageWithoutTasksDTO;
 import com.example.lct.web.dto.request.hr.TestDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 import com.example.lct.web.dto.response.EmployeeTeamResponseDTO;
@@ -27,6 +28,8 @@ public interface CuratorService {
     List<Task> getAllTasksForCompany(Company companyByUserPrincipal);
 
     List<StageResponseDTO> createStageToIntern(Long internId, StageDTO stageDTO);
+
+    List<StageResponseDTO> createStageToInternWithoutTask(Long internId, StageWithoutTasksDTO stageWithoutTasksDTO);
 
     Stage setTestToStage(Long stageId, TestDTO testDTO);
 

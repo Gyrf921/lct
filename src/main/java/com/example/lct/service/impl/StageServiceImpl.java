@@ -11,6 +11,7 @@ import com.example.lct.repository.TaskStageRepository;
 import com.example.lct.service.StageService;
 import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.hr.StageDTO;
+import com.example.lct.web.dto.request.hr.StageWithoutTasksDTO;
 import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +69,8 @@ public class StageServiceImpl implements StageService {
     public List<Task> getTaskFromStage(Stage stage) {
         return taskStageRepository.findAllByStage(stage).stream().map(this::mapTaskStageToTask).toList();
     }
+
+
 
     private Task mapTaskStageToTask(TaskStage taskStage){
         return taskStage.getTask();
@@ -129,6 +132,22 @@ public class StageServiceImpl implements StageService {
 
         return stage;
     }
+
+    @Override
+    public Stage createStageForInternWithoutTask(Employee intern, StageWithoutTasksDTO stageDTO) {
+        log.info("[StageService|createStageForInternWithoutTask] >> stageDTO: {}", stageDTO);
+        Stage stage = stageRepository.save(Stage.builder()
+                .companyId(intern.getCompanyId())
+                .employeeId(intern.getEmployeeId())
+                .name(stageDTO.getName())
+                .levelDifficulty(stageDTO.getLevelDifficulty())
+                .status(Status.OPENED)
+                .deadline(Timestamp.valueOf(stageDTO.getDeadline())).build());
+
+        log.info("[StageService|createStageForInternWithoutTask] << result: {}", stage);
+        return stage;
+    }
+
 
     public TaskStage setAnswerToTask(Long taskStageId, String answer) {
         TaskStage taskStage = getTaskStageById(taskStageId);
