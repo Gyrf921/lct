@@ -125,11 +125,11 @@ public class AdminController {
 
     @Operation(summary = "add one Question To Company")
     @PostMapping("/knowledge-base/question")
-    public ResponseEntity<List<Question>> createQuestion(Principal principal,
+    public ResponseEntity<List<ArticleResponseDTO>> createQuestion(Principal principal,
                                                          @RequestBody QuestionDTO questionDTO) {
         log.info("[AdminController|createQuestion] >> questionDTO: {}", questionDTO);
 
-        List<Question> savedQuestions = adminService.createQuestionToCompany(
+        List<ArticleResponseDTO> savedQuestions = adminService.createQuestionToCompany(
                 userPrincipalUtils.getCompanyByUserPrincipal(principal), questionDTO);
 
         log.info("[AdminController|createQuestions] << result: {}", savedQuestions);

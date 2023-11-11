@@ -146,7 +146,7 @@ public class AdminServiceImpl implements AdminService {
         return questions;
     }
     @Override
-    public List<Question> createQuestionToCompany(Company company, QuestionDTO questionsDTO) {
+    public List<ArticleResponseDTO> createQuestionToCompany(Company company, QuestionDTO questionsDTO) {
 
         Question question = questionService.saveQuestionForCompany(company.getCompanyId(), questionsDTO);
 
@@ -165,7 +165,7 @@ public class AdminServiceImpl implements AdminService {
 
         log.info("[createQuestionToCompany] << result: {}", savedCompany);
 
-        return savedCompany.getQuestions();
+        return savedCompany.getQuestions().stream().map(knowledgeMapper::questionToArticleResponseDTO).toList();
     }
 
     @Override

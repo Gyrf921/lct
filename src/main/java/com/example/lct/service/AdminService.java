@@ -20,10 +20,9 @@ public interface AdminService {
 
     List<Product> createProductToCompany(Company companyByUserPrincipal, ProductsDTO productDTO);
 
-
     List<Question> createQuestionsToCompany(Company company, QuestionsDTO questionsDTO);
 
-    List<Question> createQuestionToCompany(Company company, QuestionDTO questionDTO);
+    List<ArticleResponseDTO> createQuestionToCompany(Company company, QuestionDTO questionDTO);
 
     List<Article> createArticleListToCompany(Company companyByUserPrincipal, ArticlesDTO articlesDTO);
 
