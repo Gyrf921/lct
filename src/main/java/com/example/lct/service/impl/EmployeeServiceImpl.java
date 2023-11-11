@@ -5,6 +5,7 @@ import com.example.lct.exception.UserAlreadyExistException;
 import com.example.lct.mapper.EmployeeMapper;
 import com.example.lct.model.*;
 import com.example.lct.model.enumformodel.HistoryType;
+import com.example.lct.model.enumformodel.Status;
 import com.example.lct.model.factory.EmployeeFactory;
 import com.example.lct.repository.EmployeeRepository;
 import com.example.lct.service.EmployeeService;
@@ -198,8 +199,14 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     }
 
     @Override
-    public EmployeePersonalityResponseDTO getEmployeeInformation(Employee employeeByUserPrincipal) {
-        return employeeMapper.employeeToEmployeePersonalityDTO(employeeByUserPrincipal);
+    public EmployeePersonalityResponseDTO getEmployeeInformation(Employee employee) {
+        EmployeePersonalityResponseDTO employeePersonalityResponseDTO =
+                employeeMapper.employeeToEmployeePersonalityDTO(employee);
+
+        List<TaskStage> taskStages = stageService.getAllTaskStageForEmployee(employee).stream()
+                .filter(taskStage -> taskStage.getStatus().equals(Status.ACCEPTED)).toList();
+        employeePersonalityResponseDTO.setCountCompletedTask(taskStages.size());
+        return employeePersonalityResponseDTO;
     }
 
     @Override

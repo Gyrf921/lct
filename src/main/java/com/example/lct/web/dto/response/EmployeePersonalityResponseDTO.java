@@ -34,4 +34,6 @@ public class EmployeePersonalityResponseDTO {
     private String city;
 
     private Long account;
+
+    private Integer countCompletedTask;
 }
