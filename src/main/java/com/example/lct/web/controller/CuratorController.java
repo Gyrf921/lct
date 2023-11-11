@@ -100,10 +100,16 @@ public class CuratorController {
                                                            @RequestBody StageDTO stageDTO,
                                                            Principal principal) {
         log.info("[CuratorController|createStageToIntern] >> principal: {}", principal.getName());
+        List<StageResponseDTO> stages;
+        if (stageDTO.getTasksId() == null || stageDTO.getTasksId().isEmpty()){
+            stages = curatorService.createStageToInternWithoutTask(internId,
+                    new StageWithoutTasksDTO(stageDTO.getName(), stageDTO.getLevelDifficulty(), stageDTO.getDeadline()));
+        }
+        else {
+            stages = curatorService.createStageToIntern(internId, stageDTO);
+        }
 
-        List<StageResponseDTO> stages = curatorService.createStageToIntern(internId, stageDTO);
-
-        log.info("[CuratorController|createStageToIntern] << result taskStages.size: {}", stages);
+        log.info("[CuratorController|createStageToIntern] << result stages");
 
         return ResponseEntity.ok().body(stages);
     }
