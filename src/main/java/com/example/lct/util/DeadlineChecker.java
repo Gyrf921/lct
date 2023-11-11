@@ -33,9 +33,7 @@ public class DeadlineChecker {
 
     @Async
     @Transactional
-    //@Scheduled(cron = "0 0 8 * * *") //В 08:00 каждого дня
-    //В 20:00 каждого дня TODO ТЕСТИМ НА КАЖДОЙ СЕКУНДЕ
-    //@Scheduled(cron = "1,10,20,30,40,50 * * * * *")
+    @Scheduled(cron = "0 0 8 * * *") //В 08:00 каждого дня
     public void startChecking() {
         checkDeadline();
         log.info("///DeadlineChecker///startChecking///");
