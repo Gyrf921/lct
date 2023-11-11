@@ -35,4 +35,5 @@ public interface CuratorService {
 
     void evaluateInternAnswer(Long intern, Long taskId, Boolean isAccepted);
 
+    List<StageResponseDTO> setTaskToStage(Long stageId, Long taskId);
 }

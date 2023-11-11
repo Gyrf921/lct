@@ -196,7 +196,24 @@ public class CuratorServiceImpl implements CuratorService {
     public Stage setTestToStage(Long stageId, TestDTO testDTO) {
         return stageService.setTestToStage(stageId, testDTO.getTestUrl());
     }
+    @Override
+    public List<StageResponseDTO> setTaskToStage(Long stageId, Long taskId) {
 
+        Stage stageSaved = stageService.setTaskToStage(stageId, taskId);
+
+        Employee employee = employeeService.getEmployeeById(stageSaved.getEmployeeId());
+        log.info("[CuratorService|setTaskToStage] << result: {}", employee.getStages());
+
+        List<StageResponseDTO> responseDTOS = new ArrayList<>();
+
+        for (Stage stage: employee.getStages()) {
+            List<Task> tasksInStage = stageService.getTaskFromStage(stage);
+
+            responseDTOS.add(new StageResponseDTO(stage, tasksInStage));
+        }
+
+        return responseDTOS;
+    }
     @Override
     public void evaluateInternAnswer(Long internId, Long taskId, Boolean isAccepted) {
         Employee intern = employeeService.getEmployeeById(internId);
@@ -214,5 +231,7 @@ public class CuratorServiceImpl implements CuratorService {
         
         emailService.sendMarkToTaskByCurator(intern, taskStage);
     }
+
+
 
 }

@@ -29,4 +29,6 @@ public interface StageService {
     List<Task> getTaskFromStage(Stage stage);
 
     Stage createStageForInternWithoutTask(Employee intern, StageWithoutTasksDTO stageWithoutTasksDTO);
+
+    Stage setTaskToStage(Long stageId, Long taskId);
 }

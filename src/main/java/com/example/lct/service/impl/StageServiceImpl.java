@@ -12,7 +12,6 @@ import com.example.lct.service.StageService;
 import com.example.lct.service.TaskService;
 import com.example.lct.web.dto.request.hr.StageDTO;
 import com.example.lct.web.dto.request.hr.StageWithoutTasksDTO;
-import com.example.lct.web.dto.response.TaskForCheckDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -134,6 +133,20 @@ public class StageServiceImpl implements StageService {
     }
 
     @Override
+    public Stage setTaskToStage(Long stageId, Long taskId) {
+        Stage stage = getStageById(stageId);
+        Task task = taskService.getTaskById(taskId);
+
+        taskStageRepository.save(TaskStage.builder()
+                .stage(stage)
+                .task(task)
+                .status(Status.OPENED)
+                .deadline(stage.getDeadline()).build());
+
+        return stage;
+    }
+
+    @Override
     public Stage createStageForInternWithoutTask(Employee intern, StageWithoutTasksDTO stageDTO) {
         log.info("[StageService|createStageForInternWithoutTask] >> stageDTO: {}", stageDTO);
         Stage stage = stageRepository.save(Stage.builder()
@@ -147,6 +160,8 @@ public class StageServiceImpl implements StageService {
         log.info("[StageService|createStageForInternWithoutTask] << result: {}", stage);
         return stage;
     }
+
+
 
 
     public TaskStage setAnswerToTask(Long taskStageId, String answer) {

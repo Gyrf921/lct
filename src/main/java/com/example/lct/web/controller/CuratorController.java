@@ -121,7 +121,18 @@ public class CuratorController {
 
         return ResponseEntity.ok().body(stages);
     }
+    @Operation(summary = "set task to intern's stage")
+    @PatchMapping("/stage/{stageId}/tasks/{taskId}")
+    public ResponseEntity<List<StageResponseDTO>> setTaskToInternStage(@PathVariable(value = "stageId") Long stageId,
+                                                      @PathVariable(value = "taskId") Long taskId) {
+        log.info("[CuratorController|setTaskToInternStage] >> stageId: {}, taskId: {}", stageId, taskId);
 
+        List<StageResponseDTO> stage = curatorService.setTaskToStage(stageId, taskId);
+
+        log.info("[CuratorController|setTaskToInternStage] << result stage: {}", stage);
+
+        return ResponseEntity.ok().body(stage);
+    }
 
     @Operation(summary = "set test to intern's stage")
     @PatchMapping("/stage/{stageId}/test")
