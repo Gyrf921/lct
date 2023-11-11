@@ -1,9 +1,6 @@
 package com.example.lct.service;
 
-import com.example.lct.model.Employee;
 import com.example.lct.model.Task;
-import com.example.lct.model.TaskStage;
-import com.example.lct.model.enumformodel.Status;
 import com.example.lct.web.dto.request.hr.TasksDTO;
 import com.example.lct.web.dto.request.hr.obj.TaskDTO;
 
@@ -14,7 +11,7 @@ public interface TaskService {
 
     List<Task> createTasks(Long companyId, List<TaskDTO> tasksDTO);
 
-    List<Task> createTask(Long companyId, TaskDTO taskDTO);
+    Task createTask(Long companyId, TaskDTO taskDTO);
 
     List<Task> createBaseTasks(Long companyId, TasksDTO tasksDTO);
 

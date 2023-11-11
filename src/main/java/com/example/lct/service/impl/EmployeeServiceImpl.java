@@ -83,6 +83,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
     public JwtResponseDTO createTokenForUser(String email) {
         log.info("[createTokenForUser] >> create token for email: {}", email);
         Employee employee = getEmployeeByEmail(email);
+        historyService.createHistoryActionOther(employee, HistoryType.OTHER, "Вход в систему");
         UserDetails userDetails = loadUserByUsername(email);
 
         log.info("[createTokenForUser] << result is token");

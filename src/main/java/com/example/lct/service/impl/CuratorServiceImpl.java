@@ -85,33 +85,33 @@ public class CuratorServiceImpl implements CuratorService {
 
         companyByUserPrincipal.setTasks(tasksSaved);
 
-        companyRepository.save(companyByUserPrincipal);
+        Company company = companyRepository.save(companyByUserPrincipal);
 
         log.info("[createTasksPlanForCompany] << result: {}", tasks);
 
-        return tasks;
+        return company.getTasks();
     }
 
     @Override
     public List<Task> createTask(Company companyByUserPrincipal, TaskDTO taskDTO) {
-        List<Task> tasks = taskService.createTask(companyByUserPrincipal.getCompanyId(), taskDTO);
+        Task task = taskService.createTask(companyByUserPrincipal.getCompanyId(), taskDTO);
 
         List<Task> tasksSaved;
 
         if (companyByUserPrincipal.getTasks() == null || companyByUserPrincipal.getTasks().isEmpty()) {
-            tasksSaved = new ArrayList<>(tasks);
+            tasksSaved = new ArrayList<>(List.of(task));
         } else {
             tasksSaved = companyByUserPrincipal.getTasks();
-            tasksSaved.addAll(tasks);
+            tasksSaved.add(task);
         }
 
         companyByUserPrincipal.setTasks(tasksSaved);
 
-        companyRepository.save(companyByUserPrincipal);
+        Company company = companyRepository.save(companyByUserPrincipal);
 
-        log.info("[createTask] << result: {}", tasks);
+        log.info("[createTask] << result: {}", task);
 
-        return tasks;
+        return company.getTasks();
     }
 
     @Override
