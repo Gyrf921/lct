@@ -1,6 +1,7 @@
 package com.example.lct.service.impl;
 
 import com.example.lct.model.Employee;
+import com.example.lct.model.Stage;
 import com.example.lct.model.TaskStage;
 import com.example.lct.service.EmailService;
 import com.example.lct.service.EmployeeService;
@@ -40,6 +41,11 @@ public class InternServiceImpl implements InternService {
     @Override
     public TaskStage getTaskStageById(Long taskStageId) {
         return stageService.getTaskStageById(taskStageId);
+    }
+
+    @Override
+    public List<Stage> getStageForEmployee(Employee employee) {
+        return employee.getStages();
     }
 
     @Override

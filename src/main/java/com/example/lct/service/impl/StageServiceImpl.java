@@ -80,12 +80,15 @@ public class StageServiceImpl implements StageService {
         List<TaskStage> taskStages = new ArrayList<>();
         for (Task task : tasks) {
             taskStages.add(TaskStage.builder()
-                    .stage(stage)
+                    //.(stage)
                     .task(task)
                     .status(Status.OPENED)
                     .deadline(Timestamp.valueOf(LocalDateTime.now().plusMonths(1))).build());
         }
-        taskStageRepository.saveAll(taskStages);
+
+        stage.setTaskStage(taskStageRepository.saveAll(taskStages));
+        stage = stageRepository.save(stage);
+
         log.info("[createBaseStageForIntern] << result: {}", stage);
 
         return stage;
@@ -108,12 +111,13 @@ public class StageServiceImpl implements StageService {
         List<TaskStage> taskStages = new ArrayList<>();
         for (Task task : tasks) {
             taskStages.add(TaskStage.builder()
-                    .stage(stage)
+                    //.stage(stage)
                     .task(task)
                     .status(Status.OPENED)
                     .deadline(stage.getDeadline()).build());
         }
-        taskStageRepository.saveAll(taskStages);
+        stage.setTaskStage(taskStageRepository.saveAll(taskStages));
+        stage = stageRepository.save(stage);
 
         log.info("[StageService|createStageForIntern] << result: {}", stage);
 
@@ -134,15 +138,14 @@ public class StageServiceImpl implements StageService {
         List<TaskStage> taskStage = new ArrayList<>();
 
         for (Stage stage : employee.getStages()) {
-            taskStage.addAll(taskStageRepository.findAllByStage(stage));
+            taskStage.addAll(stage.getTaskStage());
         }
         return taskStage;
     }
 
     @Override
     public List<TaskStage> getAllTaskStageForEmployeeByStageLevelDifficult(Employee employee, Integer stageLevelDifficult) {
-        return getAllTaskStageForEmployee(employee).stream()
-                .filter(taskStage -> taskStage.getStage().getLevelDifficulty().equals(stageLevelDifficult)).toList();
+        return getAllTaskStageForEmployee(employee).stream().filter(taskStage -> taskStage.getTask().getLevelDifficulty().equals(stageLevelDifficult)).toList();
     }
 
     @Override

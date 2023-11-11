@@ -9,5 +9,4 @@ import java.util.List;
 
 @Repository
 public interface TaskStageRepository extends JpaRepository<TaskStage, Long> {
-    List<TaskStage> findAllByStage(Stage stage);
 }

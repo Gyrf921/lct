@@ -47,14 +47,14 @@ public class CuratorController {
 
     @Operation(summary = "get all tasks in stages for Intern")
     @GetMapping("/interns/{internId}/tasks")
-    public ResponseEntity<List<TaskStage>> getTasksInStagesIntern(@PathVariable(value = "internId") Long internId) {
+    public ResponseEntity<List<Stage>> getTasksInStagesIntern(@PathVariable(value = "internId") Long internId) {
         log.info("[CuratorController|getStagesForIntern] >> internId: {}", internId);
 
-        List<TaskStage> taskStages = internService.getTasksStageForEmployee(employeeService.getEmployeeById(internId));
+        List<Stage> stages = internService.getStageForEmployee(employeeService.getEmployeeById(internId));
 
-        log.info("[CuratorController|getStagesForIntern] << result taskStages.size: {}", taskStages.size());
+        log.info("[CuratorController|getStagesForIntern] << result stages.size: {}", stages.size());
 
-        return ResponseEntity.ok().body(taskStages);
+        return ResponseEntity.ok().body(stages);
     }
     @Operation(summary = "get all tasks in stages for Intern")
     @GetMapping("/interns/tasks")

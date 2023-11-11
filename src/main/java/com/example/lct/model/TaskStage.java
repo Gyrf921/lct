@@ -22,9 +22,11 @@ public class TaskStage extends BaseEntity {
     @Column(name = "task_stage_id")
     private Long taskStageId;
 
+/*
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stage_id", referencedColumnName = "stage_id")
     private Stage stage;
+*/
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")

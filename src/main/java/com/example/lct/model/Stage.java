@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +28,15 @@ public class Stage extends BaseEntity {
 
     @Column(name = "employee_id")
     private Long employeeId;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "task_stage",
+            joinColumns = @JoinColumn(name = "stage_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_stage_id")
+    )
+    //@JoinColumn(name = "stage_id", referencedColumnName = "stage_id")
+    private List<TaskStage> taskStage;
 
     @Column(name = "name")
     private String name;

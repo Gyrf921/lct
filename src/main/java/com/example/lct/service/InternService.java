@@ -1,6 +1,7 @@
 package com.example.lct.service;
 
 import com.example.lct.model.Employee;
+import com.example.lct.model.Stage;
 import com.example.lct.model.TaskStage;
 import com.example.lct.web.dto.request.intern.TasksToCheckDTO;
 
@@ -10,6 +11,7 @@ public interface InternService {
 
 
     TaskStage getTaskStageById(Long taskStageId);
+    List<Stage> getStageForEmployee(Employee employeeById);
 
     List<TaskStage> getTasksStageForEmployee(Employee employee);
 
@@ -17,4 +19,5 @@ public interface InternService {
 
 
     TaskStage setAnswerToTask(Employee intern, Long taskStageId, TasksToCheckDTO answer);
+
 }
