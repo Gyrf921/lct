@@ -10,7 +10,7 @@ spring:
   mvc:
     cors:
       enabled: true
-      allowed-origins: https://localhost:5173
+      allowed-origins: https://ldt-hack-track-5-frontend.vercel.app/
       allowed-methods: GET, POST, PUT, DELETE
       allowed-headers: "*"
       exposed-headers: Authorization
