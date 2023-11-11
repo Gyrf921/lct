@@ -31,6 +31,7 @@ public class CuratorServiceImpl implements CuratorService {
     private final StageService stageService;
 
     private final EmployeeService employeeService;
+    private final EmailService emailService;
 
     private final CompanyRepository companyRepository;
 
@@ -156,7 +157,8 @@ public class CuratorServiceImpl implements CuratorService {
 
 
     @Override
-    public void evaluateInternAnswer(Long taskId, Boolean isAccepted) {
+    public void evaluateInternAnswer(Long internId, Long taskId, Boolean isAccepted) {
+        Employee employee = employeeService.getEmployeeById(internId);
         TaskStage taskStage = stageService.getTaskStageById(taskId);
 
         if (isAccepted){
@@ -166,6 +168,8 @@ public class CuratorServiceImpl implements CuratorService {
         else{
             taskStage.setStatus(Status.REWRITE);
         }
+
+        emailService.sendMarkToTaskByCurator(employee, taskStage);
     }
 
 }

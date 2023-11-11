@@ -39,7 +39,7 @@ public class InternController {
     public ResponseEntity<TaskStage> setAnswerAndMarkTaskLikeCompleted(@PathVariable(value = "taskStageId") Long taskStageId,
                                                                        @RequestBody TasksToCheckDTO answer,
                                                                        Principal principal) {
-        TaskStage taskStage = internService.setAnswerToTask(taskStageId, answer);
+        TaskStage taskStage = internService.setAnswerToTask(userPrincipalUtils.getEmployeeByUserPrincipal(principal), taskStageId, answer);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());
         return ResponseEntity.ok().body(taskStage);
     }
@@ -49,7 +49,7 @@ public class InternController {
     public ResponseEntity<TaskStage> setTestAnswerAndMarkStageLikeCompleted(@PathVariable(value = "stageId") Long stageId,
                                                                              @RequestBody TasksToCheckDTO answer,
                                                                              Principal principal) {
-        TaskStage taskStage = internService.setAnswerToTask(stageId, answer);
+        TaskStage taskStage = internService.setAnswerToTask(userPrincipalUtils.getEmployeeByUserPrincipal(principal), stageId, answer);
         historyService.createHistoryActionRead(userPrincipalUtils.getEmployeeByUserPrincipal(principal), HistoryType.ARTICLE, "Сдал задачу" + taskStage.getTask().getName());
         return ResponseEntity.ok().body(taskStage);
     }

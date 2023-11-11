@@ -28,6 +28,18 @@ public class AdminController {
 
     private final UserPrincipalUtils userPrincipalUtils;
 
+    @Operation(summary = "get company for admin")
+    @GetMapping("")
+    public ResponseEntity<Employee> getEmployee(Principal principal) {
+        log.info("[AdminController|getEmployee] >> user principal: {}", principal.getName());
+
+        Employee employee = userPrincipalUtils.getEmployeeByUserPrincipal(principal);
+
+        log.info("[AdminController|getEmployee] << result has employeeId: {}", employee.getEmployeeId());
+
+        return ResponseEntity.ok().body(employee);
+    }
+
     //region Company
     @Operation(summary = "get company for admin")
     @GetMapping("/company")

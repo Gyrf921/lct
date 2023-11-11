@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface InternService {
 
-    TaskStage setAnswerToTask(Long taskStageId, TasksToCheckDTO answer);
 
     TaskStage getTaskStageById(Long taskStageId);
 
@@ -17,4 +16,5 @@ public interface InternService {
     List<TaskStage> getTasksStagesForEmployeeByLevelDifficult(Employee employee, Integer stageLevelDifficult);
 
 
+    TaskStage setAnswerToTask(Employee intern, Long taskStageId, TasksToCheckDTO answer);
 }

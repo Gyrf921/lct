@@ -70,15 +70,16 @@ public class CuratorController {
     }
 
     @Operation(summary = "get all tasks in stages for Intern")
-    @PatchMapping("/interns/tasks/{taskId}")
-    public ResponseEntity<List<TaskForCheckDTO>> evaluateInternAnswer(@PathVariable(value = "taskId") Long taskId,
-                                                                @RequestParam(name = "isAccepted") Boolean isAccepted,
-                                                                Principal principal) {
+    @PatchMapping("/interns/{internId}/tasks/{taskId}")
+    public ResponseEntity<List<TaskForCheckDTO>> evaluateInternAnswer(@PathVariable(value = "internId") Long internId,
+                                                                      @PathVariable(value = "taskId") Long taskId,
+                                                                      @RequestParam(name = "isAccepted") Boolean isAccepted,
+                                                                      Principal principal) {
         log.info("[CuratorController|evaluateInternAnswer] >> principal: {}", principal.getName());
 
-        curatorService.evaluateInternAnswer(taskId, isAccepted);
+        curatorService.evaluateInternAnswer(internId, taskId, isAccepted);
 
-        List<TaskForCheckDTO> taskStages =curatorService.getTaskStagesForCuratorChecking(
+        List<TaskForCheckDTO> taskStages = curatorService.getTaskStagesForCuratorChecking(
                 userPrincipalUtils.getEmployeeByUserPrincipal(principal).getEmployeeId());
 
         log.info("[CuratorController|evaluateInternAnswer] << result taskStages.size: {}", taskStages.size());

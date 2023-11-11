@@ -2,6 +2,7 @@ package com.example.lct.service.impl;
 
 import com.example.lct.model.Employee;
 import com.example.lct.model.TaskStage;
+import com.example.lct.service.EmailService;
 import com.example.lct.service.EmployeeService;
 import com.example.lct.service.InternService;
 import com.example.lct.service.StageService;
@@ -21,12 +22,19 @@ public class InternServiceImpl implements InternService {
 
     private final EmployeeService employeeService;
     private final StageService stageService;
+    private final EmailService emailService;
 
 
 
     @Override
-    public TaskStage setAnswerToTask(Long taskStageId, TasksToCheckDTO answer) {
-        return stageService.setAnswerToTask(taskStageId, answer.getAnswerUrl());
+    public TaskStage setAnswerToTask(Employee intern, Long taskStageId, TasksToCheckDTO answer) {
+
+        TaskStage taskStage = stageService.setAnswerToTask(taskStageId, answer.getAnswerUrl());
+
+        Employee curator = employeeService.getEmployeeById(intern.getCuratorId());
+
+        emailService.sendCuratorCompleteTask(curator.getEmail(), intern, taskStage);
+        return taskStage;
     }
 
     @Override

@@ -30,6 +30,6 @@ public interface CuratorService {
 
     Stage setTestToStage(Long stageId, TestDTO testDTO);
 
-    void evaluateInternAnswer(Long taskId, Boolean isAccepted);
+    void evaluateInternAnswer(Long intern, Long taskId, Boolean isAccepted);
 
 }

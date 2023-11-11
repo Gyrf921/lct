@@ -6,6 +6,7 @@ import com.example.lct.exception.SetModelToEmailTemplateException;
 import com.example.lct.exception.TemplateNotExistException;
 import com.example.lct.model.Employee;
 import com.example.lct.model.Product;
+import com.example.lct.model.TaskStage;
 import com.example.lct.service.EmailService;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
@@ -38,14 +39,35 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async
     public void sendBuyEmail(String emailCurator, Employee buyer, Product product) {
-        log.info("[sendEmail] >> buyer: {}", buyer.getEmail());
+        log.info("[sendBuyEmail] >> buyer: {}", buyer.getEmail());
 
         emailSender.send(prepareEmail(emailCurator,emailPropertiesConfig.getBuyTheme(),
                 String.format(emailPropertiesConfig.getBuyTheme(), buyer.getName(), product.getName(), product.getCost())));
 
-        log.info("[sendEmail] << result void");
+        log.info("[sendBuyEmail] << result void");
     }
 
+    @Override
+    @Async
+    public void sendCuratorCompleteTask(String emailCurator, Employee intern, TaskStage taskStage) {
+        log.info("[sendCuratorCompleteTask] >> intern: {}", intern.getEmail());
+
+        emailSender.send(prepareEmail(emailCurator, emailPropertiesConfig.getCompleteTaskTheme(),
+                String.format(emailPropertiesConfig.getCompleteTaskText(), intern.getName(), taskStage.getTask().getName())));
+
+        log.info("[sendCuratorCompleteTask] << result void");
+    }
+
+    @Override
+    @Async
+    public void sendMarkToTaskByCurator(Employee intern, TaskStage taskStage) {
+        log.info("[sendMarkToTaskByCurator] >> intern: {}", intern.getEmail());
+
+        emailSender.send(prepareEmail(intern.getEmail(), emailPropertiesConfig.getCheckTaskTheme(),
+                String.format(emailPropertiesConfig.getCheckTaskText(), taskStage.getStatus())));
+
+        log.info("[sendMarkToTaskByCurator] << result void");
+    }
 
     private MimeMessage prepareEmail(String emailForNotify, String theme, String text) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
