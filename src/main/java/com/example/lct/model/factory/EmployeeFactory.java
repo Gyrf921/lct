@@ -55,7 +55,8 @@ public class EmployeeFactory {
                 .name(employeeForCreateDTO.getName())
                 .email(employeeForCreateDTO.getEmail())
                 .post(post)
-                .roles(roles).build();
+                .roles(roles)
+                .account(0L).build();
 
         if (isIntern(employeeForCreateDTO)) {
             return createIntern(employeeForCreateDTO, employee);

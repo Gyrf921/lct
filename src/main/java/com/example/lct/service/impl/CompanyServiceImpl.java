@@ -23,22 +23,32 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyMapper companyMapper;
     private final CompanyRepository companyRepository;
     private final RoleService roleService;
+    private final PostServiceImpl postService;
+    private final DepartmentServiceImpl departmentService;
 
     @Override
     public Company createCompany(CompanyDTO companyDTO) {
         log.info("[CompanyService|createCompany] >> companyDTO: {}", companyDTO);
 
         Company company = companyRepository.save(companyMapper.companyDTOToCompany(companyDTO));
+        log.info("[CompanyService|createCompany <- companyMapper] == company: {}", company);
 
-        log.info("[createCompany << companyMapper] == company: {}", company);
-
-        company.setRoles(roleService.createBaseRoleForCompany(company.getCompanyId()));
-
-        Company savedCompany = companyRepository.save(company);
+        Company savedCompany = companyRepository.save(setBaseField(company));
 
         log.info("[CompanyService|createCompany] << result: {}", savedCompany);
 
         return savedCompany;
+    }
+
+    private Company setBaseField(Company company){
+        log.info("[CompanyService|setBaseField] >> company: {}", company);
+
+        company.setRoles(roleService.createBaseRoleForCompany(company.getCompanyId()));
+        company.setDepartments(departmentService.createBaseDepartmentForCompany(company.getCompanyId()));
+        company.setPosts(postService.createBasePostForCompany(company.getCompanyId()));
+
+        log.info("[CompanyService|setBaseField] << set base Role, department, Post");
+        return company;
     }
 
     @Override
@@ -63,7 +73,7 @@ public class CompanyServiceImpl implements CompanyService {
         }else{
             employees = company.getEmployees();
             employees.add(admin);
-        }
+        }//todo роль и департамент
         company.setEmployees(employees);
 
         Company savedCompany = companyRepository.save(company);

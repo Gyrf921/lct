@@ -32,7 +32,8 @@ public class MarketController {
     @PostMapping("/products/{productId}")
     public ResponseEntity<Boolean> buyProduct(@PathVariable(value = "productId") Long productId,
                                               Principal principal) {
+        productService.buyProductForEmployeeAndNotifyCurator(productId, userPrincipalUtils.getEmployeeByUserPrincipal(principal));
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(true);
     }
 }

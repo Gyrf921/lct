@@ -19,17 +19,22 @@ public class DepartmentServiceImpl {
     private final DepartmentRepository departmentRepository;
 
     public List<Department> saveAllDepartmentForCompany(Long companyId, DepartmentsDTO departmentsDTO) {
+        log.info("[DepartmentService|saveAllDepartmentForCompany] >> companyId: {}, departmentsDTO: {}", companyId, departmentsDTO);
+
         List<Department> departments = new ArrayList<>();
 
         for (String departmentName : departmentsDTO.getDepartmentsName()) {
             departments.add(Department.builder().companyId(companyId).name(departmentName).build());
         }
+
+        log.info("[DepartmentService|saveAllDepartmentForCompany] << result: {}", departments);
+
         return departmentRepository.saveAll(departments);
     }
 
     public Department getDepartmentByNameAndCompanyId(Long companyId, String name) {
 
-        log.info("[getDepartmentByNameAndCompanyId] >> name: {}, companyId: {}", name, companyId);
+        log.info("[DepartmentService|getDepartmentByNameAndCompanyId] >> name: {}, companyId: {}", name, companyId);
 
         Department savedDepartment = departmentRepository.findByNameAndCompanyId(name, companyId)
                 .orElseThrow(() -> {
@@ -37,8 +42,15 @@ public class DepartmentServiceImpl {
                     return new ResourceNotFoundException("Department not found by this name on your company :: " + name);
                 });
 
-        log.info("[getDepartmentByNameAndCompanyId] << result: {}", savedDepartment);
+        log.info("[DepartmentService|getDepartmentByNameAndCompanyId] << result: {}", savedDepartment);
 
         return savedDepartment;
+    }
+
+    public List<Department> createBaseDepartmentForCompany(Long companyId) {
+        log.info("[DepartmentService|createBaseDepartmentForCompany] department with name: 'none'");
+        return departmentRepository.saveAll(List.of(Department.builder()
+                .companyId(companyId)
+                .name("none").build()));
     }
 }

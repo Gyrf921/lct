@@ -16,6 +16,8 @@ public class EmployeeTeamResponseDTO {
 
     private Long employeeId;
 
+    private String imagePath;
+
     private String name;
 
     private String city;

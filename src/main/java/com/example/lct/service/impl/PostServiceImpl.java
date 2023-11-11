@@ -53,4 +53,12 @@ public class PostServiceImpl {
 
         return post;
     }
+
+    public List<Post> createBasePostForCompany(Long companyId) {
+        log.info("[PostService|createBasePostForCompany] post with name: 'none'");
+        return postRepository.saveAll(List.of(Post.builder()
+                .companyId(companyId)
+                .department(departmentService.getDepartmentByNameAndCompanyId(companyId, "none"))
+                .name("none").build()));
+    }
 }

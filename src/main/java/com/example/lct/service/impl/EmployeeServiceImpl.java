@@ -173,6 +173,7 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
 
     @Override
     public Employee createAdmin(Company company, RegistrationUserDTO registrationAdminDTO) {
+        log.info("[EmployeeService|createAdmin] >> companyId: {}, registrationAdminDTO: {}", company.getCompanyId(), registrationAdminDTO);
 
         if (employeeRepository.findByEmail(registrationAdminDTO.getEmail()).isPresent()) {
             log.error("This user already exist: {}", registrationAdminDTO.getName());
@@ -180,15 +181,17 @@ public class EmployeeServiceImpl implements UserDetailsService, EmployeeService 
         }
 
         Role role = roleService.getRoleByNameAndCompany(company.getCompanyId(), "ROLE_ADMIN");
+        Post post = postService.getPostByNameAndCompanyId(company.getCompanyId(), "none");
         Employee admin = employeeMapper.registrationUserDTOToEmployee(registrationAdminDTO);
 
         admin.setPassword(passwordEncoder.encode(registrationAdminDTO.getPassword()));
+        admin.setPost(post);
         admin.setCompanyId(company.getCompanyId());
         admin.setRoles(new ArrayList<>(List.of(role)));
 
         employeeRepository.save(admin);
 
-        log.info("[createUser] << result is ROLE_MANAGER");
+        log.info("[EmployeeService|createUser] << result is admin");
 
         return admin;
     }
