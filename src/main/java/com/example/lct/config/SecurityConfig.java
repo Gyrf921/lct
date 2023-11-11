@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/hr/**").hasAnyRole("HR", "ADMIN")
                         .requestMatchers("/curator/**").hasAnyRole("CURATOR","HR", "ADMIN")
                         .requestMatchers("/interns/**").hasRole("INTERN")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable);//withDefaults()
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
